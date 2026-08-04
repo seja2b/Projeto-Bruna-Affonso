@@ -1,0 +1,1439 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bruna Affonso - Personal Trainer</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    :root {
+      --primary-purple: #7c3aed;
+      --primary-pink: #ec4899;
+      --primary-orange: #f97316;
+      --primary-red: #ef4444;
+      --primary-green: #22c55e;
+      --dark-bg: #0f172a;
+      --dark-card: #1a1a2e;
+      --text-white: #ffffff;
+      --text-gray: #d1d5db;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: white;
+      color: #1f2937;
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+
+    section {
+      padding: 4rem 0;
+    }
+
+    h1, h2, h3 {
+      font-weight: 700;
+      line-height: 1.2;
+    }
+
+    h1 { font-size: 3.5rem; margin: 1rem 0; }
+    h2 { font-size: 2.5rem; margin: 1.5rem 0 1rem; }
+    h3 { font-size: 1.25rem; margin: 0.5rem 0; }
+
+    p { margin-bottom: 1rem; }
+
+    .btn {
+      display: inline-block;
+      padding: 12px 32px;
+      background: var(--primary-green);
+      color: white;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: 600;
+      transition: all 0.3s;
+      text-decoration: none;
+      text-align: center;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 20px rgba(34, 197, 94, 0.3);
+    }
+
+    .btn-block {
+      width: 100%;
+      display: block;
+    }
+
+    /* HERO */
+    #hero {
+      text-align: center;
+      padding: 5rem 0;
+      background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+    }
+
+    .hero-subtitle {
+      font-size: 0.875rem;
+      color: #999;
+      letter-spacing: 1px;
+      margin-bottom: 1rem;
+    }
+
+    .highlight-text {
+      background: linear-gradient(90deg, var(--primary-purple) 0%, var(--primary-pink) 50%, var(--primary-orange) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* SOCIAL PROOF */
+    .proof-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      margin: 2rem 0;
+    }
+
+    .proof-card {
+      background: var(--dark-card);
+      border-radius: 16px;
+      padding: 2rem;
+      color: var(--text-white);
+      transition: transform 0.3s;
+    }
+
+    .proof-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .proof-card-title {
+      font-size: 1.125rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+
+    .proof-card-desc {
+      font-size: 0.875rem;
+      color: var(--text-gray);
+      margin-bottom: 1rem;
+      line-height: 1.6;
+    }
+
+    .proof-card-footer {
+      display: flex;
+      gap: 0.75rem;
+      align-items: center;
+      padding-top: 1rem;
+      border-top: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .proof-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--primary-purple), var(--primary-pink));
+    }
+
+    /* DIFERENCIAIS */
+    .diferenciais-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      margin: 2rem 0;
+    }
+
+    .diferencial-card {
+      background: white;
+      border-radius: 12px;
+      padding: 2rem;
+      text-align: center;
+      border: 2px solid #f0f0f0;
+      transition: all 0.3s;
+    }
+
+    .diferencial-card:nth-child(1) {
+      border-color: #fce7f3;
+      background: linear-gradient(135deg, #fce7f3 0%, white 100%);
+    }
+
+    .diferencial-card:nth-child(2) {
+      border-color: #fed7aa;
+      background: linear-gradient(135deg, #fed7aa 0%, white 100%);
+    }
+
+    .diferencial-card:nth-child(3) {
+      border-color: #fecdd3;
+      background: linear-gradient(135deg, #fecdd3 0%, white 100%);
+    }
+
+    .diferencial-icon {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .diferencial-text {
+      font-weight: 600;
+      font-size: 1rem;
+    }
+
+    /* COMO FUNCIONA */
+    #funciona {
+      background: var(--dark-bg);
+      padding: 4rem 0;
+    }
+
+    #funciona h2 {
+      color: white;
+      text-align: center;
+    }
+
+    .funciona-subtitle {
+      text-align: center;
+      color: var(--text-gray);
+      margin-bottom: 2rem;
+    }
+
+    .steps-container {
+      display: grid;
+      gap: 2rem;
+      margin: 2rem 0;
+    }
+
+    .step-card {
+      background: white;
+      border-radius: 12px;
+      padding: 2rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      align-items: center;
+    }
+
+    .step-card:nth-child(even) {
+      direction: rtl;
+    }
+
+    .step-card:nth-child(even) > * {
+      direction: ltr;
+    }
+
+    .step-badge {
+      display: inline-block;
+      background: var(--primary-purple);
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+
+    .step-title {
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+
+    .step-desc {
+      color: #666;
+      margin-bottom: 1rem;
+    }
+
+    .step-checks {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .check-item {
+      display: flex;
+      gap: 0.75rem;
+      align-items: center;
+      font-size: 0.875rem;
+    }
+
+    .check-icon {
+      color: var(--primary-green);
+      font-weight: bold;
+    }
+
+    .step-image {
+      width: 100%;
+      height: 250px;
+      background: linear-gradient(135deg, var(--primary-purple), var(--primary-pink));
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 600;
+    }
+
+    /* PERSONAS */
+    .personas-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+      margin: 2rem 0;
+    }
+
+    .persona-card {
+      background: var(--dark-card);
+      border-radius: 12px;
+      padding: 1.5rem;
+      color: var(--text-white);
+      display: flex;
+      gap: 1rem;
+      align-items: flex-start;
+    }
+
+    .persona-check {
+      color: var(--primary-green);
+      font-size: 1.25rem;
+      flex-shrink: 0;
+      margin-top: 0.25rem;
+    }
+
+    .persona-text {
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+
+    /* BONUS */
+    #bonus {
+      background: white;
+    }
+
+    .bonus-cards {
+      display: grid;
+      gap: 1.5rem;
+      margin: 2rem 0;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .bonus-card {
+      background: var(--dark-card);
+      border-radius: 12px;
+      padding: 1.5rem;
+      color: var(--text-white);
+      display: grid;
+      grid-template-columns: 1fr 300px;
+      gap: 1.5rem;
+      align-items: center;
+    }
+
+    .bonus-badge {
+      display: inline-block;
+      background: var(--primary-purple);
+      color: white;
+      padding: 0.4rem 0.8rem;
+      border-radius: 6px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+
+    .bonus-title {
+      font-size: 1.125rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+
+    .bonus-desc {
+      font-size: 0.875rem;
+      color: var(--text-gray);
+      margin-bottom: 0.5rem;
+    }
+
+    .bonus-value {
+      font-size: 0.8rem;
+      color: #999;
+    }
+
+    .bonus-image {
+      width: 100%;
+      height: 150px;
+      background: linear-gradient(135deg, var(--primary-orange), var(--primary-red));
+      border-radius: 8px;
+    }
+
+    /* PRECO */
+    #preco {
+      background: #f9fafb;
+    }
+
+    .price-recap {
+      background: white;
+      border-radius: 12px;
+      padding: 2rem;
+      margin: 2rem auto;
+      max-width: 600px;
+      border: 1px solid #e5e7eb;
+    }
+
+    .price-table {
+      width: 100%;
+      margin-bottom: 1.5rem;
+    }
+
+    .price-table td {
+      padding: 0.75rem 0;
+      border-bottom: 1px solid #e5e7eb;
+      font-size: 0.875rem;
+    }
+
+    .price-table td:last-child {
+      text-align: right;
+      color: var(--primary-red);
+      font-weight: 600;
+    }
+
+    .price-table tr:last-child td {
+      border-bottom: 2px solid #000;
+      font-weight: 700;
+      padding: 1rem 0;
+    }
+
+    .price-highlight {
+      background: white;
+      border-radius: 12px;
+      padding: 2rem;
+      text-align: center;
+      margin: 2rem auto;
+      max-width: 600px;
+    }
+
+    .price-tag {
+      font-size: 0.875rem;
+      color: #666;
+      margin-bottom: 0.5rem;
+    }
+
+    .price-main {
+      font-size: 3rem;
+      font-weight: 700;
+      color: var(--primary-pink);
+      margin: 0.5rem 0;
+    }
+
+    .price-subtext {
+      font-size: 0.875rem;
+      color: #666;
+      margin-bottom: 1.5rem;
+    }
+
+    /* GARANTIA */
+    .guarantee-badge {
+      background: white;
+      border: 2px solid var(--primary-purple);
+      border-radius: 12px;
+      padding: 2rem;
+      text-align: center;
+      margin: 2rem auto;
+      max-width: 500px;
+    }
+
+    .guarantee-seal {
+      width: 100px;
+      height: 100px;
+      margin: 0 auto 1rem;
+      background: linear-gradient(135deg, var(--primary-purple), var(--primary-pink));
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 2rem;
+      font-weight: bold;
+    }
+
+    .guarantee-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+
+    .guarantee-text {
+      color: #666;
+      font-size: 0.875rem;
+      line-height: 1.6;
+    }
+
+    /* FAQ */
+    #faq {
+      background: var(--dark-bg);
+    }
+
+    #faq h2 {
+      color: white;
+      text-align: center;
+    }
+
+    .faq-container {
+      max-width: 700px;
+      margin: 2rem auto;
+    }
+
+    .faq-item {
+      background: var(--dark-card);
+      border-radius: 8px;
+      margin-bottom: 1rem;
+      overflow: hidden;
+    }
+
+    .faq-question {
+      padding: 1.5rem;
+      background: var(--dark-card);
+      color: var(--text-white);
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: 600;
+      user-select: none;
+      transition: all 0.3s;
+    }
+
+    .faq-question:hover {
+      background: #2a2a3e;
+    }
+
+    .faq-toggle {
+      color: var(--primary-green);
+      font-size: 1.25rem;
+    }
+
+    .faq-answer {
+      padding: 0;
+      max-height: 0;
+      overflow: hidden;
+      background: rgba(255,255,255,0.05);
+      transition: all 0.3s;
+    }
+
+    .faq-answer.active {
+      padding: 1.5rem;
+      max-height: 500px;
+    }
+
+    .faq-answer p {
+      color: var(--text-gray);
+      font-size: 0.875rem;
+      margin: 0;
+    }
+
+    /* CRIADOR */
+    #creator {
+      background: var(--dark-bg);
+      color: var(--text-white);
+    }
+
+    #creator h2 {
+      color: white;
+      text-align: center;
+    }
+
+    .creator-content {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: center;
+      margin: 2rem 0;
+      max-width: 1000px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .creator-info h3 {
+      color: white;
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .creator-desc {
+      color: var(--text-gray);
+      margin-bottom: 1.5rem;
+    }
+
+    .creator-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .creator-stat {
+      text-align: center;
+      background: rgba(255,255,255,0.05);
+      padding: 1rem;
+      border-radius: 8px;
+    }
+
+    .stat-number {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--primary-pink);
+    }
+
+    .stat-label {
+      font-size: 0.75rem;
+      color: var(--text-gray);
+      margin-top: 0.25rem;
+    }
+
+    .creator-image {
+      width: 100%;
+      height: 300px;
+      background: linear-gradient(135deg, var(--primary-purple), var(--primary-pink));
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 600;
+      object-fit: cover;
+    }
+
+    /* FOOTER */
+    footer {
+      text-align: center;
+      padding: 2rem 1.5rem;
+      border-top: 1px solid #e5e7eb;
+      color: #999;
+      font-size: 0.875rem;
+    }
+
+    /* ADMIN */
+    #admin-btn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: var(--primary-purple);
+      color: white;
+      border: none;
+      padding: 10px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 12px;
+      z-index: 999;
+    }
+
+    #admin-panel {
+      display: none;
+      width: 100%;
+      min-height: 100vh;
+      background: #f3f4f6;
+    }
+
+    .admin-header {
+      background: white;
+      padding: 1rem 1.5rem;
+      border-bottom: 1px solid #e5e7eb;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .admin-content {
+      display: flex;
+      min-height: calc(100vh - 60px);
+    }
+
+    .admin-sidebar {
+      flex: 0 0 240px;
+      background: white;
+      border-right: 1px solid #e5e7eb;
+      padding: 1.5rem;
+      overflow-y: auto;
+    }
+
+    .admin-tab {
+      width: 100%;
+      padding: 10px 12px;
+      margin-bottom: 6px;
+      border: 1px solid #e5e7eb;
+      background: white;
+      cursor: pointer;
+      border-radius: 6px;
+      font-size: 12px;
+      text-align: left;
+      transition: all 0.2s;
+    }
+
+    .admin-tab.active {
+      background: var(--primary-purple);
+      color: white;
+      border-color: var(--primary-purple);
+    }
+
+    .admin-editor {
+      flex: 1;
+      padding: 2rem;
+      overflow-y: auto;
+      background: white;
+      margin: 1rem;
+      border-radius: 8px;
+    }
+
+    .edit-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .edit-group label {
+      display: block;
+      font-size: 12px;
+      color: #666;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+
+    .edit-group input,
+    .edit-group textarea,
+    .edit-group select {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #e5e7eb;
+      border-radius: 6px;
+      font-size: 13px;
+      font-family: inherit;
+    }
+
+    .edit-group textarea {
+      resize: vertical;
+      min-height: 80px;
+    }
+
+    .btn-admin {
+      background: var(--primary-purple);
+      color: white;
+      padding: 10px 16px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 13px;
+      width: 100%;
+      margin-bottom: 1rem;
+      font-weight: 600;
+    }
+
+    .btn-admin:hover {
+      background: #6d28d9;
+    }
+
+    .btn-danger {
+      background: var(--primary-red);
+    }
+
+    .btn-danger:hover {
+      background: #dc2626;
+    }
+
+    @media (max-width: 768px) {
+      h1 { font-size: 2rem; }
+      h2 { font-size: 1.75rem; }
+      .step-card { grid-template-columns: 1fr; }
+      .creator-content { grid-template-columns: 1fr; }
+      .bonus-card { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- LANDING PAGE -->
+<div id="landing">
+  <!-- HERO -->
+  <section id="hero">
+    <div class="container">
+      <p class="hero-subtitle">● transformação corporal</p>
+      <h1>Você será o <span class="highlight-text" id="hero-title">próximo!</span></h1>
+      <p id="hero-desc" style="font-size: 1.125rem; color: #666; margin-bottom: 1.5rem;">Treinamento personalizado com foco em resultados reais e transformação do seu corpo</p>
+      
+      <!-- VIDEO -->
+      <div id="video-hero" style="max-width: 450px; margin: 1.5rem auto; border-radius: 12px; overflow: hidden; display: none;">
+        <div style="width: 100%; padding-bottom: 56.25%; position: relative; background: #000;">
+          <iframe id="video-frame-hero" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;" src="" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+      </div>
+
+      <button class="btn" id="cta-hero">Quero começar meu treino personalizado</button>
+    </div>
+  </section>
+
+  <!-- SOCIAL PROOF -->
+  <section>
+    <div class="container">
+      <p style="text-align: center; color: #999; font-size: 0.875rem; margin-bottom: 1rem;">● RESULTADOS REAIS</p>
+      <h2 style="text-align: center;">Você está vendo como <span class="highlight-text">pessoas comuns conquistaram corpos incríveis</span> com treinamento personalizado.</h2>
+      <div class="proof-cards" id="proof-cards"></div>
+    </div>
+  </section>
+
+  <!-- DIFERENCIAIS -->
+  <section>
+    <div class="container">
+      <p style="text-align: center; color: #999; font-size: 0.875rem; margin-bottom: 1rem;">● SEUS RESULTADOS</p>
+      <h2 style="text-align: center;">E você pode ter <span class="highlight-text">resultados iguais:</span></h2>
+      <div class="diferenciais-grid" id="diferenciais"></div>
+    </div>
+  </section>
+
+  <!-- COMO FUNCIONA -->
+  <section id="funciona">
+    <div class="container">
+      <h2>Como funciona o <span style="color: var(--primary-pink);">Treinamento</span> <span style="color: var(--primary-orange);">Personalizado?</span></h2>
+      <p class="funciona-subtitle">Um programa feito 100% para o seu objetivo</p>
+      <div class="steps-container" id="steps"></div>
+    </div>
+  </section>
+
+  <!-- PERSONAS -->
+  <section>
+    <div class="container">
+      <p style="text-align: center; color: #999; font-size: 0.875rem; margin-bottom: 1rem;">● PARA QUEM</p>
+      <h2 style="text-align: center;">Funciona <span class="highlight-text">para você se:</span></h2>
+      <div class="personas-grid" id="personas"></div>
+      <p style="text-align: center; color: #666; margin-top: 2rem; font-size: 0.875rem;">Independentemente do seu nível de experiência - iniciante, intermediário ou avançado</p>
+    </div>
+  </section>
+
+  <!-- BONUS -->
+  <section id="bonus">
+    <div class="container">
+      <p style="text-align: center; color: #999; font-size: 0.875rem; margin-bottom: 1rem;">● BÔNUS</p>
+      <h2 style="text-align: center;">Na sua inscrição, você ainda leva <span class="highlight-text">estes bônus:</span></h2>
+      <div class="bonus-cards" id="bonus-cards"></div>
+    </div>
+  </section>
+
+  <!-- PRECO -->
+  <section id="preco">
+    <div class="container">
+      <p style="text-align: center; color: #999; font-size: 0.875rem; margin-bottom: 1rem;">● INVESTIMENTO</p>
+      <h2 style="text-align: center;">Quanto custa começar:</h2>
+      
+      <div class="price-highlight">
+        <p class="price-tag"><strong id="price-intro">Treino Personalizado com Avaliação Completa</strong></p>
+        <div class="price-main" id="price-main">R$97</div>
+        <p class="price-subtext" id="price-subtext">primeira sessão com avaliação física</p>
+        <button class="btn btn-block" id="cta-price">Agende sua avaliação agora</button>
+        <p style="font-size: 0.75rem; color: #999; margin-top: 1rem;">Depois, você escolhe o plano que combina com você</p>
+      </div>
+
+      <div style="max-width: 600px; margin: 2rem auto; background: white; border-radius: 12px; padding: 1.5rem; border: 1px solid #e5e7eb;">
+        <h3 style="text-align: center; margin-bottom: 1.5rem;">Planos Disponíveis:</h3>
+        <table class="price-table" id="price-table"></table>
+      </div>
+    </div>
+  </section>
+
+  <!-- GARANTIA -->
+  <section>
+    <div class="container">
+      <p style="text-align: center; color: #999; font-size: 0.875rem; margin-bottom: 1rem;">● GARANTIA</p>
+      <h2 style="text-align: center;">Seu resultado é garantido</h2>
+      
+      <div class="guarantee-badge">
+        <div class="guarantee-seal">✓</div>
+        <p class="guarantee-title">Satisfação garantida</p>
+        <p class="guarantee-text">Se após 30 dias de treinamento consistente você não estiver satisfeito com os resultados, nós devolvemos 100% do seu investimento. Sem perguntas.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq">
+    <div class="container">
+      <h2>Dúvidas? Temos as respostas</h2>
+      <div class="faq-container" id="faq-container"></div>
+    </div>
+  </section>
+
+  <!-- CRIADOR -->
+  <section id="creator">
+    <div class="container">
+      <h2>Quem é sua personal</h2>
+      <div class="creator-content">
+        <div class="creator-info">
+          <h3 id="creator-name">Bruna Affonso</h3>
+          <p class="creator-desc" id="creator-desc">Personal Trainer especializada em transformação corporal</p>
+          <div class="creator-stats" id="creator-stats"></div>
+        </div>
+        <img id="creator-image-display" class="creator-image" src="" style="width: 100%; height: 300px; border-radius: 12px; object-fit: cover;">
+      </div>
+    </div>
+  </section>
+
+  <!-- RODAPÉ -->
+  <footer id="footer">
+    © 2026 Bruna Affonso - Personal Trainer. Todos os direitos reservados.
+  </footer>
+
+  <button id="admin-btn">⚙ Admin</button>
+</div>
+
+<!-- ADMIN PANEL -->
+<div id="admin-panel">
+  <div class="admin-header">
+    <h3>Painel Administrativo - Bruna Affonso</h3>
+    <button class="btn-admin" onclick="closeAdmin()">← Voltar</button>
+  </div>
+
+  <div class="admin-content">
+    <div class="admin-sidebar">
+      <button class="admin-tab active" onclick="switchAdminTab('hero')">Hero</button>
+      <button class="admin-tab" onclick="switchAdminTab('proof')">Social Proof</button>
+      <button class="admin-tab" onclick="switchAdminTab('diferenciais')">Diferenciais</button>
+      <button class="admin-tab" onclick="switchAdminTab('steps')">Como Funciona</button>
+      <button class="admin-tab" onclick="switchAdminTab('personas')">Personas</button>
+      <button class="admin-tab" onclick="switchAdminTab('bonus')">Bônus</button>
+      <button class="admin-tab" onclick="switchAdminTab('preco')">Preço</button>
+      <button class="admin-tab" onclick="switchAdminTab('faq')">FAQ</button>
+      <button class="admin-tab" onclick="switchAdminTab('creator')">Criador</button>
+      <button class="admin-tab" onclick="switchAdminTab('settings')">Config</button>
+    </div>
+
+    <div class="admin-editor">
+      <div id="admin-hero-tab" class="admin-tab-content">
+        <h2>🎬 Hero Section</h2>
+        
+        <div class="edit-group">
+          <label>📹 URL DO VÍDEO (YouTube/Vimeo) - OPCIONAL</label>
+          <input type="url" id="video-url-hero" placeholder="https://www.youtube.com/embed/XXXXX" onchange="updateState()">
+          <p style="font-size: 11px; color: #999; margin-top: 0.5rem;">Deixe em branco se não quiser vídeo. Se quiser, copie a URL do embed.</p>
+        </div>
+
+        <div class="edit-group">
+          <label>Título Principal</label>
+          <input type="text" id="hero-title-input" onchange="updateState()">
+        </div>
+        <div class="edit-group">
+          <label>Descrição</label>
+          <textarea id="hero-desc-input" onchange="updateState()"></textarea>
+        </div>
+        <div class="edit-group">
+          <label>Texto do Botão Verde</label>
+          <input type="text" id="cta-hero-text" onchange="updateState()">
+        </div>
+        <div class="edit-group">
+          <label>Link de Contato (WhatsApp, Email, etc)</label>
+          <input type="url" id="checkout-url" onchange="updateState()">
+        </div>
+      </div>
+
+      <div id="admin-proof-tab" class="admin-tab-content" style="display:none;">
+        <h2>Depoimentos de Clientes</h2>
+        <div id="proof-editor"></div>
+        <button class="btn-admin" onclick="addProof()">+ Adicionar Depoimento</button>
+      </div>
+
+      <div id="admin-diferenciais-tab" class="admin-tab-content" style="display:none;">
+        <h2>Benefícios/Diferenciais</h2>
+        <div id="diferenciais-editor"></div>
+        <button class="btn-admin" onclick="addDiferencial()">+ Adicionar Benefício</button>
+      </div>
+
+      <div id="admin-steps-tab" class="admin-tab-content" style="display:none;">
+        <h2>Etapas do Treinamento</h2>
+        <div id="steps-editor"></div>
+        <button class="btn-admin" onclick="addStep()">+ Adicionar Etapa</button>
+      </div>
+
+      <div id="admin-personas-tab" class="admin-tab-content" style="display:none;">
+        <h2>Para Quem Funciona</h2>
+        <div id="personas-editor"></div>
+        <button class="btn-admin" onclick="addPersona()">+ Adicionar Persona</button>
+      </div>
+
+      <div id="admin-bonus-tab" class="admin-tab-content" style="display:none;">
+        <h2>Bônus Iniciais</h2>
+        <div id="bonus-editor"></div>
+        <button class="btn-admin" onclick="addBonus()">+ Adicionar Bônus</button>
+      </div>
+
+      <div id="admin-preco-tab" class="admin-tab-content" style="display:none;">
+        <h2>Preço & Planos</h2>
+        <div class="edit-group">
+          <label>Introdução do Preço</label>
+          <input type="text" id="price-intro" onchange="updateState()">
+        </div>
+        <div class="edit-group">
+          <label>Preço da Primeira Sessão</label>
+          <input type="text" id="price-main" onchange="updateState()">
+        </div>
+        <div class="edit-group">
+          <label>Descrição da Primeira Sessão</label>
+          <input type="text" id="price-subtext" onchange="updateState()">
+        </div>
+        <div id="plans-editor" style="margin-top: 1.5rem;">
+          <h3>Planos Mensais</h3>
+        </div>
+      </div>
+
+      <div id="admin-faq-tab" class="admin-tab-content" style="display:none;">
+        <h2>Perguntas Frequentes</h2>
+        <div id="faq-editor"></div>
+        <button class="btn-admin" onclick="addFaq()">+ Adicionar Pergunta</button>
+      </div>
+
+      <div id="admin-creator-tab" class="admin-tab-content" style="display:none;">
+        <h2>Sobre a Bruna</h2>
+        
+        <div class="edit-group">
+          <label>📸 FOTO DA BRUNA</label>
+          <input type="file" id="creator-image-upload" accept="image/*" onchange="uploadImage('creator')" style="padding: 8px; border: 2px dashed #e5e7eb; cursor: pointer;">
+          <p style="font-size: 11px; color: #999; margin-top: 0.5rem;">Clique para escolher uma foto (JPG, PNG)</p>
+          <div id="creator-image-preview" style="margin-top: 1rem; text-align: center;">
+            <img id="creator-image-preview-img" style="max-width: 200px; max-height: 200px; border-radius: 8px; display: none;">
+          </div>
+        </div>
+
+        <div class="edit-group">
+          <label>Nome Completo</label>
+          <input type="text" id="creator-name-input" onchange="updateState()">
+        </div>
+        <div class="edit-group">
+          <label>Descrição/Especialidade</label>
+          <textarea id="creator-desc-input" onchange="updateState()"></textarea>
+        </div>
+        <div class="edit-group">
+          <label>Anos de Experiência</label>
+          <input type="text" id="creator-years" onchange="updateState()">
+        </div>
+        <div class="edit-group">
+          <label>Clientes Transformados</label>
+          <input type="text" id="creator-followers" onchange="updateState()">
+        </div>
+      </div>
+
+      <div id="admin-settings-tab" class="admin-tab-content" style="display:none;">
+        <h2>Configurações</h2>
+        <div class="edit-group">
+          <label>Email/WhatsApp para Contato</label>
+          <input type="text" id="contact-email" onchange="updateState()">
+        </div>
+        <div class="edit-group">
+          <label>Texto do Rodapé</label>
+          <input type="text" id="footer-text" onchange="updateState()">
+        </div>
+        <button class="btn-admin" onclick="exportHTML()">📥 Exportar HTML para Cloudflare</button>
+        <button class="btn-admin btn-danger" onclick="clearAll()">🗑 Limpar Tudo</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const DEFAULT_DATA = {
+  videoUrlHero: '',
+  heroTitle: 'próximo!',
+  heroDesc: 'Treinamento personalizado com foco em resultados reais e transformação do seu corpo',
+  ctaHeroText: 'Quero começar meu treino personalizado',
+  checkoutUrl: 'https://wa.me/55XXXXXXXX',
+  
+  proof: [
+    { title: 'Perdeu 15kg em 3 meses', desc: 'Com treino consistente e orientação nutricional', image: '' },
+    { title: 'Ganhou massa muscular e definição', desc: 'Resultado em apenas 2 meses de treinamento', image: '' },
+    { title: 'Transformação completa do corpo', desc: 'Aumentou energia e confiança', image: '' }
+  ],
+  
+  diferenciais: [
+    { text: 'Avaliação Física Completa', icon: '📊' },
+    { text: 'Treino 100% Personalizado', icon: '🎯' },
+    { text: 'Acompanhamento Constante', icon: '📈' }
+  ],
+  
+  steps: [
+    { num: 1, title: 'Avaliação Física Completa', desc: 'Conhecemos seu corpo, objetivo e limitações' },
+    { num: 2, title: 'Programa Personalizado', desc: 'Criamos um treino feito especialmente para você' },
+    { num: 3, title: 'Orientação Nutricional', desc: 'Guia alimentar para potencializar os resultados' },
+    { num: 4, title: 'Acompanhamento Semanal', desc: 'Ajustamos o treino conforme seus progressos' },
+    { num: 5, title: 'Motivação e Suporte', desc: 'Você nunca vai ficar sozinho nessa jornada' },
+    { num: 6, title: 'Transformação Corporal', desc: 'Você alcança o corpo que sempre desejou' }
+  ],
+  
+  personas: [
+    { text: 'Quer emagrecer e ganhar massa muscular' },
+    { text: 'Iniciante na musculação' },
+    { text: 'Procura por personal para orientação' },
+    { text: 'Quer resultados rápidos e seguros' },
+    { text: 'Já treina mas quer evoluir mais' },
+    { text: 'Busca transformação completa' }
+  ],
+  
+  bonus: [
+    { title: 'Avaliação Física Grátis', desc: 'Análise completa do seu corpo e objetivos', value: 'R$150' },
+    { title: 'Plano Nutricional', desc: 'Guia alimentar personalizado para seus objetivos', value: 'R$120' },
+    { title: 'Acompanhamento WhatsApp', desc: 'Tirar dúvidas e orientações práticas diárias', value: 'Sem valor' },
+    { title: 'Acesso ao App de Treinos', desc: 'Acompanhe seus treinos pelo celular', value: 'Sem valor' }
+  ],
+  
+  priceIntro: 'Treino Personalizado com Avaliação Completa',
+  priceMain: 'R$97',
+  priceSubtext: 'primeira sessão com avaliação física',
+  
+  plans: [
+    { name: '1x por semana', price: 'R$150/mês', desc: '4 sessões mês' },
+    { name: '2x por semana', price: 'R$280/mês', desc: '8 sessões mês' },
+    { name: '3x por semana', price: 'R$390/mês', desc: '12 sessões mês' },
+    { name: '4x por semana', price: 'R$480/mês', desc: '16 sessões mês' }
+  ],
+  
+  faq: [
+    { q: 'Preciso ter experiência em academia?', a: 'Não! Trabalhamos com iniciantes, intermediários e avançados. O treino é feito especialmente para seu nível.' },
+    { q: 'Quantas vezes por semana preciso treinar?', a: 'Recomendo no mínimo 2 vezes por semana para bons resultados. Mas começamos do seu tempo disponível.' },
+    { q: 'Quanto tempo leva para ver resultados?', a: 'Os primeiros resultados aparecem em 2-3 semanas. Mudanças significativas em 2-3 meses de treino consistente.' },
+    { q: 'Vocês trabalham com nutrição também?', a: 'Sim! Oferecemos orientação nutricional para potencializar os resultados do seu treino.' },
+    { q: 'Posso treinar em casa ou precisa ser na academia?', a: 'Trabalhamos em academia, parques ou até em casa. Você escolhe o melhor local para você.' },
+    { q: 'Como funciona o acompanhamento?', a: 'Trabalhamos com avaliações semanais, ajustes de treino e orientações via WhatsApp.' },
+    { q: 'Qual é a forma de pagamento?', a: 'Aceitamos cartão, Pix, transferência bancária. Você escolhe a melhor opção.' },
+    { q: 'Tem alguma garantia?', a: 'Sim! Se em 30 dias de treino consistente você não estiver satisfeito, devolvo 100%.' }
+  ],
+  
+  creatorName: 'Bruna Affonso',
+  creatorDesc: 'Personal Trainer especializada em transformação corporal',
+  creatorYears: '8+',
+  creatorFollowers: '200+',
+  creatorImage: 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300"%3E%3Crect fill="%237c3aed" width="300" height="300"/%3E%3Ctext x="50%25" y="50%25" font-size="24" fill="white" text-anchor="middle" dy=".3em"%3EFoto da Bruna%3C/text%3E%3C/svg%3E',
+  
+  contactEmail: 'seu@email.com ou (11) 9XXXX-XXXX',
+  footerText: '© 2026 Bruna Affonso - Personal Trainer. Todos os direitos reservados.'
+};
+
+let state = JSON.parse(localStorage.getItem('brunaffPersonalPageData')) || JSON.parse(JSON.stringify(DEFAULT_DATA));
+
+function saveState() {
+  localStorage.setItem('brunaffPersonalPageData', JSON.stringify(state));
+}
+
+function updateState() {
+  state.videoUrlHero = document.getElementById('video-url-hero')?.value || state.videoUrlHero;
+  state.heroTitle = document.getElementById('hero-title-input')?.value || state.heroTitle;
+  state.heroDesc = document.getElementById('hero-desc-input')?.value || state.heroDesc;
+  state.ctaHeroText = document.getElementById('cta-hero-text')?.value || state.ctaHeroText;
+  state.checkoutUrl = document.getElementById('checkout-url')?.value || state.checkoutUrl;
+  state.priceIntro = document.getElementById('price-intro')?.value || state.priceIntro;
+  state.priceMain = document.getElementById('price-main')?.value || state.priceMain;
+  state.priceSubtext = document.getElementById('price-subtext')?.value || state.priceSubtext;
+  state.creatorName = document.getElementById('creator-name-input')?.value || state.creatorName;
+  state.creatorDesc = document.getElementById('creator-desc-input')?.value || state.creatorDesc;
+  state.creatorYears = document.getElementById('creator-years')?.value || state.creatorYears;
+  state.creatorFollowers = document.getElementById('creator-followers')?.value || state.creatorFollowers;
+  state.contactEmail = document.getElementById('contact-email')?.value || state.contactEmail;
+  state.footerText = document.getElementById('footer-text')?.value || state.footerText;
+
+  saveState();
+  renderPage();
+}
+
+function renderPage() {
+  // Hero - Video
+  const videoHero = document.getElementById('video-hero');
+  const videoFrameHero = document.getElementById('video-frame-hero');
+  if (state.videoUrlHero && state.videoUrlHero.trim() !== '') {
+    videoFrameHero.src = state.videoUrlHero;
+    videoHero.style.display = 'block';
+  } else {
+    videoHero.style.display = 'none';
+  }
+  
+  // Hero - Text
+  document.getElementById('hero-title').textContent = state.heroTitle;
+  document.getElementById('hero-desc').textContent = state.heroDesc;
+  document.getElementById('cta-hero').textContent = state.ctaHeroText;
+  document.getElementById('cta-hero').onclick = () => window.location.href = state.checkoutUrl;
+  document.getElementById('cta-price').onclick = () => window.location.href = state.checkoutUrl;
+
+  // Social Proof
+  document.getElementById('proof-cards').innerHTML = state.proof.map(p => `
+    <div class="proof-card">
+      ${p.image ? `<img src="${p.image}" style="width: 100%; height: 200px; object-fit: cover; border-radius: 8px; margin-bottom: 1rem;">` : ''}
+      <div class="proof-card-title">${p.title}</div>
+      <div class="proof-card-desc">${p.desc}</div>
+      <div class="proof-card-footer">
+        <div class="proof-avatar"></div>
+        <span style="font-size: 0.875rem;">Cliente Bruna</span>
+      </div>
+    </div>
+  `).join('');
+
+  // Diferenciais
+  document.getElementById('diferenciais').innerHTML = state.diferenciais.map(d => `
+    <div class="diferencial-card">
+      <div class="diferencial-icon">${d.icon}</div>
+      <div class="diferencial-text">${d.text}</div>
+    </div>
+  `).join('');
+
+  // Steps
+  document.getElementById('steps').innerHTML = state.steps.map(s => `
+    <div class="step-card">
+      <div>
+        <div class="step-badge">ETAPA ${s.num}</div>
+        <h3 class="step-title">${s.title}</h3>
+        <p class="step-desc">${s.desc}</p>
+        <div class="step-checks">
+          <div class="check-item"><span class="check-icon">✓</span> Estruturado e planejado</div>
+          <div class="check-item"><span class="check-icon">✓</span> Com total acompanhamento</div>
+        </div>
+      </div>
+      <div class="step-image">Imagem da Etapa ${s.num}</div>
+    </div>
+  `).join('');
+
+  // Personas
+  document.getElementById('personas').innerHTML = state.personas.map(p => `
+    <div class="persona-card">
+      <div class="persona-check">✓</div>
+      <div class="persona-text">${p.text}</div>
+    </div>
+  `).join('');
+
+  // Bonus
+  document.getElementById('bonus-cards').innerHTML = state.bonus.map((b, i) => `
+    <div class="bonus-card">
+      <div>
+        <div class="bonus-badge">BÔNUS ${i + 1}</div>
+        <h3 class="bonus-title">${b.title}</h3>
+        <p class="bonus-desc">${b.desc}</p>
+        <p class="bonus-value">${b.value}</p>
+      </div>
+      <div class="bonus-image">Imagem</div>
+    </div>
+  `).join('');
+
+  // Preço
+  document.getElementById('price-intro').textContent = state.priceIntro;
+  document.getElementById('price-main').textContent = state.priceMain;
+  document.getElementById('price-subtext').textContent = state.priceSubtext;
+
+  document.getElementById('price-table').innerHTML = state.plans.map(p => `
+    <tr>
+      <td><strong>${p.name}</strong><br><span style="color: #999; font-size: 0.75rem;">${p.desc}</span></td>
+      <td><strong>${p.price}</strong></td>
+    </tr>
+  `).join('');
+
+  // FAQ
+  document.getElementById('faq-container').innerHTML = state.faq.map(f => `
+    <div class="faq-item">
+      <div class="faq-question" onclick="toggleFaq(this)">
+        <span>${f.q}</span>
+        <span class="faq-toggle">+</span>
+      </div>
+      <div class="faq-answer">
+        <p>${f.a}</p>
+      </div>
+    </div>
+  `).join('');
+
+  // Criador
+  document.getElementById('creator-name').textContent = state.creatorName;
+  document.getElementById('creator-desc').textContent = state.creatorDesc;
+  document.getElementById('creator-image-display').src = state.creatorImage;
+  document.getElementById('creator-stats').innerHTML = `
+    <div class="creator-stat">
+      <div class="stat-number">${state.creatorYears}</div>
+      <div class="stat-label">Experiência</div>
+    </div>
+    <div class="creator-stat">
+      <div class="stat-number">${state.creatorFollowers}</div>
+      <div class="stat-label">Clientes</div>
+    </div>
+    <div class="creator-stat">
+      <div class="stat-number">100%</div>
+      <div class="stat-label">Dedicação</div>
+    </div>
+  `;
+
+  // Footer
+  document.getElementById('footer').innerHTML = `${state.footerText}<br><a href="mailto:${state.contactEmail}" style="color: var(--primary-green); text-decoration: none;">Contato: ${state.contactEmail}</a>`;
+}
+
+function toggleFaq(el) {
+  const answer = el.nextElementSibling;
+  answer.classList.toggle('active');
+  el.querySelector('.faq-toggle').textContent = answer.classList.contains('active') ? '−' : '+';
+}
+
+function uploadImage(type, index = null) {
+  const input = document.getElementById(`${type}-image-upload${index !== null ? `-${index}` : ''}`);
+  const file = input.files[0];
+  
+  if (!file) return;
+  
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    const base64 = e.target.result;
+    
+    if (type === 'creator') {
+      state.creatorImage = base64;
+      document.getElementById('creator-image-preview-img').src = base64;
+      document.getElementById('creator-image-preview-img').style.display = 'block';
+    } else if (type === 'proof' && index !== null) {
+      state.proof[index].image = base64;
+      document.getElementById(`proof-image-preview-${index}`).src = base64;
+      document.getElementById(`proof-image-preview-${index}`).style.display = 'block';
+    }
+    
+    saveState();
+    renderPage();
+  };
+  
+  reader.readAsDataURL(file);
+}
+
+function switchAdminTab(tab) {
+  document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.admin-tab-content').forEach(c => c.style.display = 'none');
+  event.target.classList.add('active');
+  document.getElementById(`admin-${tab}-tab`).style.display = 'block';
+  syncAdminInputs(tab);
+}
+
+function syncAdminInputs(tab) {
+  if (tab === 'hero') {
+    document.getElementById('video-url-hero').value = state.videoUrlHero;
+    document.getElementById('hero-title-input').value = state.heroTitle;
+    document.getElementById('hero-desc-input').value = state.heroDesc;
+    document.getElementById('cta-hero-text').value = state.ctaHeroText;
+    document.getElementById('checkout-url').value = state.checkoutUrl;
+  } else if (tab === 'proof') {
+    const editor = document.getElementById('proof-editor');
+    editor.innerHTML = state.proof.map((p, i) => `
+      <div class="edit-group" style="background: #f3f4f6; padding: 1rem; border-radius: 6px; margin-bottom: 1rem;">
+        <label>Depoimento ${i + 1}</label>
+        <input type="text" value="${p.title}" onchange="state.proof[${i}].title = this.value; saveState(); renderPage();">
+        <label style="margin-top: 0.5rem;">Resultado</label>
+        <input type="text" value="${p.desc}" onchange="state.proof[${i}].desc = this.value; saveState(); renderPage();">
+        <label style="margin-top: 0.5rem;">📸 Foto do Cliente (opcional)</label>
+        <input type="file" id="proof-image-upload-${i}" accept="image/*" onchange="uploadImage('proof', ${i})" style="padding: 8px; border: 2px dashed #e5e7eb; width: 100%; cursor: pointer;">
+        <img id="proof-image-preview-${i}" style="max-width: 150px; max-height: 150px; border-radius: 6px; margin-top: 0.5rem; display: ${p.image ? 'block' : 'none'};" src="${p.image || ''}">
+        <button class="btn-admin btn-danger" style="margin-top: 0.5rem;" onclick="state.proof.splice(${i}, 1); saveState(); syncAdminInputs('proof'); renderPage();">Remover</button>
+      </div>
+    `).join('');
+  } else if (tab === 'diferenciais') {
+    const editor = document.getElementById('diferenciais-editor');
+    editor.innerHTML = state.diferenciais.map((d, i) => `
+      <div class="edit-group" style="background: #f3f4f6; padding: 1rem; border-radius: 6px; margin-bottom: 1rem;">
+        <label>Benefício ${i + 1}</label>
+        <input type="text" value="${d.text}" onchange="state.diferenciais[${i}].text = this.value; saveState(); renderPage();">
+        <button class="btn-admin btn-danger" style="margin-top: 0.5rem;" onclick="state.diferenciais.splice(${i}, 1); saveState(); syncAdminInputs('diferenciais'); renderPage();">Remover</button>
+      </div>
+    `).join('');
+  } else if (tab === 'steps') {
+    const editor = document.getElementById('steps-editor');
+    editor.innerHTML = state.steps.map((s, i) => `
+      <div class="edit-group" style="background: #f3f4f6; padding: 1rem; border-radius: 6px; margin-bottom: 1rem;">
+        <label>Etapa ${i + 1} - Título</label>
+        <input type="text" value="${s.title}" onchange="state.steps[${i}].title = this.value; saveState(); renderPage();">
+        <label>Descrição</label>
+        <textarea onchange="state.steps[${i}].desc = this.value; saveState(); renderPage();">${s.desc}</textarea>
+        <button class="btn-admin btn-danger" style="margin-top: 0.5rem;" onclick="state.steps.splice(${i}, 1); saveState(); syncAdminInputs('steps'); renderPage();">Remover</button>
+      </div>
+    `).join('');
+  } else if (tab === 'personas') {
+    const editor = document.getElementById('personas-editor');
+    editor.innerHTML = state.personas.map((p, i) => `
+      <div class="edit-group" style="background: #f3f4f6; padding: 1rem; border-radius: 6px; margin-bottom: 1rem;">
+        <label>Persona ${i + 1}</label>
+        <input type="text" value="${p.text}" onchange="state.personas[${i}].text = this.value; saveState(); renderPage();">
+        <button class="btn-admin btn-danger" style="margin-top: 0.5rem;" onclick="state.personas.splice(${i}, 1); saveState(); syncAdminInputs('personas'); renderPage();">Remover</button>
+      </div>
+    `).join('');
+  } else if (tab === 'bonus') {
+    const editor = document.getElementById('bonus-editor');
+    editor.innerHTML = state.bonus.map((b, i) => `
+      <div class="edit-group" style="background: #f3f4f6; padding: 1rem; border-radius: 6px; margin-bottom: 1rem;">
+        <label>Bônus ${i + 1}</label>
+        <input type="text" value="${b.title}" onchange="state.bonus[${i}].title = this.value; saveState(); renderPage();">
+        <label>Descrição</label>
+        <textarea onchange="state.bonus[${i}].desc = this.value; saveState(); renderPage();">${b.desc}</textarea>
+        <label>Valor</label>
+        <input type="text" value="${b.value}" onchange="state.bonus[${i}].value = this.value; saveState(); renderPage();">
+        <button class="btn-admin btn-danger" style="margin-top: 0.5rem;" onclick="state.bonus.splice(${i}, 1); saveState(); syncAdminInputs('bonus'); renderPage();">Remover</button>
+      </div>
+    `).join('');
+  } else if (tab === 'preco') {
+    document.getElementById('price-intro').value = state.priceIntro;
+    document.getElementById('price-main').value = state.priceMain;
+    document.getElementById('price-subtext').value = state.priceSubtext;
+  } else if (tab === 'faq') {
+    const editor = document.getElementById('faq-editor');
+    editor.innerHTML = state.faq.map((f, i) => `
+      <div class="edit-group" style="background: #f3f4f6; padding: 1rem; border-radius: 6px; margin-bottom: 1rem;">
+        <label>Pergunta ${i + 1}</label>
+        <input type="text" value="${f.q}" onchange="state.faq[${i}].q = this.value; saveState(); renderPage();">
+        <label>Resposta</label>
+        <textarea onchange="state.faq[${i}].a = this.value; saveState(); renderPage();">${f.a}</textarea>
+        <button class="btn-admin btn-danger" style="margin-top: 0.5rem;" onclick="state.faq.splice(${i}, 1); saveState(); syncAdminInputs('faq'); renderPage();">Remover</button>
+      </div>
+    `).join('');
+  } else if (tab === 'creator') {
+    document.getElementById('creator-name-input').value = state.creatorName;
+    document.getElementById('creator-desc-input').value = state.creatorDesc;
+    document.getElementById('creator-years').value = state.creatorYears;
+    document.getElementById('creator-followers').value = state.creatorFollowers;
+    // Mostrar preview da imagem se existir
+    if (state.creatorImage && state.creatorImage.startsWith('data:image')) {
+      document.getElementById('creator-image-preview-img').src = state.creatorImage;
+      document.getElementById('creator-image-preview-img').style.display = 'block';
+    }
+  } else if (tab === 'settings') {
+    document.getElementById('contact-email').value = state.contactEmail;
+    document.getElementById('footer-text').value = state.footerText;
+  }
+}
+
+function addProof() { state.proof.push({ title: '', desc: '' }); saveState(); syncAdminInputs('proof'); }
+function addDiferencial() { state.diferenciais.push({ text: '', icon: '💪' }); saveState(); syncAdminInputs('diferenciais'); }
+function addStep() { state.steps.push({ num: state.steps.length + 1, title: '', desc: '' }); saveState(); syncAdminInputs('steps'); }
+function addPersona() { state.personas.push({ text: '' }); saveState(); syncAdminInputs('personas'); }
+function addBonus() { state.bonus.push({ title: '', desc: '', value: '' }); saveState(); syncAdminInputs('bonus'); renderPage(); }
+function addFaq() { state.faq.push({ q: '', a: '' }); saveState(); syncAdminInputs('faq'); }
+
+function exportHTML() {
+  alert('Pronto para exportar! Copie o código HTML e cole no seu arquivo');
+}
+
+function clearAll() {
+  if (confirm('Tem certeza? Vai resetar TUDO para os padrões!')) {
+    state = JSON.parse(JSON.stringify(DEFAULT_DATA));
+    saveState();
+    renderPage();
+    switchAdminTab('hero');
+  }
+}
+
+function closeAdmin() {
+  document.getElementById('landing').style.display = 'block';
+  document.getElementById('admin-panel').style.display = 'none';
+}
+
+document.getElementById('admin-btn').addEventListener('click', () => {
+  const pwd = prompt('Senha admin:');
+  if (pwd === 'admin123') {
+    document.getElementById('landing').style.display = 'none';
+    document.getElementById('admin-panel').style.display = 'block';
+    syncAdminInputs('hero');
+  } else if (pwd) alert('Senha incorreta!');
+});
+
+// Inicializa
+renderPage();
+</script>
+
+</body>
+</html>
