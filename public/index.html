@@ -522,9 +522,22 @@
       border-radius: 8px;
     }
 
-    /* PRECO */
+    /* PRECO - COM FUNDO ESCURO */
     #preco {
-      background: #f9fafb;
+      background: var(--dark-bg);
+      padding: 4rem 0;
+    }
+
+    #preco h2 {
+      color: white;
+      text-align: center;
+    }
+
+    #preco > .container > p {
+      color: #d1d5db;
+      text-align: center;
+      font-size: 0.875rem;
+      margin-bottom: 1rem;
     }
 
     .price-highlight {
@@ -534,6 +547,7 @@
       text-align: center;
       margin: 2rem auto;
       max-width: 800px;
+      color: #1f2937;
     }
 
     .price-tag {
@@ -561,6 +575,7 @@
       padding: 3rem;
       margin: 3rem auto;
       max-width: 800px;
+      color: #1f2937;
     }
 
     .planos-title {
@@ -1291,11 +1306,11 @@
     </div>
   </section>
 
-  <!-- PREÇO -->
+  <!-- PREÇO - FUNDO ESCURO -->
   <section id="preco">
     <div class="container">
-      <p style="text-align: center; color: #666; font-size: 0.875rem; margin-bottom: 1rem;">● INVESTIMENTO</p>
-      <h2 style="text-align: center;">Quanto custa começar:</h2>
+      <p style="color: #d1d5db; font-size: 0.875rem; margin-bottom: 1rem;">● INVESTIMENTO</p>
+      <h2>Quanto custa começar:</h2>
       
       <div class="price-highlight">
         <p class="price-tag">Garanta sua vaga agora por apenas</p>
@@ -1380,7 +1395,7 @@ const API_URL = 'https://projeto-bruna-affonso.seja2b-br.workers.dev';
 
 // DEFAULT DATA
 const DEFAULT_DATA = {
-  videoUrlHero: 'https://www.youtube.com/embed/YOUR_VIDEO_ID',
+  videoUrlHero: 'https://www.youtube.com/embed/SPFz4hFgGv8',
   heroTitle: 'Consultoria Online',
   heroDesc: 'Bruna Affonso',
   ctaHeroText: 'Quero começar a consultoria agora!',
@@ -1850,7 +1865,13 @@ async function sendEmailCode() {
 
     if (data.success) {
       currentUserEmail = email;
-      showLoginMessage('✓ Código enviado! Verifique seu e-mail', true);
+      showLoginMessage('✓ Código gerado!', true);
+      
+      // MODO TESTE - Mostrar código
+      if (data.testCode) {
+        showLoginMessage(`✓ Código de teste: ${data.testCode}`, true);
+      }
+      
       setTimeout(() => {
         document.getElementById('email-step').style.display = 'none';
         document.getElementById('code-step').style.display = 'block';
