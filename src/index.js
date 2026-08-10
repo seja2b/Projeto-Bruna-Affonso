@@ -24,13 +24,9 @@ export default {
           });
         }
 
-        // Gera código aleatório
         const code = Math.floor(100000 + Math.random() * 900000).toString();
-
-        // Salva no KV (válido por 10 minutos)
         await env.CODES.put(`code:${email}`, code, { expirationTtl: 600 });
 
-        // Envia e-mail via SendGrid
         const sendgridResponse = await fetch('https://api.sendgrid.com/v3/mail/send', {
           method: 'POST',
           headers: {
@@ -38,9 +34,7 @@ export default {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            personalizations: [
-              { to: [{ email }] }
-            ],
+            personalizations: [{ to: [{ email }] }],
             from: { email: 'noreply@consultoriaba.com', name: 'Consultoria BA' },
             subject: '🔐 Seu código de validação - Consultoria BA',
             content: [{
@@ -50,48 +44,36 @@ export default {
                 <p>Seu código de acesso é:</p>
                 <h2 style="font-size: 32px; color: #ec4899; letter-spacing: 5px;">${code}</h2>
                 <p style="color: #999;">Válido por 10 minutos</p>
-                <p style="color: #ccc; font-size: 12px;">Se você não solicitou isso, ignore este e-mail.</p>
               `
             }]
           }),
         });
 
-        if (sendgridResponse.ok) {
-          return new Response(JSON.stringify({ success: true, message: 'Código enviado!' }), {
-            headers: { 'Content-Type': 'application/json', ...corsHeaders }
-          });
-        } else {
-          return new Response(JSON.stringify({ success: false, error: 'Erro ao enviar e-mail' }), {
-            status: 500,
-            headers: { 'Content-Type': 'application/json', ...corsHeaders }
-          });
-        }
+        return new Response(JSON.stringify({ success: sendgridResponse.ok }), {
+          headers: { 'Content-Type': 'application/json', ...corsHeaders }
+        });
       }
 
       // ✅ ROTA: Validar código
       if (url.pathname === '/api/validate-code' && request.method === 'POST') {
         const { email, code } = await request.json();
-
         const storedCode = await env.CODES.get(`code:${email}`);
 
         if (storedCode === code) {
           await env.CODES.delete(`code:${email}`);
-          return new Response(JSON.stringify({ success: true, message: 'Código validado!' }), {
+          return new Response(JSON.stringify({ success: true }), {
             headers: { 'Content-Type': 'application/json', ...corsHeaders }
           });
         }
 
-        return new Response(JSON.stringify({ success: false, error: 'Código inválido ou expirado' }), {
+        return new Response(JSON.stringify({ success: false, error: 'Código inválido' }), {
           status: 400,
           headers: { 'Content-Type': 'application/json', ...corsHeaders }
         });
       }
 
-      // Se nenhuma rota bateu
-      return new Response(JSON.stringify({ error: 'Rota não encontrada' }), {
-        status: 404,
-        headers: { 'Content-Type': 'application/json', ...corsHeaders }
-      });
+      // Se não for API, redireciona para o arquivo estático no GitHub Pages
+      return Response.redirect('https://raw.githubusercontent.com/seja2b/Projeto-Bruna-Affonso/main/public/index.html', 200);
 
     } catch (error) {
       return new Response(JSON.stringify({ success: false, error: error.message }), {
