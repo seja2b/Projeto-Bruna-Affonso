@@ -71,11 +71,6 @@
       box-shadow: 0 10px 20px rgba(34, 197, 94, 0.3);
     }
 
-    .btn-block {
-      width: 100%;
-      display: block;
-    }
-
     /* LOGIN / AUTENTICAÇÃO */
     #login-modal {
       position: fixed;
@@ -329,12 +324,6 @@
       text-align: center;
     }
 
-    .funciona-subtitle {
-      text-align: center;
-      color: var(--text-gray);
-      margin-bottom: 2rem;
-    }
-
     .steps-container {
       display: grid;
       gap: 2rem;
@@ -506,36 +495,77 @@
       background: #f9fafb;
     }
 
-    .price-recap {
+    .price-highlight {
       background: white;
       border-radius: 12px;
-      padding: 2rem;
+      padding: 3rem;
+      text-align: center;
       margin: 2rem auto;
-      max-width: 600px;
-      border: 1px solid #e5e7eb;
+      max-width: 800px;
     }
 
-    .price-table {
-      width: 100%;
-      margin-bottom: 1.5rem;
-    }
-
-    .price-table td {
-      padding: 0.75rem 0;
-      border-bottom: 1px solid #e5e7eb;
+    .price-tag {
       font-size: 0.875rem;
+      color: #666;
+      margin-bottom: 1rem;
     }
 
-    .price-table td:last-child {
-      text-align: right;
-      color: var(--primary-red);
-      font-weight: 600;
-    }
-
-    .price-table tr:last-child td {
-      border-bottom: 2px solid #000;
+    .price-main {
+      font-size: 3.5rem;
       font-weight: 700;
-      padding: 1rem 0;
+      color: var(--primary-pink);
+      margin: 1rem 0;
+    }
+
+    .price-subtext {
+      font-size: 1rem;
+      color: #666;
+      margin-bottom: 2rem;
+    }
+
+    .planos-section {
+      background: white;
+      border-radius: 12px;
+      padding: 3rem;
+      margin: 3rem auto;
+      max-width: 800px;
+    }
+
+    .planos-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #0f172a;
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+
+    .plano-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.5rem 0;
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    .plano-item:last-child {
+      border-bottom: none;
+    }
+
+    .plano-name {
+      font-weight: 600;
+      color: #0f172a;
+    }
+
+    .plano-desc {
+      font-size: 0.875rem;
+      color: #666;
+      margin-top: 0.25rem;
+    }
+
+    .plano-price {
+      font-size: 1.125rem;
+      font-weight: 700;
+      color: var(--primary-pink);
     }
 
     /* GARANTIA */
@@ -615,7 +645,7 @@
     }
 
     .faq-toggle {
-      color: var(--primary-green);
+      color: var(--primary-pink);
       font-size: 1.25rem;
     }
 
@@ -641,12 +671,12 @@
 
     /* CRIADOR */
     #creator {
-      background: var(--dark-bg);
-      color: var(--text-white);
+      background: white;
+      color: #1f2937;
     }
 
     #creator h2 {
-      color: white;
+      color: #0f172a;
       text-align: center;
     }
 
@@ -662,13 +692,13 @@
     }
 
     .creator-info h3 {
-      color: white;
+      color: #0f172a;
       font-size: 1.5rem;
       margin-bottom: 0.5rem;
     }
 
     .creator-desc {
-      color: var(--text-gray);
+      color: #666;
       margin-bottom: 1.5rem;
     }
 
@@ -681,7 +711,7 @@
 
     .creator-stat {
       text-align: center;
-      background: rgba(255,255,255,0.05);
+      background: #f3f4f6;
       padding: 1rem;
       border-radius: 8px;
     }
@@ -694,7 +724,7 @@
 
     .stat-label {
       font-size: 0.75rem;
-      color: var(--text-gray);
+      color: #666;
       margin-top: 0.25rem;
     }
 
@@ -702,6 +732,43 @@
       width: 100%;
       border-radius: 12px;
       object-fit: cover;
+    }
+
+    /* CLOSE */
+    #close {
+      background: var(--dark-bg);
+      color: white;
+      text-align: center;
+    }
+
+    #close h2 {
+      color: white;
+    }
+
+    .close-text {
+      color: var(--text-gray);
+      margin: 2rem 0;
+      line-height: 1.8;
+    }
+
+    .close-negative {
+      color: #999;
+      margin-bottom: 2rem;
+      font-size: 0.95rem;
+    }
+
+    .close-positive {
+      color: var(--primary-green);
+      font-weight: 600;
+      margin-bottom: 2rem;
+      font-size: 0.95rem;
+    }
+
+    .close-call {
+      font-size: 1.125rem;
+      font-weight: 600;
+      margin-bottom: 2rem;
+      color: white;
     }
 
     /* RODAPÉ */
@@ -1014,16 +1081,16 @@
       <div id="admin-preco-tab" class="admin-tab-content" style="display:none;">
         <h2>Preço</h2>
         <div class="edit-group">
-          <label>Intro do Preço</label>
-          <input type="text" id="price-intro" onchange="state.priceIntro = this.value; saveState(); renderPage();">
+          <label>Título</label>
+          <input type="text" id="price-title" onchange="state.priceTitle = this.value; saveState(); renderPage();">
         </div>
         <div class="edit-group">
-          <label>Preço Principal</label>
+          <label>Preço Principal (6x)</label>
           <input type="text" id="price-main" onchange="state.priceMain = this.value; saveState(); renderPage();">
         </div>
         <div class="edit-group">
-          <label>Subtexto do Preço</label>
-          <input type="text" id="price-subtext" onchange="state.priceSubtext = this.value; saveState(); renderPage();">
+          <label>Preço à Vista</label>
+          <input type="text" id="price-vista" onchange="state.priceVista = this.value; saveState(); renderPage();">
         </div>
       </div>
 
@@ -1171,23 +1238,24 @@
   <section id="preco">
     <div class="container">
       <p style="text-align: center; color: #666; font-size: 0.875rem; margin-bottom: 1rem;">● INVESTIMENTO</p>
-      <h2 style="text-align: center;">Garanta sua vaga agora por apenas:</h2>
+      <h2 style="text-align: center;">Quanto custa começar:</h2>
       
-      <div class="price-recap">
-        <table class="price-table">
-          <tr>
-            <td>6x de</td>
-            <td id="price-main">R$ 219,00</td>
-          </tr>
-          <tr>
-            <td>ou à vista com desconto</td>
-            <td id="price-subtext">R$ 1.314</td>
-          </tr>
-        </table>
+      <div class="price-highlight">
+        <p class="price-tag">Garanta sua vaga agora por apenas</p>
+        <div class="price-main" id="price-main">6x R$ 219,00</div>
+        <p class="price-subtext">ou <span id="price-vista">R$ 1.314</span> à vista com desconto</p>
+        <a href="" class="btn" id="cta-price" onclick="event.preventDefault(); window.location.href = state.checkoutUrl;" style="background: var(--primary-green);">Quero garantir meu acesso completo agora</a>
       </div>
-      
-      <div style="text-align: center;">
-        <a href="" class="btn" id="cta-price" onclick="event.preventDefault(); window.location.href = state.checkoutUrl;" style="background: var(--primary-pink);">Quero garantir meu acesso completo agora</a>
+
+      <div class="planos-section">
+        <h3 class="planos-title">Planos Disponíveis:</h3>
+        <div class="plano-item">
+          <div>
+            <div class="plano-name">Consultoria Completa</div>
+            <div class="plano-desc">Aulas + Acompanhamento + Suporte + Bônus</div>
+          </div>
+          <div class="plano-price">R$ 219,00/mês</div>
+        </div>
       </div>
     </div>
   </section>
@@ -1198,6 +1266,14 @@
       <div class="guarantee-seal">✓</div>
       <div class="guarantee-title">Garantia de 7 dias</div>
       <div class="guarantee-text">Se não gostar ou achar que não é pra você, devolvo 100% do seu dinheiro. Sem perguntas. Sem burocracias.</div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq">
+    <div class="container">
+      <h2>Dúvidas? Temos as respostas</h2>
+      <div id="faq-container" class="faq-container"></div>
     </div>
   </section>
 
@@ -1217,22 +1293,14 @@
     </div>
   </section>
 
-  <!-- FAQ -->
-  <section id="faq">
-    <div class="container">
-      <h2>Dúvidas Frequentes</h2>
-      <div id="faq-container" class="faq-container"></div>
-    </div>
-  </section>
-
   <!-- CLOSE FINAL -->
-  <section style="background: white; text-align: center;">
-    <div class="container">
+  <section id="close">
+    <div class="container" style="max-width: 800px;">
       <h2>A decisão é sua.</h2>
-      <p id="close-decision" style="font-size: 1.05rem; color: #666; margin: 2rem 0; line-height: 1.8;"></p>
-      <p id="close-negative" style="color: #999; margin-bottom: 2rem; font-size: 0.95rem;"></p>
-      <p id="close-positive" style="color: var(--primary-green); font-weight: 600; margin-bottom: 2rem; font-size: 0.95rem;"></p>
-      <p id="close-call" style="font-size: 1.125rem; font-weight: 600; margin-bottom: 2rem; color: #333;"></p>
+      <p class="close-text" id="close-decision"></p>
+      <p class="close-negative" id="close-negative"></p>
+      <p class="close-positive" id="close-positive"></p>
+      <p class="close-call" id="close-call"></p>
       <a href="" class="btn" id="close-button" onclick="event.preventDefault(); window.location.href = state.checkoutUrl;" style="background: var(--primary-pink); font-size: 1.1rem; padding: 16px 40px;">Comece agora!</a>
     </div>
   </section>
@@ -1249,7 +1317,6 @@
 <button id="admin-btn">⚙ Admin</button>
 
 <script>
-// DEFAULT DATA
 const DEFAULT_DATA = {
   videoUrlHero: 'https://www.youtube.com/embed/YOUR_VIDEO_ID',
   heroTitle: 'Consultoria Online',
@@ -1267,7 +1334,6 @@ const DEFAULT_DATA = {
   ],
   proofIntro: 'A consultoria BA coloca em suas mãos todos os recursos para você ter resultados como esse:',
   proofComum: 'E elas têm algo em comum: São pessoas normais com rotinas reais | Não fazem dieta nem treino "milagroso" | Investiram em si mesmas | Apenas aplicando os treinos feitos para elas com a orientação certa',
-  ctaProofText: 'Quero aplicar e ter resultados hoje',
   
   diferenciais: [
     { text: '📚 A única consultoria que te ensina a treinar', icon: '📚' },
@@ -1299,8 +1365,6 @@ const DEFAULT_DATA = {
   ],
   personasOutro: 'Funciona independente da sua situação atual - daqui para frente você tem a chance de mudar!',
   divertidoText: 'Treinar pode ser muito mais divertido do que você imagina.',
-  ctaPersonasText: 'Quero dar o primeiro passo em direção ao meu objetivo',
-  ctaStepsText: 'Quero fazer parte do time!',
   
   bonus: [
     { title: 'Kit de Boas-vindas', desc: 'Guia completo para começar', value: 'R$ 297' },
@@ -1308,11 +1372,10 @@ const DEFAULT_DATA = {
     { title: 'Aula Bônus de Rotina', desc: 'Como construir uma rotina saudável eficiente', value: 'R$ 200' }
   ],
   bonusIntro: 'Bônus exclusivos para quem entrar hoje:',
-  ctaPriceText: 'Quero garantir meu acesso completo agora',
   
-  priceIntro: 'Garanta sua vaga agora por apenas:',
-  priceMain: 'R$ 219,00',
-  priceSubtext: 'R$ 1.314 à vista com desconto',
+  priceTitle: 'Quanto custa começar:',
+  priceMain: '6x R$ 219,00',
+  priceVista: 'R$ 1.314',
   
   creatorName: 'Bruna Affonso',
   creatorDesc: 'Personal Trainer especializada em transformação de corpos de mulheres. Com mais de 10 anos de experiência na área de fitness e bem-estar.',
@@ -1466,8 +1529,8 @@ function renderPage() {
     document.getElementById('price-main').innerHTML = state.priceMain;
   }
   
-  if (document.getElementById('price-subtext')) {
-    document.getElementById('price-subtext').innerHTML = state.priceSubtext;
+  if (document.getElementById('price-vista')) {
+    document.getElementById('price-vista').innerHTML = state.priceVista;
   }
   
   if (document.getElementById('creator-name')) {
@@ -1592,9 +1655,6 @@ function syncAdminInputs(tab) {
         <input type="text" value="${p.title}" onchange="state.proof[${i}].title = this.value; saveState(); renderPage();">
         <label style="margin-top: 0.5rem;">Resultado</label>
         <input type="text" value="${p.desc}" onchange="state.proof[${i}].desc = this.value; saveState(); renderPage();">
-        <label style="margin-top: 0.5rem;">📸 Foto do Cliente (opcional)</label>
-        <input type="file" id="proof-image-upload-${i}" accept="image/*" onchange="uploadImage('proof', ${i})" style="padding: 8px; border: 2px dashed #e5e7eb; width: 100%; cursor: pointer;">
-        <img id="proof-image-preview-${i}" style="max-width: 150px; max-height: 150px; border-radius: 6px; margin-top: 0.5rem; display: ${p.image ? 'block' : 'none'};" src="${p.image || ''}">
         <button class="btn-admin btn-danger" style="margin-top: 0.5rem;" onclick="state.proof.splice(${i}, 1); saveState(); syncAdminInputs('proof'); renderPage();">Remover</button>
       </div>
     `).join('');
@@ -1653,9 +1713,9 @@ function syncAdminInputs(tab) {
       </div>
     `).join('');
   } else if (tab === 'preco') {
-    document.getElementById('price-intro').value = state.priceIntro;
+    document.getElementById('price-title').value = state.priceTitle;
     document.getElementById('price-main').value = state.priceMain;
-    document.getElementById('price-subtext').value = state.priceSubtext;
+    document.getElementById('price-vista').value = state.priceVista;
   } else if (tab === 'faq') {
     const editor = document.getElementById('faq-editor');
     editor.innerHTML = state.faq.map((f, i) => `
