@@ -72,8 +72,17 @@ export default {
         });
       }
 
-      // Se não for API, redireciona para o arquivo estático
-      return Response.redirect('https://raw.githubusercontent.com/seja2b/Projeto-Bruna-Affonso/main/public/index.html', 302);
+      // Serve o HTML com header correto
+      const htmlResponse = await fetch('https://raw.githubusercontent.com/seja2b/Projeto-Bruna-Affonso/main/public/index.html');
+      const html = await htmlResponse.text();
+
+      return new Response(html, {
+        status: 200,
+        headers: {
+          'Content-Type': 'text/html; charset=utf-8',
+          ...corsHeaders
+        }
+      });
 
     } catch (error) {
       return new Response(JSON.stringify({ success: false, error: error.message }), {
