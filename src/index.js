@@ -72,8 +72,8 @@ export default {
         });
       }
 
-      // Se não for API, redireciona para o arquivo estático no GitHub Pages
-      return Response.redirect('https://raw.githubusercontent.com/seja2b/Projeto-Bruna-Affonso/main/public/index.html', 200);
+      // Se não for API, redireciona para o arquivo estático
+      return Response.redirect('https://raw.githubusercontent.com/seja2b/Projeto-Bruna-Affonso/main/public/index.html', 302);
 
     } catch (error) {
       return new Response(JSON.stringify({ success: false, error: error.message }), {
