@@ -736,17 +736,17 @@
 
     /* CLOSE */
     #close {
-      background: var(--dark-bg);
-      color: white;
+      background: white;
+      color: #1f2937;
       text-align: center;
     }
 
     #close h2 {
-      color: white;
+      color: #0f172a;
     }
 
     .close-text {
-      color: var(--text-gray);
+      color: #666;
       margin: 2rem 0;
       line-height: 1.8;
     }
@@ -768,17 +768,29 @@
       font-size: 1.125rem;
       font-weight: 600;
       margin-bottom: 2rem;
-      color: white;
+      color: #0f172a;
     }
 
     /* RODAPÉ */
     footer {
       background: var(--dark-bg);
       color: var(--text-white);
-      padding: 2rem 0;
+      padding: 3rem 0;
       text-align: center;
       font-size: 0.875rem;
       border-top: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .footer-email {
+      font-size: 0.95rem;
+      color: var(--primary-pink);
+      text-decoration: none;
+      font-weight: 600;
+      margin: 1rem 0;
+    }
+
+    .footer-email:hover {
+      text-decoration: underline;
     }
 
     /* ADMIN PANEL */
@@ -1129,7 +1141,7 @@
         <h2>Configurações</h2>
         <div class="edit-group">
           <label>Email de Contato</label>
-          <input type="email" id="contact-email" onchange="state.contactEmail = this.value; saveState();">
+          <input type="email" id="contact-email" onchange="state.contactEmail = this.value; saveState(); renderPage();">
         </div>
         <div class="edit-group">
           <label>Texto do Rodapé</label>
@@ -1309,6 +1321,7 @@
   <footer id="footer">
     <div class="container">
       <p id="footer-text">© 2024 Bruna Affonso - Consultoria Online. Todos os direitos reservados.</p>
+      <a href="mailto:bruna@consultioriaba.com" class="footer-email" id="footer-email">📧 bruna@consultoriaba.com</a>
       <p style="font-size: 0.75rem; color: #999; margin-top: 1rem;">Desenvolvido com ❤️ para transformar vidas</p>
     </div>
   </footer>
@@ -1405,7 +1418,7 @@ const DEFAULT_DATA = {
   closePositive: 'Ou pode entrar agora na consultoria BA, aprender a treinar, ter o treino que funciona para você e transformar sua vida e seu corpo.',
   closeCall: 'Vem comigo em direção ao que você sempre quis!',
   
-  contactEmail: 'contato@brunaaffonso.com',
+  contactEmail: 'bruna@consultoriaba.com',
   footerText: '© 2024 Bruna Affonso - Consultoria Online. Todos os direitos reservados.',
   checkoutUrl: 'https://seu-checkout-link.com'
 };
@@ -1585,6 +1598,11 @@ function renderPage() {
   
   if (document.getElementById('footer-text')) {
     document.getElementById('footer-text').innerHTML = state.footerText;
+  }
+
+  if (document.getElementById('footer-email')) {
+    document.getElementById('footer-email').href = 'mailto:' + state.contactEmail;
+    document.getElementById('footer-email').innerHTML = '📧 ' + state.contactEmail;
   }
 }
 
