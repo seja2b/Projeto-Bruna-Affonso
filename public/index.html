@@ -71,7 +71,13 @@
       box-shadow: 0 10px 20px rgba(34, 197, 94, 0.3);
     }
 
-    /* LOGIN / AUTENTICAÇÃO */
+    .btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    /* LOGIN / AUTENTICAÇÃO 2FA */
     #login-modal {
       position: fixed;
       top: 0;
@@ -97,6 +103,7 @@
     .login-container h2 {
       margin-bottom: 1.5rem;
       color: #0f172a;
+      text-align: center;
     }
     
     .login-container input {
@@ -137,6 +144,11 @@
     .btn-login:hover {
       background: #6d28d9;
     }
+
+    .btn-login:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+    }
     
     .btn-cancel {
       background: #e5e7eb;
@@ -156,6 +168,20 @@
     
     .login-success {
       color: var(--primary-green);
+    }
+
+    .login-step-title {
+      font-size: 0.875rem;
+      color: #666;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+
+    .code-input {
+      letter-spacing: 10px;
+      font-size: 24px;
+      text-align: center;
+      font-weight: bold;
     }
     
     .user-info {
@@ -322,6 +348,12 @@
     #funciona h2 {
       color: white;
       text-align: center;
+    }
+
+    .funciona-subtitle {
+      text-align: center;
+      color: var(--text-gray);
+      margin-bottom: 2rem;
     }
 
     .steps-container {
@@ -974,24 +1006,37 @@
 </head>
 <body>
 
-<!-- LOGIN MODAL -->
+<!-- LOGIN MODAL COM 2FA -->
 <div id="login-modal" style="display: none;">
   <div class="login-container">
-    <h2>🔐 Acesso Administrativo</h2>
+    <h2>🔐 Consultoria BA</h2>
     <div id="login-message" class="login-message"></div>
     
-    <div id="login-form-step">
-      <p style="color: #666; margin-bottom: 1rem; font-size: 0.875rem;">Digite o código de acesso para entrar no painel administrativo:</p>
-      <input type="password" id="login-code" placeholder="Digite o código" style="margin-bottom: 0.5rem;">
+    <!-- PASSO 1: E-mail -->
+    <div id="email-step" style="display: block;">
+      <p class="login-step-title">Digite seu e-mail para receber o código</p>
+      <input type="email" id="login-email" placeholder="seu@email.com" style="margin-bottom: 0.5rem;">
       <div class="login-buttons">
-        <button class="btn-login" onclick="verifyLoginCode()">Entrar</button>
+        <button class="btn-login" id="send-code-btn" onclick="sendEmailCode()">Enviar Código</button>
         <button class="btn-cancel" onclick="closeLoginModal()">Cancelar</button>
       </div>
     </div>
-    
-    <div id="register-form-step" style="display: none;">
-      <p style="color: #666; margin-bottom: 1rem; font-size: 0.875rem;">Crie sua senha de acesso pessoal (mínimo 4 caracteres):</p>
-      <input type="password" id="register-password" placeholder="Crie uma senha" style="margin-bottom: 0.5rem;">
+
+    <!-- PASSO 2: Validar Código -->
+    <div id="code-step" style="display: none;">
+      <p class="login-step-title">Código enviado para seu e-mail</p>
+      <p style="font-size: 0.8rem; color: #666; text-align: center; margin-bottom: 1rem;">Válido por 10 minutos</p>
+      <input type="text" id="login-code" placeholder="000000" class="code-input" maxlength="6" style="margin-bottom: 1rem;">
+      <div class="login-buttons">
+        <button class="btn-login" onclick="validateCode()">Validar</button>
+        <button class="btn-cancel" onclick="backToEmail()">Voltar</button>
+      </div>
+    </div>
+
+    <!-- PASSO 3: Criar Senha -->
+    <div id="password-step" style="display: none;">
+      <p class="login-step-title">Crie sua senha de acesso</p>
+      <input type="password" id="register-password" placeholder="Digite uma senha" style="margin-bottom: 0.5rem;">
       <input type="password" id="register-password-confirm" placeholder="Confirme a senha" style="margin-bottom: 0.5rem;">
       <div class="login-buttons">
         <button class="btn-login" onclick="registerPassword()">Criar Senha</button>
@@ -1321,7 +1366,7 @@
   <footer id="footer">
     <div class="container">
       <p id="footer-text">© 2024 Bruna Affonso - Consultoria Online. Todos os direitos reservados.</p>
-      <a href="mailto:bruna@consultioriaba.com" class="footer-email" id="footer-email">📧 bruna@consultoriaba.com</a>
+      <a href="mailto:bruna@consultoriaba.com" class="footer-email" id="footer-email">📧 bruna@consultoriaba.com</a>
       <p style="font-size: 0.75rem; color: #999; margin-top: 1rem;">Desenvolvido com ❤️ para transformar vidas</p>
     </div>
   </footer>
@@ -1330,6 +1375,10 @@
 <button id="admin-btn">⚙ Admin</button>
 
 <script>
+// 🔐 CONFIGURAÇÃO DE CLOUDFLARE WORKERS
+const API_URL = 'https://projeto-bruna-affonso.seja2b-br.workers.dev';
+
+// DEFAULT DATA
 const DEFAULT_DATA = {
   videoUrlHero: 'https://www.youtube.com/embed/YOUR_VIDEO_ID',
   heroTitle: 'Consultoria Online',
@@ -1424,6 +1473,7 @@ const DEFAULT_DATA = {
 };
 
 let state = JSON.parse(localStorage.getItem('pageState')) || JSON.parse(JSON.stringify(DEFAULT_DATA));
+let currentUserEmail = '';
 
 function saveState() {
   localStorage.setItem('pageState', JSON.stringify(state));
@@ -1772,79 +1822,108 @@ function closeAdmin() {
   document.getElementById('admin-panel').style.display = 'none';
 }
 
-const MASTER_CODE = 'treino';
-let currentUser = null;
-let isLoggedIn = false;
+// 🔐 SISTEMA DE AUTENTICAÇÃO COM 2FA POR E-MAIL
+let isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
 
-function openLoginModal() {
-  document.getElementById('login-modal').style.display = 'flex';
-  document.getElementById('login-form-step').style.display = 'block';
-  document.getElementById('register-form-step').style.display = 'none';
-  document.getElementById('login-message').innerHTML = '';
-  document.getElementById('login-code').value = '';
-  document.getElementById('login-code').focus();
+// 📧 PASSO 1: Enviar código por e-mail
+async function sendEmailCode() {
+  const email = document.getElementById('login-email').value.trim();
+  const btn = document.getElementById('send-code-btn');
+
+  if (!email) {
+    showLoginMessage('Digite um e-mail válido', false);
+    return;
+  }
+
+  btn.disabled = true;
+  btn.textContent = 'Enviando...';
+  showLoginMessage('Enviando código...', true);
+
+  try {
+    const response = await fetch(`${API_URL}/api/send-code`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email })
+    });
+
+    const data = await response.json();
+
+    if (data.success) {
+      currentUserEmail = email;
+      showLoginMessage('✓ Código enviado! Verifique seu e-mail', true);
+      setTimeout(() => {
+        document.getElementById('email-step').style.display = 'none';
+        document.getElementById('code-step').style.display = 'block';
+        document.getElementById('login-message').innerHTML = '';
+      }, 1500);
+    } else {
+      showLoginMessage('Erro ao enviar código. Tente novamente.', false);
+    }
+  } catch (error) {
+    showLoginMessage('Erro de conexão. Verifique sua internet.', false);
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'Enviar Código';
+  }
 }
 
-function closeLoginModal() {
-  document.getElementById('login-modal').style.display = 'none';
-  document.getElementById('login-code').value = '';
-  document.getElementById('register-password').value = '';
-  document.getElementById('register-password-confirm').value = '';
-}
-
-function verifyLoginCode() {
+// ✅ PASSO 2: Validar código
+async function validateCode() {
   const code = document.getElementById('login-code').value.trim();
-  
-  if (!code) {
-    showLoginMessage('Digite o código de acesso', false);
+
+  if (code.length !== 6) {
+    showLoginMessage('Digite um código de 6 dígitos', false);
     return;
   }
-  
-  if (code === MASTER_CODE) {
-    currentUser = 'admin-' + Math.random().toString(36).substr(2, 9);
-    showLoginMessage('✓ Código correto! Agora crie sua senha pessoal.', true);
-    
-    setTimeout(() => {
-      document.getElementById('login-form-step').style.display = 'none';
-      document.getElementById('register-form-step').style.display = 'block';
-      document.getElementById('login-message').innerHTML = '';
-    }, 1000);
-    return;
+
+  try {
+    const response = await fetch(`${API_URL}/api/validate-code`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: currentUserEmail, code })
+    });
+
+    const data = await response.json();
+
+    if (data.success) {
+      showLoginMessage('✓ Código validado!', true);
+      setTimeout(() => {
+        document.getElementById('code-step').style.display = 'none';
+        document.getElementById('password-step').style.display = 'block';
+        document.getElementById('login-message').innerHTML = '';
+      }, 1000);
+    } else {
+      showLoginMessage('✗ Código inválido ou expirado', false);
+    }
+  } catch (error) {
+    showLoginMessage('Erro de conexão', false);
   }
-  
-  const savedPasswords = JSON.parse(localStorage.getItem('adminPasswords') || '{}');
-  if (savedPasswords[code]) {
-    loginSuccess();
-    return;
-  }
-  
-  showLoginMessage('✗ Código incorreto!', false);
-  document.getElementById('login-code').value = '';
 }
 
+// 🔑 PASSO 3: Criar senha
 function registerPassword() {
   const password = document.getElementById('register-password').value;
   const passwordConfirm = document.getElementById('register-password-confirm').value;
-  
+
   if (!password || !passwordConfirm) {
     showLoginMessage('Preencha os dois campos', false);
     return;
   }
-  
+
   if (password.length < 4) {
-    showLoginMessage('A senha deve ter no mínimo 4 caracteres', false);
+    showLoginMessage('Mínimo 4 caracteres', false);
     return;
   }
-  
+
   if (password !== passwordConfirm) {
     showLoginMessage('As senhas não conferem', false);
     return;
   }
-  
+
   const savedPasswords = JSON.parse(localStorage.getItem('adminPasswords') || '{}');
   savedPasswords[password] = true;
   localStorage.setItem('adminPasswords', JSON.stringify(savedPasswords));
-  
+
   showLoginMessage('✓ Senha criada com sucesso!', true);
   
   setTimeout(() => {
@@ -1858,29 +1937,54 @@ function skipRegistration() {
 
 function loginSuccess() {
   isLoggedIn = true;
+  localStorage.setItem('isLoggedIn', 'true');
   closeLoginModal();
   
   document.getElementById('landing').style.display = 'none';
   document.getElementById('admin-panel').style.display = 'block';
   
-  updateUserInfo();
   syncAdminInputs('hero');
 }
 
-function updateUserInfo() {
-  const adminHeader = document.getElementById('admin-btn').parentElement;
-  let userInfoEl = document.querySelector('.user-info');
-  
-  if (!userInfoEl) {
-    userInfoEl = document.createElement('div');
-    userInfoEl.className = 'user-info';
-    adminHeader.appendChild(userInfoEl);
+function logout() {
+  if (confirm('Tem certeza que quer sair do painel administrativo?')) {
+    isLoggedIn = false;
+    localStorage.setItem('isLoggedIn', 'false');
+    currentUserEmail = '';
+    
+    document.getElementById('admin-panel').style.display = 'none';
+    document.getElementById('landing').style.display = 'block';
   }
-  
-  if (isLoggedIn) {
-    userInfoEl.textContent = '✓ Logado no painel administrativo';
-    userInfoEl.style.color = 'var(--primary-green)';
+}
+
+function openLoginModal() {
+  if (!isLoggedIn) {
+    document.getElementById('login-modal').style.display = 'flex';
+    document.getElementById('email-step').style.display = 'block';
+    document.getElementById('code-step').style.display = 'none';
+    document.getElementById('password-step').style.display = 'none';
+    document.getElementById('login-message').innerHTML = '';
+    document.getElementById('login-email').value = '';
+    document.getElementById('login-code').value = '';
+    document.getElementById('register-password').value = '';
+    document.getElementById('register-password-confirm').value = '';
+    document.getElementById('login-email').focus();
   }
+}
+
+function closeLoginModal() {
+  document.getElementById('login-modal').style.display = 'none';
+  document.getElementById('login-email').value = '';
+  document.getElementById('login-code').value = '';
+  document.getElementById('register-password').value = '';
+  document.getElementById('register-password-confirm').value = '';
+}
+
+function backToEmail() {
+  document.getElementById('code-step').style.display = 'none';
+  document.getElementById('email-step').style.display = 'block';
+  document.getElementById('login-message').innerHTML = '';
+  document.getElementById('login-code').value = '';
 }
 
 function showLoginMessage(message, success) {
@@ -1889,26 +1993,21 @@ function showLoginMessage(message, success) {
   messageEl.className = 'login-message' + (success ? ' login-success' : '');
 }
 
-function logout() {
-  if (confirm('Tem certeza que quer sair do painel administrativo?')) {
-    isLoggedIn = false;
-    currentUser = null;
-    
-    document.getElementById('admin-panel').style.display = 'none';
-    document.getElementById('landing').style.display = 'block';
-    
-    const userInfoEl = document.querySelector('.user-info');
-    if (userInfoEl) {
-      userInfoEl.remove();
-    }
-  }
-}
-
 document.getElementById('admin-btn').addEventListener('click', () => {
-  if (!isLoggedIn) {
+  if (isLoggedIn) {
+    document.getElementById('landing').style.display = 'none';
+    document.getElementById('admin-panel').style.display = 'block';
+  } else {
     openLoginModal();
   }
 });
+
+// Verificar se já está logado
+if (isLoggedIn) {
+  // Permanecer logado
+} else {
+  document.getElementById('landing').style.display = 'block';
+}
 
 renderPage();
 </script>
