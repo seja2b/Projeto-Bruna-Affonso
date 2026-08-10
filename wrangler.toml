@@ -1,0 +1,8 @@
+name = "projeto-bruna-affonso"
+main = "src/index.js"
+compatibility_date = "2024-01-01"
+type = "service"
+
+[[kv_namespaces]]
+binding = "CODES"
+id = "625aa2cbfbb247a987b49667dd6f483a"
