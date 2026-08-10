@@ -22,35 +22,35 @@
       --text-white: #ffffff;
       --text-gray: #d1d5db;
     }
- 
+
     body {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
       background: white;
       color: #1f2937;
       line-height: 1.6;
     }
- 
+
     .container {
       max-width: 1200px;
       margin: 0 auto;
       padding: 0 1.5rem;
     }
- 
+
     section {
       padding: 4rem 0;
     }
- 
+
     h1, h2, h3 {
       font-weight: 700;
       line-height: 1.2;
     }
- 
+
     h1 { font-size: 3.5rem; margin: 1rem 0; }
     h2 { font-size: 2.5rem; margin: 1.5rem 0 1rem; }
     h3 { font-size: 1.25rem; margin: 0.5rem 0; }
- 
+
     p { margin-bottom: 1rem; }
- 
+
     .btn {
       display: inline-block;
       padding: 12px 32px;
@@ -65,31 +65,138 @@
       text-decoration: none;
       text-align: center;
     }
- 
+
     .btn:hover {
       transform: translateY(-2px);
       box-shadow: 0 10px 20px rgba(34, 197, 94, 0.3);
     }
- 
+
     .btn-block {
       width: 100%;
       display: block;
     }
- 
+
+    /* LOGIN / AUTENTICAÇÃO */
+    #login-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 10000;
+    }
+    
+    .login-container {
+      background: white;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+      max-width: 400px;
+      width: 90%;
+    }
+    
+    .login-container h2 {
+      margin-bottom: 1.5rem;
+      color: #0f172a;
+    }
+    
+    .login-container input {
+      width: 100%;
+      padding: 12px;
+      border: 2px solid #e5e7eb;
+      border-radius: 8px;
+      font-size: 16px;
+      margin-bottom: 1rem;
+    }
+    
+    .login-container input:focus {
+      outline: none;
+      border-color: var(--primary-purple);
+      box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.1);
+    }
+    
+    .login-buttons {
+      display: flex;
+      gap: 1rem;
+    }
+    
+    .login-buttons button {
+      flex: 1;
+      padding: 12px;
+      border: none;
+      border-radius: 8px;
+      font-size: 14px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+    
+    .btn-login {
+      background: var(--primary-purple);
+      color: white;
+    }
+    
+    .btn-login:hover {
+      background: #6d28d9;
+    }
+    
+    .btn-cancel {
+      background: #e5e7eb;
+      color: #666;
+    }
+    
+    .btn-cancel:hover {
+      background: #d1d5db;
+    }
+    
+    .login-message {
+      color: #ef4444;
+      font-size: 0.875rem;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+    
+    .login-success {
+      color: var(--primary-green);
+    }
+    
+    .user-info {
+      font-size: 0.875rem;
+      color: #666;
+    }
+    
+    .btn-logout {
+      background: #ef4444;
+      color: white;
+      padding: 8px 16px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.875rem;
+      font-weight: 600;
+    }
+    
+    .btn-logout:hover {
+      background: #dc2626;
+    }
+
     /* HERO */
     #hero {
       text-align: center;
       padding: 5rem 0;
       background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
     }
- 
+
     .hero-subtitle {
       font-size: 0.875rem;
       color: #999;
       letter-spacing: 1px;
       margin-bottom: 1rem;
     }
- 
+
     .hero-title-wrapper {
       line-height: 1.3;
       margin: 1rem 0;
@@ -113,14 +220,14 @@
       display: block;
       margin: 0;
     }
- 
+
     .highlight-text {
       background: linear-gradient(90deg, var(--primary-purple) 0%, var(--primary-pink) 50%, var(--primary-orange) 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
     }
- 
+
     /* SOCIAL PROOF */
     .proof-cards {
       display: grid;
@@ -128,7 +235,7 @@
       gap: 2rem;
       margin: 2rem 0;
     }
- 
+
     .proof-card {
       background: var(--dark-card);
       border-radius: 16px;
@@ -136,24 +243,24 @@
       color: var(--text-white);
       transition: transform 0.3s;
     }
- 
+
     .proof-card:hover {
       transform: translateY(-5px);
     }
- 
+
     .proof-card-title {
       font-size: 1.125rem;
       font-weight: 600;
       margin-bottom: 1rem;
     }
- 
+
     .proof-card-desc {
       font-size: 0.875rem;
       color: var(--text-gray);
       margin-bottom: 1rem;
       line-height: 1.6;
     }
- 
+
     .proof-card-footer {
       display: flex;
       gap: 0.75rem;
@@ -161,14 +268,14 @@
       padding-top: 1rem;
       border-top: 1px solid rgba(255,255,255,0.1);
     }
- 
+
     .proof-avatar {
       width: 32px;
       height: 32px;
       border-radius: 50%;
       background: linear-gradient(135deg, var(--primary-purple), var(--primary-pink));
     }
- 
+
     /* DIFERENCIAIS */
     .diferenciais-grid {
       display: grid;
@@ -176,7 +283,7 @@
       gap: 2rem;
       margin: 2rem 0;
     }
- 
+
     .diferencial-card {
       background: white;
       border-radius: 12px;
@@ -185,55 +292,55 @@
       border: 2px solid #f0f0f0;
       transition: all 0.3s;
     }
- 
+
     .diferencial-card:nth-child(1) {
       border-color: #fce7f3;
       background: linear-gradient(135deg, #fce7f3 0%, white 100%);
     }
- 
+
     .diferencial-card:nth-child(2) {
       border-color: #fed7aa;
       background: linear-gradient(135deg, #fed7aa 0%, white 100%);
     }
- 
+
     .diferencial-card:nth-child(3) {
       border-color: #fecdd3;
       background: linear-gradient(135deg, #fecdd3 0%, white 100%);
     }
- 
+
     .diferencial-icon {
       font-size: 2.5rem;
       margin-bottom: 1rem;
     }
- 
+
     .diferencial-text {
       font-weight: 600;
       font-size: 1rem;
     }
- 
+
     /* COMO FUNCIONA */
     #funciona {
       background: var(--dark-bg);
       padding: 4rem 0;
     }
- 
+
     #funciona h2 {
       color: white;
       text-align: center;
     }
- 
+
     .funciona-subtitle {
       text-align: center;
       color: var(--text-gray);
       margin-bottom: 2rem;
     }
- 
+
     .steps-container {
       display: grid;
       gap: 2rem;
       margin: 2rem 0;
     }
- 
+
     .step-card {
       background: white;
       border-radius: 12px;
@@ -243,15 +350,15 @@
       gap: 2rem;
       align-items: center;
     }
- 
+
     .step-card:nth-child(even) {
       direction: rtl;
     }
- 
+
     .step-card:nth-child(even) > * {
       direction: ltr;
     }
- 
+
     .step-badge {
       display: inline-block;
       background: var(--primary-purple);
@@ -262,36 +369,36 @@
       font-weight: 600;
       margin-bottom: 0.5rem;
     }
- 
+
     .step-title {
       font-size: 1.5rem;
       font-weight: 600;
       margin-bottom: 1rem;
     }
- 
+
     .step-desc {
       color: #666;
       margin-bottom: 1rem;
     }
- 
+
     .step-checks {
       display: flex;
       flex-direction: column;
       gap: 0.5rem;
     }
- 
+
     .check-item {
       display: flex;
       gap: 0.75rem;
       align-items: center;
       font-size: 0.875rem;
     }
- 
+
     .check-icon {
       color: var(--primary-green);
       font-weight: bold;
     }
- 
+
     .step-image {
       width: 100%;
       height: 250px;
@@ -303,7 +410,7 @@
       color: white;
       font-weight: 600;
     }
- 
+
     /* PERSONAS */
     .personas-grid {
       display: grid;
@@ -311,7 +418,7 @@
       gap: 1.5rem;
       margin: 2rem 0;
     }
- 
+
     .persona-card {
       background: var(--dark-card);
       border-radius: 12px;
@@ -321,24 +428,24 @@
       gap: 1rem;
       align-items: flex-start;
     }
- 
+
     .persona-check {
       color: var(--primary-green);
       font-size: 1.25rem;
       flex-shrink: 0;
       margin-top: 0.25rem;
     }
- 
+
     .persona-text {
       font-size: 0.95rem;
       line-height: 1.5;
     }
- 
+
     /* BONUS */
     #bonus {
       background: white;
     }
- 
+
     .bonus-cards {
       display: grid;
       gap: 1.5rem;
@@ -347,7 +454,7 @@
       margin-left: auto;
       margin-right: auto;
     }
- 
+
     .bonus-card {
       background: var(--dark-card);
       border-radius: 12px;
@@ -358,7 +465,7 @@
       gap: 1.5rem;
       align-items: center;
     }
- 
+
     .bonus-badge {
       display: inline-block;
       background: var(--primary-purple);
@@ -369,36 +476,36 @@
       font-weight: 600;
       margin-bottom: 0.5rem;
     }
- 
+
     .bonus-title {
       font-size: 1.125rem;
       font-weight: 600;
       margin-bottom: 0.5rem;
     }
- 
+
     .bonus-desc {
       font-size: 0.875rem;
       color: var(--text-gray);
       margin-bottom: 0.5rem;
     }
- 
+
     .bonus-value {
       font-size: 0.8rem;
       color: #999;
     }
- 
+
     .bonus-image {
       width: 100%;
       height: 150px;
       background: linear-gradient(135deg, var(--primary-orange), var(--primary-red));
       border-radius: 8px;
     }
- 
+
     /* PRECO */
     #preco {
       background: #f9fafb;
     }
- 
+
     .price-recap {
       background: white;
       border-radius: 12px;
@@ -407,58 +514,30 @@
       max-width: 600px;
       border: 1px solid #e5e7eb;
     }
- 
+
     .price-table {
       width: 100%;
       margin-bottom: 1.5rem;
     }
- 
+
     .price-table td {
       padding: 0.75rem 0;
       border-bottom: 1px solid #e5e7eb;
       font-size: 0.875rem;
     }
- 
+
     .price-table td:last-child {
       text-align: right;
       color: var(--primary-red);
       font-weight: 600;
     }
- 
+
     .price-table tr:last-child td {
       border-bottom: 2px solid #000;
       font-weight: 700;
       padding: 1rem 0;
     }
- 
-    .price-highlight {
-      background: white;
-      border-radius: 12px;
-      padding: 2rem;
-      text-align: center;
-      margin: 2rem auto;
-      max-width: 600px;
-    }
- 
-    .price-tag {
-      font-size: 0.875rem;
-      color: #666;
-      margin-bottom: 0.5rem;
-    }
- 
-    .price-main {
-      font-size: 3rem;
-      font-weight: 700;
-      color: var(--primary-pink);
-      margin: 0.5rem 0;
-    }
- 
-    .price-subtext {
-      font-size: 0.875rem;
-      color: #666;
-      margin-bottom: 1.5rem;
-    }
- 
+
     /* GARANTIA */
     .guarantee-badge {
       background: white;
@@ -469,7 +548,7 @@
       margin: 2rem auto;
       max-width: 500px;
     }
- 
+
     .guarantee-seal {
       width: 100px;
       height: 100px;
@@ -483,41 +562,41 @@
       font-size: 2rem;
       font-weight: bold;
     }
- 
+
     .guarantee-title {
       font-size: 1.25rem;
       font-weight: 600;
       margin-bottom: 0.5rem;
     }
- 
+
     .guarantee-text {
       color: #666;
       font-size: 0.875rem;
       line-height: 1.6;
     }
- 
+
     /* FAQ */
     #faq {
       background: var(--dark-bg);
     }
- 
+
     #faq h2 {
       color: white;
       text-align: center;
     }
- 
+
     .faq-container {
       max-width: 700px;
       margin: 2rem auto;
     }
- 
+
     .faq-item {
       background: var(--dark-card);
       border-radius: 8px;
       margin-bottom: 1rem;
       overflow: hidden;
     }
- 
+
     .faq-question {
       padding: 1.5rem;
       background: var(--dark-card);
@@ -530,16 +609,16 @@
       user-select: none;
       transition: all 0.3s;
     }
- 
+
     .faq-question:hover {
       background: #2a2a3e;
     }
- 
+
     .faq-toggle {
       color: var(--primary-green);
       font-size: 1.25rem;
     }
- 
+
     .faq-answer {
       padding: 0;
       max-height: 0;
@@ -547,29 +626,30 @@
       background: rgba(255,255,255,0.05);
       transition: all 0.3s;
     }
- 
+
     .faq-answer.active {
       padding: 1.5rem;
       max-height: 500px;
     }
- 
-    .faq-answer p {
+
+    .faq-answer-text {
       color: var(--text-gray);
       font-size: 0.875rem;
-      margin: 0;
+      line-height: 1.6;
+      font-weight: 400;
     }
- 
+
     /* CRIADOR */
     #creator {
       background: var(--dark-bg);
       color: var(--text-white);
     }
- 
+
     #creator h2 {
       color: white;
       text-align: center;
     }
- 
+
     .creator-content {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -580,1364 +660,73 @@
       margin-left: auto;
       margin-right: auto;
     }
- 
+
     .creator-info h3 {
       color: white;
       font-size: 1.5rem;
       margin-bottom: 0.5rem;
     }
- 
+
     .creator-desc {
       color: var(--text-gray);
       margin-bottom: 1.5rem;
     }
- 
+
     .creator-stats {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 1rem;
       margin-bottom: 1.5rem;
     }
- 
+
     .creator-stat {
       text-align: center;
       background: rgba(255,255,255,0.05);
       padding: 1rem;
       border-radius: 8px;
     }
- 
+
     .stat-number {
       font-size: 1.5rem;
       font-weight: 700;
       color: var(--primary-pink);
     }
- 
+
     .stat-label {
       font-size: 0.75rem;
       color: var(--text-gray);
       margin-top: 0.25rem;
     }
- 
+
     .creator-image {
       width: 100%;
-      height: 300px;
-      background: linear-gradient(135deg, var(--primary-purple), var(--primary-pink));
       border-radius: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: white;
-      font-weight: 600;
       object-fit: cover;
     }
- 
-    /* FOOTER */
+
+    /* RODAPÉ */
     footer {
+      background: var(--dark-bg);
+      color: var(--text-white);
+      padding: 2rem 0;
       text-align: center;
-      padding: 2rem 1.5rem;
-      border-top: 1px solid #e5e7eb;
-      color: #999;
       font-size: 0.875rem;
+      border-top: 1px solid rgba(255,255,255,0.1);
     }
- 
-    /* ADMIN */
-    #admin-btn {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      background: var(--primary-purple);
-      color: white;
-      border: none;
-      padding: 10px 16px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-size: 12px;
-      z-index: 999;
-    }
- 
+
+    /* ADMIN PANEL */
     #admin-panel {
       display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
       width: 100%;
-      min-height: 100vh;
-      background: #f3f4f6;
+      height: 100%;
+      background: #f9fafb;
+      z-index: 1000;
+      overflow-y: auto;
     }
- 
+
     .admin-header {
       background: white;
-      padding: 1rem 1.5rem;
-      border-bottom: 1px solid #e5e7eb;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
- 
-    .admin-content {
-      display: flex;
-      min-height: calc(100vh - 60px);
-    }
- 
-    .admin-sidebar {
-      flex: 0 0 240px;
-      background: white;
-      border-right: 1px solid #e5e7eb;
-      padding: 1.5rem;
-      overflow-y: auto;
-    }
- 
-    .admin-tab {
-      width: 100%;
-      padding: 10px 12px;
-      margin-bottom: 6px;
-      border: 1px solid #e5e7eb;
-      background: white;
-      cursor: pointer;
-      border-radius: 6px;
-      font-size: 12px;
-      text-align: left;
-      transition: all 0.2s;
-    }
- 
-    .admin-tab.active {
-      background: var(--primary-purple);
-      color: white;
-      border-color: var(--primary-purple);
-    }
- 
-    .admin-editor {
-      flex: 1;
       padding: 2rem;
-      overflow-y: auto;
-      background: white;
-      margin: 1rem;
-      border-radius: 8px;
-    }
- 
-    .edit-group {
-      margin-bottom: 1.5rem;
-    }
- 
-    .edit-group label {
-      display: block;
-      font-size: 12px;
-      color: #666;
-      font-weight: 600;
-      margin-bottom: 6px;
-    }
- 
-    .edit-group input,
-    .edit-group textarea,
-    .edit-group select {
-      width: 100%;
-      padding: 10px;
-      border: 1px solid #e5e7eb;
-      border-radius: 6px;
-      font-size: 13px;
-      font-family: inherit;
-    }
- 
-    .edit-group textarea {
-      resize: vertical;
-      min-height: 80px;
-    }
- 
-    .btn-admin {
-      background: var(--primary-purple);
-      color: white;
-      padding: 10px 16px;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      font-size: 13px;
-      width: 100%;
-      margin-bottom: 1rem;
-      font-weight: 600;
-    }
- 
-    .btn-admin:hover {
-      background: #6d28d9;
-    }
- 
-    .btn-danger {
-      background: var(--primary-red);
-    }
- 
-  /* LOGIN / AUTENTICAÇÃO */
-  #login-modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.7);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 10000;
-  }
-  
-  .login-container {
-    background: white;
-    padding: 2rem;
-    border-radius: 12px;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
-    max-width: 400px;
-    width: 90%;
-  }
-  
-  .login-container h2 {
-    margin-bottom: 1.5rem;
-    color: #0f172a;
-  }
-  
-  .login-container input {
-    width: 100%;
-    padding: 12px;
-    border: 2px solid #e5e7eb;
-    border-radius: 8px;
-    font-size: 16px;
-    margin-bottom: 1rem;
-  }
-  
-  .login-container input:focus {
-    outline: none;
-    border-color: var(--primary-purple);
-    box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.1);
-  }
-  
-  .login-buttons {
-    display: flex;
-    gap: 1rem;
-  }
-  
-  .login-buttons button {
-    flex: 1;
-    padding: 12px;
-    border: none;
-    border-radius: 8px;
-    font-size: 14px;
-    cursor: pointer;
-    font-weight: 600;
-  }
-  
-  .btn-login {
-    background: var(--primary-purple);
-    color: white;
-  }
-  
-  .btn-login:hover {
-    background: #6d28d9;
-  }
-  
-  .btn-cancel {
-    background: #e5e7eb;
-    color: #666;
-  }
-  
-  .btn-cancel:hover {
-    background: #d1d5db;
-  }
-  
-  .login-message {
-    color: #ef4444;
-    font-size: 0.875rem;
-    margin-bottom: 1rem;
-    text-align: center;
-  }
-  
-  .login-success {
-    color: var(--primary-green);
-  }
-  
-  .admin-header-auth {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 1rem;
-    padding-bottom: 1rem;
-    border-bottom: 2px solid #e5e7eb;
-  }
-  
-  .user-info {
-    font-size: 0.875rem;
-    color: #666;
-  }
-  
-  .btn-logout {
-    background: #ef4444;
-    color: white;
-    padding: 8px 16px;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 0.875rem;
-    font-weight: 600;
-  }
-  
-  .btn-logout:hover {
-    background: #dc2626;
-  }
- 
-    @media (max-width: 768px) {
-      h1 { font-size: 2rem; }
-      h2 { font-size: 1.75rem; }
-      .step-card { grid-template-columns: 1fr; }
-      .creator-content { grid-template-columns: 1fr; }
-      .bonus-card { grid-template-columns: 1fr; }
-    }
-  </style>
-</head>
-<body>
- 
-<!-- LANDING PAGE -->
-<div id="landing">
-  <!-- HERO -->
-  <section id="hero">
-    <div class="container">
-      <p class="hero-subtitle">● transformação corporal</p>
-      <div class="hero-title-wrapper">
-        <span class="hero-title-line1">Consultoria Online</span>
-        <span class="hero-title-line2" id="hero-title">Bruna Affonso</span>
-      </div>
-      <p id="hero-desc" style="font-size: 1.125rem; color: #666; margin-bottom: 1.5rem;">Treinamento personalizado com foco em resultados reais e transformação do seu corpo</p>
-      
-      <!-- VIDEO -->
-      <div id="video-hero" style="max-width: 450px; margin: 1.5rem auto; border-radius: 12px; overflow: hidden; display: none;">
-        <div style="width: 100%; padding-bottom: 56.25%; position: relative; background: #000;">
-          <iframe id="video-frame-hero" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;" src="" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-        </div>
-      </div>
-      
-      <p id="after-video-text" style="text-align: center; color: #666; font-size: 1.125rem; margin: 1.5rem 0;"></p>
- 
-      <button class="btn" id="cta-hero">Quero começar meu treino personalizado</button>
-    </div>
-  </section>
- 
-  <!-- SOCIAL PROOF -->
-  <section>
-    <div class="container">
-      <p style="text-align: center; color: #999; font-size: 0.875rem; margin-bottom: 1rem;">● RESULTADOS REAIS</p>
-      <p id="proof-intro" style="text-align: center; color: #666; font-size: 1.125rem; margin-bottom: 2rem; line-height: 1.6;"></p>
-      <div class="proof-cards" id="proof-cards"></div>
-      <p id="proof-comum" style="text-align: center; color: #666; font-size: 1rem; margin: 2rem 0; line-height: 1.8;"></p>
-      <div style="text-align: center; margin-top: 2rem;">
-        <button class="btn" id="cta-proof">Quero aplicar e ter resultados hoje</button>
-      </div>
-    </div>
-  </section>
- 
-  <!-- O MÉTODO / DIFERENCIAIS -->
-  <section>
-    <div class="container">
-      <p style="text-align: center; color: #999; font-size: 0.875rem; margin-bottom: 1rem;">● O MÉTODO</p>
-      <h2 id="metodo-title" style="text-align: center;">A consultoria BA é a única consultoria que te ensina a treinar</h2>
-      <p style="text-align: center; color: #666; margin-bottom: 2rem;">Permitindo que você tenha além de resultados, independência na academia e se sinta segura treinando.</p>
-      <div class="diferenciais-grid" id="diferenciais"></div>
-      <div style="text-align: center; margin-top: 3rem;">
-        <div id="metodo-images" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;"></div>
-      </div>
-    </div>
-  </section>
- 
-  <!-- PERSONAS / FUNCIONA PARA VOCÊ SE -->
-  <section>
-    <div class="container">
-      <p style="text-align: center; color: #999; font-size: 0.875rem; margin-bottom: 1rem;">● PARA QUEM</p>
-      <h2 id="personas-intro" style="text-align: center;"></h2>
-      <div class="personas-grid" id="personas"></div>
-      <p id="personas-outro" style="text-align: center; color: #666; margin-top: 2rem; font-size: 1rem;"></p>
-      <div style="text-align: center; margin-top: 2rem;">
-        <button class="btn" id="cta-personas">Quero dar o primeiro passo em direção ao meu objetivo</button>
-      </div>
-    </div>
-  </section>
-  
-  <!-- DIVERTIDO TEXT -->
-  <section style="background: #f8f9fa; padding: 2rem 0;">
-    <div class="container">
-      <p id="divertido-text" style="text-align: center; color: #666; font-size: 1.125rem;"></p>
-    </div>
-  </section>
- 
-  <!-- COMO FUNCIONA NA PRÁTICA -->
-  <section id="funciona">
-    <div class="container">
-      <p style="text-align: center; color: #999; font-size: 0.875rem; margin-bottom: 1rem;">● COMO FUNCIONA</p>
-      <h2 style="text-align: center;">Como funciona <span style="color: var(--primary-pink);">na prática?</span></h2>
-      <div class="steps-container" id="steps"></div>
-      <div style="text-align: center; margin-top: 2rem;">
-        <button class="btn" id="cta-steps">Quero fazer parte do time!</button>
-      </div>
-    </div>
-  </section>
- 
-  <!-- BONUS -->
-  <section id="bonus">
-    <div class="container">
-      <p style="text-align: center; color: #999; font-size: 0.875rem; margin-bottom: 1rem;">● BÔNUS</p>
-      <h2 id="bonus-intro" style="text-align: center;"></h2>
-      <div class="bonus-cards" id="bonus-cards"></div>
-    </div>
-  </section>
- 
-  <!-- PRECO -->
-  <section id="preco">
-    <div class="container">
-      <p style="text-align: center; color: #999; font-size: 0.875rem; margin-bottom: 1rem;">● INVESTIMENTO</p>
-      <h2 style="text-align: center;">Quanto custa começar:</h2>
-      
-      <div class="price-highlight">
-        <p class="price-tag"><strong id="price-intro">Treino Personalizado com Avaliação Completa</strong></p>
-        <div class="price-main" id="price-main">R$97</div>
-        <p class="price-subtext" id="price-subtext">primeira sessão com avaliação física</p>
-        <button class="btn btn-block" id="cta-price-button">Quero garantir meu acesso completo agora</button>
-        <p style="font-size: 0.75rem; color: #999; margin-top: 1rem;">Depois, você escolhe o plano que combina com você</p>
-      </div>
- 
-      <div style="max-width: 600px; margin: 2rem auto; background: white; border-radius: 12px; padding: 1.5rem; border: 1px solid #e5e7eb;">
-        <h3 style="text-align: center; margin-bottom: 1.5rem;">Planos Disponíveis:</h3>
-        <table class="price-table" id="price-table"></table>
-      </div>
-    </div>
-  </section>
- 
-  <!-- GARANTIA -->
-  <section>
-    <div class="container">
-      <p style="text-align: center; color: #999; font-size: 0.875rem; margin-bottom: 1rem;">● GARANTIA</p>
-      <h2 style="text-align: center;">Seu resultado é garantido</h2>
-      
-      <div class="guarantee-badge">
-        <div class="guarantee-seal">✓</div>
-        <p class="guarantee-title">Satisfação garantida</p>
-        <p class="guarantee-text">Se após 30 dias de treinamento consistente você não estiver satisfeito com os resultados, nós devolvemos 100% do seu investimento. Sem perguntas.</p>
-      </div>
-    </div>
-  </section>
- 
-  <!-- FAQ -->
-  <section id="faq">
-    <div class="container">
-      <h2>Dúvidas? Temos as respostas</h2>
-      <div class="faq-container" id="faq-container"></div>
-    </div>
-  </section>
- 
-  <!-- CLOSE FINAL -->
-  <section style="background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%); padding: 4rem 0; text-align: center;">
-    <div class="container">
-      <h2 id="close-decision" style="margin-bottom: 1.5rem;"></h2>
-      <p id="close-negative" style="color: #666; font-size: 1rem; margin-bottom: 2rem; line-height: 1.8;"></p>
-      <p id="close-positive" style="color: #22c55e; font-size: 1rem; margin-bottom: 2rem; line-height: 1.8;"></p>
-      <h3 id="close-call" style="color: var(--primary-purple); margin-bottom: 1.5rem;"></h3>
-      <button class="btn" id="close-button" style="font-size: 1.1rem; padding: 15px 40px;">Comece agora!</button>
-    </div>
-  </section>
- 
-  <!-- CRIADOR -->
-  <section id="creator" style="background: white;">
-    <div class="container">
-      <p style="text-align: center; color: #999; font-size: 0.875rem; margin-bottom: 1rem;">● CRIADOR</p>
-      <h2 style="text-align: center; color: #0f172a;">CONHEÇA A BRUNA AFFONSO</h2>
-      <div class="creator-content">
-        <div class="creator-info">
-          <h3 id="creator-name">Bruna Affonso</h3>
-          <p class="creator-desc" id="creator-desc">Personal Trainer especializada em transformação corporal</p>
-          <div class="creator-stats" id="creator-stats"></div>
-        </div>
-        <img id="creator-image-display" class="creator-image" src="" style="width: 100%; height: 300px; border-radius: 12px; object-fit: cover;">
-      </div>
-    </div>
-  </section>
- 
-  <!-- RODAPÉ -->
-  <footer id="footer">
-    © 2026 Bruna Affonso - Personal Trainer. Todos os direitos reservados.
-  </footer>
- 
-  <button id="admin-btn">⚙ Admin</button>
-</div>
- 
-<!-- LOGIN MODAL -->
-<div id="login-modal" style="display: none;">
-  <div class="login-container">
-    <h2>🔐 Acesso Administrativo</h2>
-    <div id="login-message" class="login-message"></div>
-    
-    <div id="login-form-step">
-      <p style="color: #666; margin-bottom: 1rem; font-size: 0.875rem;">Digite o código de acesso para entrar no painel administrativo:</p>
-      <input type="password" id="login-code" placeholder="Digite o código" style="margin-bottom: 0.5rem;">
-      <div class="login-buttons">
-        <button class="btn-login" onclick="verifyLoginCode()">Entrar</button>
-        <button class="btn-cancel" onclick="closeLoginModal()">Cancelar</button>
-      </div>
-    </div>
-    
-    <div id="register-form-step" style="display: none;">
-      <p style="color: #666; margin-bottom: 1rem; font-size: 0.875rem;">Crie sua senha de acesso pessoal (mínimo 4 caracteres):</p>
-      <input type="password" id="register-password" placeholder="Crie uma senha" style="margin-bottom: 0.5rem;">
-      <input type="password" id="register-password-confirm" placeholder="Confirme a senha" style="margin-bottom: 0.5rem;">
-      <div class="login-buttons">
-        <button class="btn-login" onclick="registerPassword()">Criar Senha</button>
-        <button class="btn-cancel" onclick="skipRegistration()">Pular</button>
-      </div>
-    </div>
-  </div>
-</div>
- 
-<!-- ADMIN PANEL -->
-<div id="admin-panel">
-  <div class="admin-header">
-    <div>
-      <h3 style="margin: 0;">🔐 Painel Administrativo - Bruna Affonso</h3>
-      <div class="user-info" style="margin-top: 0.5rem; font-size: 0.875rem; color: var(--primary-green);">✓ Logado no painel administrativo</div>
-    </div>
-    <div style="display: flex; gap: 1rem;">
-      <button class="btn-logout" onclick="logout()">🚪 Logout</button>
-      <button class="btn-admin" onclick="closeAdmin()">← Voltar</button>
-    </div>
-  </div>
- 
-  <div class="admin-content">
-    <div class="admin-sidebar">
-      <button class="admin-tab active" onclick="switchAdminTab('hero')">Hero</button>
-      <button class="admin-tab" onclick="switchAdminTab('proof')">Social Proof</button>
-      <button class="admin-tab" onclick="switchAdminTab('diferenciais')">Diferenciais</button>
-      <button class="admin-tab" onclick="switchAdminTab('metodo')">Imagens Método</button>
-      <button class="admin-tab" onclick="switchAdminTab('steps')">Como Funciona</button>
-      <button class="admin-tab" onclick="switchAdminTab('personas')">Personas</button>
-      <button class="admin-tab" onclick="switchAdminTab('bonus')">Bônus</button>
-      <button class="admin-tab" onclick="switchAdminTab('preco')">Preço</button>
-      <button class="admin-tab" onclick="switchAdminTab('faq')">FAQ</button>
-      <button class="admin-tab" onclick="switchAdminTab('creator')">Criador</button>
-      <button class="admin-tab" onclick="switchAdminTab('settings')">Config</button>
-    </div>
- 
-    <div class="admin-editor">
-      <div id="admin-hero-tab" class="admin-tab-content">
-        <h2>🎬 Hero Section</h2>
-        
-        <div class="edit-group">
-          <label>📹 URL DO VÍDEO (YouTube/Vimeo) - OPCIONAL</label>
-          <input type="url" id="video-url-hero" placeholder="https://www.youtube.com/embed/XXXXX" onchange="updateState()">
-          <p style="font-size: 11px; color: #999; margin-top: 0.5rem;">Deixe em branco se não quiser vídeo. Se quiser, copie a URL do embed.</p>
-        </div>
- 
-        <div class="edit-group">
-          <label>Título Principal</label>
-          <input type="text" id="hero-title-input" onchange="updateState()">
-        </div>
-        <div class="edit-group">
-          <label>Descrição</label>
-          <textarea id="hero-desc-input" onchange="updateState()"></textarea>
-        </div>
-        <div class="edit-group">
-          <label>Texto do Botão Verde</label>
-          <input type="text" id="cta-hero-text" onchange="updateState()">
-        </div>
-        <div class="edit-group">
-          <label>Link de Contato (WhatsApp, Email, etc)</label>
-          <input type="url" id="checkout-url" onchange="updateState()">
-        </div>
-      </div>
- 
-      <div id="admin-proof-tab" class="admin-tab-content" style="display:none;">
-        <h2>Depoimentos de Clientes</h2>
-        <div id="proof-editor"></div>
-        <button class="btn-admin" onclick="addProof()">+ Adicionar Depoimento</button>
-      </div>
- 
-      <div id="admin-diferenciais-tab" class="admin-tab-content" style="display:none;">
-        <h2>Benefícios/Diferenciais</h2>
-        <div id="diferenciais-editor"></div>
-        <button class="btn-admin" onclick="addDiferencial()">+ Adicionar Benefício</button>
-      </div>
- 
-      <div id="admin-metodo-tab" class="admin-tab-content" style="display:none;">
-        <h2>Imagens do Método</h2>
-        <p style="color: #666; margin-bottom: 1.5rem;">Adicione as 2 imagens das aulas da consultoria</p>
-        <div id="metodo-editor"></div>
-      </div>
- 
-      <div id="admin-steps-tab" class="admin-tab-content" style="display:none;">
-        <h2>Etapas do Treinamento</h2>
-        <div id="steps-editor"></div>
-        <button class="btn-admin" onclick="addStep()">+ Adicionar Etapa</button>
-      </div>
- 
-      <div id="admin-personas-tab" class="admin-tab-content" style="display:none;">
-        <h2>Para Quem Funciona</h2>
-        <div id="personas-editor"></div>
-        <button class="btn-admin" onclick="addPersona()">+ Adicionar Persona</button>
-      </div>
- 
-      <div id="admin-bonus-tab" class="admin-tab-content" style="display:none;">
-        <h2>Bônus Iniciais</h2>
-        <div id="bonus-editor"></div>
-        <button class="btn-admin" onclick="addBonus()">+ Adicionar Bônus</button>
-      </div>
- 
-      <div id="admin-preco-tab" class="admin-tab-content" style="display:none;">
-        <h2>Preço & Planos</h2>
-        <div class="edit-group">
-          <label>Introdução do Preço</label>
-          <input type="text" id="price-intro" onchange="updateState()">
-        </div>
-        <div class="edit-group">
-          <label>Preço da Primeira Sessão</label>
-          <input type="text" id="price-main" onchange="updateState()">
-        </div>
-        <div class="edit-group">
-          <label>Descrição da Primeira Sessão</label>
-          <input type="text" id="price-subtext" onchange="updateState()">
-        </div>
-        <div id="plans-editor" style="margin-top: 1.5rem;">
-          <h3>Planos Mensais</h3>
-        </div>
-      </div>
- 
-      <div id="admin-faq-tab" class="admin-tab-content" style="display:none;">
-        <h2>Perguntas Frequentes</h2>
-        <div id="faq-editor"></div>
-        <button class="btn-admin" onclick="addFaq()">+ Adicionar Pergunta</button>
-      </div>
- 
-      <div id="admin-creator-tab" class="admin-tab-content" style="display:none;">
-        <h2>Sobre a Bruna</h2>
-        
-        <div class="edit-group">
-          <label>📸 FOTO DA BRUNA</label>
-          <input type="file" id="creator-image-upload" accept="image/*" onchange="uploadImage('creator')" style="padding: 8px; border: 2px dashed #e5e7eb; cursor: pointer;">
-          <p style="font-size: 11px; color: #999; margin-top: 0.5rem;">Clique para escolher uma foto (JPG, PNG)</p>
-          <div id="creator-image-preview" style="margin-top: 1rem; text-align: center;">
-            <img id="creator-image-preview-img" style="max-width: 200px; max-height: 200px; border-radius: 8px; display: none;">
-          </div>
-        </div>
- 
-        <div class="edit-group">
-          <label>Nome Completo</label>
-          <input type="text" id="creator-name-input" onchange="updateState()">
-        </div>
-        <div class="edit-group">
-          <label>Descrição/Especialidade</label>
-          <textarea id="creator-desc-input" onchange="updateState()"></textarea>
-        </div>
-        <div class="edit-group">
-          <label>Anos de Experiência</label>
-          <input type="text" id="creator-years" onchange="updateState()">
-        </div>
-        <div class="edit-group">
-          <label>Clientes Transformados</label>
-          <input type="text" id="creator-followers" onchange="updateState()">
-        </div>
-      </div>
- 
-      <div id="admin-settings-tab" class="admin-tab-content" style="display:none;">
-        <h2>Configurações</h2>
-        <div class="edit-group">
-          <label>Email/WhatsApp para Contato</label>
-          <input type="text" id="contact-email" onchange="updateState()">
-        </div>
-        <div class="edit-group">
-          <label>Texto do Rodapé</label>
-          <input type="text" id="footer-text" onchange="updateState()">
-        </div>
-        <button class="btn-admin" onclick="exportHTML()">📥 Exportar HTML para Cloudflare</button>
-        <button class="btn-admin btn-danger" onclick="clearAll()">🗑 Limpar Tudo</button>
-      </div>
-    </div>
-  </div>
-</div>
- 
-<script>
-const DEFAULT_DATA = {
-  videoUrlHero: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
-  heroTitle: 'Bruna Affonso',
-  heroDesc: 'Se você tenta, mas não vê o resultado que você quer no espelho, o problema pode estar em COMO você está treinando.\n\nToque no play e descubra como finalmente transformar seu corpo',
-  ctaHeroText: 'Quero começar a consultoria agora!',
-  checkoutUrl: 'https://exemplo.com/checkout',
-  
-  afterVideoText: 'Você acabou de ver como transformar seu corpo aprendendo a treinar e tendo todo o suporte e acompanhamento que garante o sucesso.\n\nVocê será a próxima!',
-  
-  proofIntro: 'A consultoria BA coloca em suas mãos todos os recursos para você ter resultados como esse:',
-  
-  proof: [
-    { title: 'Resultado 1', desc: 'Pessoa normal com rotina real | Sem dieta milagrosa | Investiu em si mesma | Aplicou os treinos com orientação certa', image: '' },
-    { title: 'Resultado 2', desc: 'Pessoa normal com rotina real | Sem dieta milagrosa | Investiu em si mesma | Aplicou os treinos com orientação certa', image: '' },
-    { title: 'Resultado 3', desc: 'Pessoa normal com rotina real | Sem dieta milagrosa | Investiu em si mesma | Aplicou os treinos com orientação certa', image: '' },
-    { title: 'Resultado 4', desc: 'Pessoa normal com rotina real | Sem dieta milagrosa | Investiu em si mesma | Aplicou os treinos com orientação certa', image: '' },
-    { title: 'Resultado 5', desc: 'Pessoa normal com rotina real | Sem dieta milagrosa | Investiu em si mesma | Aplicou os treinos com orientação certa', image: '' },
-    { title: 'Resultado 6', desc: 'Pessoa normal com rotina real | Sem dieta milagrosa | Investiu em si mesma | Aplicou os treinos com orientação certa', image: '' }
-  ],
-  
-  proofComum: 'E elas têm algo em comum:\n\nSão pessoas normais com rotinas reais\nNão fazem dieta nem treino "milagroso"\nInvestiram em si mesmas\nApenas aplicando os treinos feitos para elas com a orientação certa',
-  
-  ctaProofText: 'Quero aplicar e ter resultados hoje',
-  
-  diferenciais: [
-    { text: '📚 A única consultoria que te ensina a treinar', icon: '📚' },
-    { text: '💪 Você tem além de resultados, independência na academia', icon: '💪' },
-    { text: '✨ Se sinta segura treinando sozinha', icon: '✨' }
-  ],
-  
-  metodImages: [
-    { url: '', title: 'Aula 1 da Consultoria' },
-    { url: '', title: 'Aula 2 da Consultoria' }
-  ],
-  
-  personasIntro: 'Funciona para você se:',
-  personasOutro: 'Funciona independente da sua situação atual - daqui para frente você tem a chance de mudar!',
-  
-  personas: [
-    { text: '⏱️ Tem pouco tempo' },
-    { text: '🆕 Nunca treinou' },
-    { text: '📊 Está estagnada' },
-    { text: '🔄 Já tentou de tudo' },
-    { text: '✈️ Viaja muito' },
-    { text: '🏆 Quer se olhar com orgulho' }
-  ],
-  
-  divertidoText: 'Treinar pode ser muito mais divertido do que você imagina.',
-  
-  steps: [
-    { num: 1, title: 'Aulas Gravadas', desc: 'Ensinando como treinar corretamente, no seu tempo' },
-    { num: 2, title: 'Acompanhamento Personalizado', desc: 'Suporte contínuo e orientação específica para você' },
-    { num: 3, title: 'Correção de Exercícios', desc: 'Feedback detalhado sobre sua forma e técnica' },
-    { num: 4, title: 'Avaliação e Progresso', desc: 'Acompanhamento mensal do seu desenvolvimento' },
-    { num: 5, title: 'Desafios e Parcerias', desc: 'Comunidade engajada com desafios mensais' },
-    { num: 6, title: 'Treinos Bônus', desc: 'Para viagens, imprevistos e adaptações' }
-  ],
-  
-  ctaStepsText: 'Quero fazer parte do time!',
-  
-  bonus: [
-    { title: 'Kit de Boas-vindas', desc: 'Material completo para começar sua jornada', value: 'Incluso' },
-    { title: '1 Aula Presencial Comigo', desc: 'Sessão ao vivo para avaliação e orientação', value: 'Incluso' },
-    { title: 'Aula Bônus de Rotina Saudável', desc: 'Como construir uma rotina eficiente e sustentável', value: 'Incluso' }
-  ],
-  
-  bonusIntro: 'Ao entrar agora você ainda leva',
-  
-  priceIntro: 'Garanta sua vaga agora por apenas',
-  priceMain: '6x R$ 219,00',
-  priceSubtext: 'ou R$ 1.314 à vista com desconto',
-  ctaPriceText: 'Quero garantir meu acesso completo agora',
-  
-  plans: [
-    { name: 'Consultoria Completa', price: 'R$ 219,00/mês', desc: 'Aulas + Acompanhamento + Suporte + Bônus' }
-  ],
-  
-  faq: [
-    { q: 'Funciona para quem nunca treinou musculação?', a: 'Sim! A consultoria foi especialmente desenvolvida para quem está começando. Você aprenderá desde o básico com segurança e orientação.' },
-    { q: 'Tem aula presencial?', a: 'Sim! Ao entrar na consultoria você ganha 1 aula presencial comigo para avaliação e orientação personalizada.' },
-    { q: 'Como vou conseguir evoluir sozinha?', a: 'Você aprenderá as técnicas corretas através das aulas gravadas, terá acompanhamento constante e feedback detalhado dos seus exercícios.' },
-    { q: 'Preciso filmar os exercícios?', a: 'Sim, filmar seus exercícios é importante para que eu possa corrigir e orientar sua técnica de forma precisa.' },
-    { q: 'Funciona para quem quer emagrecer? E para ganhar massa muscular?', a: 'Funciona para os dois! Os treinos são adaptados ao seu objetivo específico, seja emagrecimento ou ganho de massa.' },
-    { q: 'Tenho uma lesão ou patologia. Qual a conduta?', a: 'Comunicar sobre lesões é essencial. Desenvolveremos um programa adaptado ou você poderá buscar orientação médica primeiro.' },
-    { q: 'E se eu não gostar?', a: 'Você tem 30 dias de garantia satisfação. Se não gostar, devolvemos 100% do seu investimento, sem complicações.' },
-    { q: 'Como funciona o acesso?', a: 'Você recebe acesso imediato a todas as aulas, comunidade privada, acompanhamento mensal e suporte via WhatsApp.' },
-    { q: 'Quais formas de pagamento?', a: 'Aceitamos PIX, cartão de crédito (parcelado em até 6x) e transferência bancária. Você escolhe a melhor opção para você.' }
-  ],
-  
-  closeDecision: 'A decisão é sua.',
-  closeNegative: 'Você pode fechar essa página e continuar sua vida do mesmo jeito - insatisfeita com o próprio corpo, tentando adivinhar o que funciona e se perguntando por que todo mundo tem resultado menos você.',
-  closePositive: 'Ou pode entrar agora na consultoria BA, aprender a treinar, ter o treino que funciona para você e transformar sua vida e seu corpo.',
-  closeCall: 'Vem comigo em direção ao que você sempre quis!',
-  closeButton: 'Comece agora!',
-  
-  creatorName: 'Bruna Affonso',
-  creatorDesc: 'Personal Trainer | Especialista em Transformação Corporal | Apaixonada por ensinar mulheres a treinar com segurança e confiança | Mais de 10 anos dedicados a transformar vidas através do treinamento inteligente',
-  creatorYears: '10+',
-  creatorFollowers: '5000+',
-  creatorImage: 'https://via.placeholder.com/300x300?text=Bruna+Affonso',
-  
-  contactEmail: 'bruna@consultoriaba.com',
-  footerText: '© 2024 Consultoria BA - Transformando corpos e vidas através do treinamento inteligente'
-};
- 
-let state = JSON.parse(localStorage.getItem('brunaffPersonalPageData')) || JSON.parse(JSON.stringify(DEFAULT_DATA));
- 
-function saveState() {
-  localStorage.setItem('brunaffPersonalPageData', JSON.stringify(state));
-}
- 
-function updateState() {
-  state.videoUrlHero = document.getElementById('video-url-hero')?.value || state.videoUrlHero;
-  state.heroTitle = document.getElementById('hero-title-input')?.value || state.heroTitle;
-  state.heroDesc = document.getElementById('hero-desc-input')?.value || state.heroDesc;
-  state.ctaHeroText = document.getElementById('cta-hero-text')?.value || state.ctaHeroText;
-  state.checkoutUrl = document.getElementById('checkout-url')?.value || state.checkoutUrl;
-  state.priceIntro = document.getElementById('price-intro')?.value || state.priceIntro;
-  state.priceMain = document.getElementById('price-main')?.value || state.priceMain;
-  state.priceSubtext = document.getElementById('price-subtext')?.value || state.priceSubtext;
-  state.creatorName = document.getElementById('creator-name-input')?.value || state.creatorName;
-  state.creatorDesc = document.getElementById('creator-desc-input')?.value || state.creatorDesc;
-  state.creatorYears = document.getElementById('creator-years')?.value || state.creatorYears;
-  state.creatorFollowers = document.getElementById('creator-followers')?.value || state.creatorFollowers;
-  state.contactEmail = document.getElementById('contact-email')?.value || state.contactEmail;
-  state.footerText = document.getElementById('footer-text')?.value || state.footerText;
- 
-  saveState();
-  renderPage();
-}
- 
-function renderPage() {
-  // Hero - Video
-  const videoHero = document.getElementById('video-hero');
-  const videoFrameHero = document.getElementById('video-frame-hero');
-  if (state.videoUrlHero && state.videoUrlHero.trim() !== '') {
-    videoFrameHero.src = state.videoUrlHero;
-    videoHero.style.display = 'block';
-  } else {
-    videoHero.style.display = 'none';
-  }
-  
-  // Hero - Text
-  if (document.getElementById('hero-title')) {
-    document.getElementById('hero-title').innerHTML = state.heroTitle;
-  }
-  if (document.getElementById('hero-desc')) {
-    document.getElementById('hero-desc').innerHTML = state.heroDesc.replace(/\n/g, '<br>');
-  }
-  if (document.getElementById('cta-hero')) {
-    document.getElementById('cta-hero').textContent = state.ctaHeroText;
-    document.getElementById('cta-hero').onclick = () => window.location.href = state.checkoutUrl;
-  }
-  
-  // After Video Text
-  if (document.getElementById('after-video-text')) {
-    document.getElementById('after-video-text').innerHTML = state.afterVideoText.replace(/\n/g, '<br>');
-  }
- 
-  // Social Proof
-  if (document.getElementById('proof-intro')) {
-    document.getElementById('proof-intro').innerHTML = state.proofIntro.replace(/\n/g, '<br>');
-  }
-  document.getElementById('proof-cards').innerHTML = state.proof.map(p => `
-    <div class="proof-card">
-      ${p.image ? `<img src="${p.image}" style="width: 100%; height: 200px; object-fit: cover; border-radius: 8px; margin-bottom: 1rem;">` : ''}
-      <div class="proof-card-title">${p.title}</div>
-      <div class="proof-card-desc">${p.desc}</div>
-      <div class="proof-card-footer">
-        <div class="proof-avatar"></div>
-        <span style="font-size: 0.875rem;">Cliente Bruna</span>
-      </div>
-    </div>
-  `).join('');
-  
-  if (document.getElementById('proof-comum')) {
-    document.getElementById('proof-comum').innerHTML = state.proofComum.replace(/\n/g, '<br>');
-  }
-  
-  if (document.getElementById('cta-proof')) {
-    document.getElementById('cta-proof').textContent = state.ctaProofText;
-    document.getElementById('cta-proof').onclick = () => window.location.href = state.checkoutUrl;
-  }
- 
-  // Diferenciais
-  if (document.getElementById('diferenciais')) {
-    document.getElementById('diferenciais').innerHTML = state.diferenciais.map(d => `
-      <div class="diferencial-card">
-        <div class="diferencial-icon">${d.icon}</div>
-        <div class="diferencial-text">${d.text}</div>
-      </div>
-    `).join('');
-  }
- 
-  // Método Images
-  if (document.getElementById('metodo-images')) {
-    document.getElementById('metodo-images').innerHTML = state.metodImages.map((img, i) => `
-      <div style="border-radius: 12px; overflow: hidden; background: #f0f0f0; aspect-ratio: 16/9;">
-        ${img.url ? `<img src="${img.url}" style="width: 100%; height: 100%; object-fit: cover;" alt="${img.title}">` : `<div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: #e5e5e5; color: #999; font-size: 0.875rem;">📸 ${img.title}</div>`}
-      </div>
-    `).join('');
-  }
- 
-  // Steps
-  if (document.getElementById('steps')) {
-    document.getElementById('steps').innerHTML = state.steps.map(s => `
-      <div class="step-card">
-        <div>
-          <div class="step-badge">ETAPA ${s.num}</div>
-          <h3 class="step-title">${s.title}</h3>
-          <p class="step-desc">${s.desc}</p>
-          <div class="step-checks">
-            <div class="check-item"><span class="check-icon">✓</span> Estruturado e planejado</div>
-            <div class="check-item"><span class="check-icon">✓</span> Com total acompanhamento</div>
-          </div>
-        </div>
-        <div class="step-image">Imagem da Etapa ${s.num}</div>
-      </div>
-    `).join('');
-  }
- 
-  // Personas
-  if (document.getElementById('personas-intro')) {
-    document.getElementById('personas-intro').textContent = state.personasIntro;
-  }
-  
-  document.getElementById('personas').innerHTML = state.personas.map(p => `
-    <div class="persona-card">
-      <div class="persona-check">✓</div>
-      <div class="persona-text">${p.text}</div>
-    </div>
-  `).join('');
-  
-  if (document.getElementById('personas-outro')) {
-    document.getElementById('personas-outro').textContent = state.personasOutro;
-  }
-  
-  if (document.getElementById('cta-personas')) {
-    document.getElementById('cta-personas').textContent = 'Quero dar o primeiro passo em direção ao meu objetivo';
-    document.getElementById('cta-personas').onclick = () => window.location.href = state.checkoutUrl;
-  }
-  
-  // Divertido Text
-  if (document.getElementById('divertido-text')) {
-    document.getElementById('divertido-text').textContent = state.divertidoText;
-  }
- 
-  // CTA Steps
-  if (document.getElementById('cta-steps')) {
-    document.getElementById('cta-steps').textContent = state.ctaStepsText;
-    document.getElementById('cta-steps').onclick = () => window.location.href = state.checkoutUrl;
-  }
- 
-  // Bonus Intro
-  if (document.getElementById('bonus-intro')) {
-    document.getElementById('bonus-intro').textContent = state.bonusIntro;
-  }
- 
-  // Bonus
-  if (document.getElementById('bonus-cards')) {
-    document.getElementById('bonus-cards').innerHTML = state.bonus.map((b, i) => `
-      <div class="bonus-card">
-        <div>
-          <div class="bonus-badge">BÔNUS ${i + 1}</div>
-          <h3 class="bonus-title">${b.title}</h3>
-          <p class="bonus-desc">${b.desc}</p>
-          <p class="bonus-value">${b.value}</p>
-        </div>
-        <div class="bonus-image">Imagem</div>
-      </div>
-    `).join('');
-  }
- 
-  // Preço
-  if (document.getElementById('price-intro')) {
-    document.getElementById('price-intro').textContent = state.priceIntro;
-  }
-  if (document.getElementById('price-main')) {
-    document.getElementById('price-main').textContent = state.priceMain;
-  }
-  if (document.getElementById('price-subtext')) {
-    document.getElementById('price-subtext').textContent = state.priceSubtext;
-  }
- 
-  if (document.getElementById('price-table')) {
-    document.getElementById('price-table').innerHTML = state.plans.map(p => `
-      <tr>
-        <td><strong>${p.name}</strong><br><span style="color: #999; font-size: 0.75rem;">${p.desc}</span></td>
-        <td><strong>${p.price}</strong></td>
-      </tr>
-    `).join('');
-  }
-  
-  // CTA Price
-  if (document.getElementById('cta-price-button')) {
-    document.getElementById('cta-price-button').textContent = state.ctaPriceText;
-    document.getElementById('cta-price-button').onclick = () => window.location.href = state.checkoutUrl;
-  }
- 
-  // FAQ
-  if (document.getElementById('faq-container')) {
-    document.getElementById('faq-container').innerHTML = state.faq.map(f => `
-      <div class="faq-item">
-        <div class="faq-question" onclick="toggleFaq(this)">
-          <span>${f.q}</span>
-          <span class="faq-toggle">+</span>
-        </div>
-        <div class="faq-answer">
-          <p>${f.a}</p>
-        </div>
-      </div>
-    `).join('');
-  }
-  
-  // Close Final
-  if (document.getElementById('close-decision')) {
-    document.getElementById('close-decision').textContent = state.closeDecision;
-  }
-  if (document.getElementById('close-negative')) {
-    document.getElementById('close-negative').innerHTML = state.closeNegative.replace(/\n/g, '<br>');
-  }
-  if (document.getElementById('close-positive')) {
-    document.getElementById('close-positive').innerHTML = state.closePositive.replace(/\n/g, '<br>');
-  }
-  if (document.getElementById('close-call')) {
-    document.getElementById('close-call').textContent = state.closeCall;
-  }
-  if (document.getElementById('close-button')) {
-    document.getElementById('close-button').textContent = state.closeButton;
-    document.getElementById('close-button').onclick = () => window.location.href = state.checkoutUrl;
-  }
- 
-  // Criador
-  if (document.getElementById('creator-name')) {
-    document.getElementById('creator-name').textContent = state.creatorName;
-  }
-  if (document.getElementById('creator-desc')) {
-    document.getElementById('creator-desc').textContent = state.creatorDesc;
-  }
-  if (document.getElementById('creator-image-display')) {
-    document.getElementById('creator-image-display').src = state.creatorImage;
-  }
-  if (document.getElementById('creator-stats')) {
-    document.getElementById('creator-stats').innerHTML = `
-      <div class="creator-stat">
-        <div class="stat-number">${state.creatorYears}</div>
-        <div class="stat-label">Experiência</div>
-      </div>
-      <div class="creator-stat">
-        <div class="stat-number">${state.creatorFollowers}</div>
-        <div class="stat-label">Clientes</div>
-      </div>
-      <div class="creator-stat">
-        <div class="stat-number">100%</div>
-        <div class="stat-label">Dedicação</div>
-      </div>
-    `;
-  }
- 
-  // Footer
-  if (document.getElementById('footer')) {
-    document.getElementById('footer').innerHTML = `${state.footerText}<br><a href="mailto:${state.contactEmail}" style="color: var(--primary-green); text-decoration: none;">Contato: ${state.contactEmail}</a>`;
-  }
-}
- 
-function toggleFaq(el) {
-  const answer = el.nextElementSibling;
-  answer.classList.toggle('active');
-  el.querySelector('.faq-toggle').textContent = answer.classList.contains('active') ? '−' : '+';
-}
- 
-function uploadImage(type, index = null) {
-  const input = document.getElementById(`${type}-image-upload${index !== null ? `-${index}` : ''}`);
-  const file = input.files[0];
-  
-  if (!file) return;
-  
-  const reader = new FileReader();
-  reader.onload = function(e) {
-    const base64 = e.target.result;
-    
-    if (type === 'creator') {
-      state.creatorImage = base64;
-      document.getElementById('creator-image-preview-img').src = base64;
-      document.getElementById('creator-image-preview-img').style.display = 'block';
-    } else if (type === 'proof' && index !== null) {
-      state.proof[index].image = base64;
-      document.getElementById(`proof-image-preview-${index}`).src = base64;
-      document.getElementById(`proof-image-preview-${index}`).style.display = 'block';
-    } else if (type === 'metodo' && index !== null) {
-      state.metodImages[index].url = base64;
-      document.getElementById(`metodo-image-preview-${index}`).src = base64;
-      document.getElementById(`metodo-image-preview-${index}`).style.display = 'block';
-    }
-    
-    saveState();
-    renderPage();
-  };
-  
-  reader.readAsDataURL(file);
-}
- 
-function switchAdminTab(tab) {
-  document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
-  document.querySelectorAll('.admin-tab-content').forEach(c => c.style.display = 'none');
-  event.target.classList.add('active');
-  document.getElementById(`admin-${tab}-tab`).style.display = 'block';
-  syncAdminInputs(tab);
-}
- 
-function syncAdminInputs(tab) {
-  if (tab === 'hero') {
-    document.getElementById('video-url-hero').value = state.videoUrlHero;
-    document.getElementById('hero-title-input').value = state.heroTitle;
-    document.getElementById('hero-desc-input').value = state.heroDesc;
-    document.getElementById('cta-hero-text').value = state.ctaHeroText;
-    document.getElementById('checkout-url').value = state.checkoutUrl;
-  } else if (tab === 'proof') {
-    const editor = document.getElementById('proof-editor');
-    editor.innerHTML = state.proof.map((p, i) => `
-      <div class="edit-group" style="background: #f3f4f6; padding: 1rem; border-radius: 6px; margin-bottom: 1rem;">
-        <label>Depoimento ${i + 1}</label>
-        <input type="text" value="${p.title}" onchange="state.proof[${i}].title = this.value; saveState(); renderPage();">
-        <label style="margin-top: 0.5rem;">Resultado</label>
-        <input type="text" value="${p.desc}" onchange="state.proof[${i}].desc = this.value; saveState(); renderPage();">
-        <label style="margin-top: 0.5rem;">📸 Foto do Cliente (opcional)</label>
-        <input type="file" id="proof-image-upload-${i}" accept="image/*" onchange="uploadImage('proof', ${i})" style="padding: 8px; border: 2px dashed #e5e7eb; width: 100%; cursor: pointer;">
-        <img id="proof-image-preview-${i}" style="max-width: 150px; max-height: 150px; border-radius: 6px; margin-top: 0.5rem; display: ${p.image ? 'block' : 'none'};" src="${p.image || ''}">
-        <button class="btn-admin btn-danger" style="margin-top: 0.5rem;" onclick="state.proof.splice(${i}, 1); saveState(); syncAdminInputs('proof'); renderPage();">Remover</button>
-      </div>
-    `).join('');
-  } else if (tab === 'diferenciais') {
-    const editor = document.getElementById('diferenciais-editor');
-    editor.innerHTML = state.diferenciais.map((d, i) => `
-      <div class="edit-group" style="background: #f3f4f6; padding: 1rem; border-radius: 6px; margin-bottom: 1rem;">
-        <label>Benefício ${i + 1}</label>
-        <input type="text" value="${d.text}" onchange="state.diferenciais[${i}].text = this.value; saveState(); renderPage();">
-        <button class="btn-admin btn-danger" style="margin-top: 0.5rem;" onclick="state.diferenciais.splice(${i}, 1); saveState(); syncAdminInputs('diferenciais'); renderPage();">Remover</button>
-      </div>
-    `).join('');
-  } else if (tab === 'metodo') {
-    const editor = document.getElementById('metodo-editor');
-    editor.innerHTML = state.metodImages.map((img, i) => `
-      <div class="edit-group" style="background: #f3f4f6; padding: 1rem; border-radius: 6px; margin-bottom: 1rem;">
-        <label>Imagem ${i + 1}</label>
-        <label style="margin-top: 0.5rem;">URL da Imagem</label>
-        <input type="text" value="${img.url}" onchange="state.metodImages[${i}].url = this.value; saveState(); renderPage();" placeholder="Cole a URL da imagem">
-        <label style="margin-top: 0.5rem;">📸 Ou faça upload</label>
-        <input type="file" id="metodo-image-upload-${i}" accept="image/*" onchange="uploadImage('metodo', ${i})" style="padding: 8px; border: 2px dashed #e5e7eb; width: 100%; cursor: pointer;">
-        <img id="metodo-image-preview-${i}" style="max-width: 200px; max-height: 200px; border-radius: 6px; margin-top: 0.5rem; display: ${img.url ? 'block' : 'none'};" src="${img.url || ''}">
-      </div>
-    `).join('');
-  } else if (tab === 'steps') {
-    const editor = document.getElementById('steps-editor');
-    editor.innerHTML = state.steps.map((s, i) => `
-      <div class="edit-group" style="background: #f3f4f6; padding: 1rem; border-radius: 6px; margin-bottom: 1rem;">
-        <label>Etapa ${i + 1} - Título</label>
-        <input type="text" value="${s.title}" onchange="state.steps[${i}].title = this.value; saveState(); renderPage();">
-        <label>Descrição</label>
-        <textarea onchange="state.steps[${i}].desc = this.value; saveState(); renderPage();">${s.desc}</textarea>
-        <button class="btn-admin btn-danger" style="margin-top: 0.5rem;" onclick="state.steps.splice(${i}, 1); saveState(); syncAdminInputs('steps'); renderPage();">Remover</button>
-      </div>
-    `).join('');
-  } else if (tab === 'personas') {
-    const editor = document.getElementById('personas-editor');
-    editor.innerHTML = state.personas.map((p, i) => `
-      <div class="edit-group" style="background: #f3f4f6; padding: 1rem; border-radius: 6px; margin-bottom: 1rem;">
-        <label>Persona ${i + 1}</label>
-        <input type="text" value="${p.text}" onchange="state.personas[${i}].text = this.value; saveState(); renderPage();">
-        <button class="btn-admin btn-danger" style="margin-top: 0.5rem;" onclick="state.personas.splice(${i}, 1); saveState(); syncAdminInputs('personas'); renderPage();">Remover</button>
-      </div>
-    `).join('');
-  } else if (tab === 'bonus') {
-    const editor = document.getElementById('bonus-editor');
-    editor.innerHTML = state.bonus.map((b, i) => `
-      <div class="edit-group" style="background: #f3f4f6; padding: 1rem; border-radius: 6px; margin-bottom: 1rem;">
-        <label>Bônus ${i + 1}</label>
-        <input type="text" value="${b.title}" onchange="state.bonus[${i}].title = this.value; saveState(); renderPage();">
-        <label>Descrição</label>
-        <textarea onchange="state.bonus[${i}].desc = this.value; saveState(); renderPage();">${b.desc}</textarea>
-        <label>Valor</label>
-        <input type="text" value="${b.value}" onchange="state.bonus[${i}].value = this.value; saveState(); renderPage();">
-        <button class="btn-admin btn-danger" style="margin-top: 0.5rem;" onclick="state.bonus.splice(${i}, 1); saveState(); syncAdminInputs('bonus'); renderPage();">Remover</button>
-      </div>
-    `).join('');
-  } else if (tab === 'preco') {
-    document.getElementById('price-intro').value = state.priceIntro;
-    document.getElementById('price-main').value = state.priceMain;
-    document.getElementById('price-subtext').value = state.priceSubtext;
-  } else if (tab === 'faq') {
-    const editor = document.getElementById('faq-editor');
-    editor.innerHTML = state.faq.map((f, i) => `
-      <div class="edit-group" style="background: #f3f4f6; padding: 1rem; border-radius: 6px; margin-bottom: 1rem;">
-        <label>Pergunta ${i + 1}</label>
-        <input type="text" value="${f.q}" onchange="state.faq[${i}].q = this.value; saveState(); renderPage();">
-        <label>Resposta</label>
-        <textarea onchange="state.faq[${i}].a = this.value; saveState(); renderPage();">${f.a}</textarea>
-        <button class="btn-admin btn-danger" style="margin-top: 0.5rem;" onclick="state.faq.splice(${i}, 1); saveState(); syncAdminInputs('faq'); renderPage();">Remover</button>
-      </div>
-    `).join('');
-  } else if (tab === 'creator') {
-    document.getElementById('creator-name-input').value = state.creatorName;
-    document.getElementById('creator-desc-input').value = state.creatorDesc;
-    document.getElementById('creator-years').value = state.creatorYears;
-    document.getElementById('creator-followers').value = state.creatorFollowers;
-    // Mostrar preview da imagem se existir
-    if (state.creatorImage && state.creatorImage.startsWith('data:image')) {
-      document.getElementById('creator-image-preview-img').src = state.creatorImage;
-      document.getElementById('creator-image-preview-img').style.display = 'block';
-    }
-  } else if (tab === 'settings') {
-    document.getElementById('contact-email').value = state.contactEmail;
-    document.getElementById('footer-text').value = state.footerText;
-  }
-}
- 
-function addProof() { state.proof.push({ title: '', desc: '' }); saveState(); syncAdminInputs('proof'); }
-function addDiferencial() { state.diferenciais.push({ text: '', icon: '💪' }); saveState(); syncAdminInputs('diferenciais'); }
-function addStep() { state.steps.push({ num: state.steps.length + 1, title: '', desc: '' }); saveState(); syncAdminInputs('steps'); }
-function addPersona() { state.personas.push({ text: '' }); saveState(); syncAdminInputs('personas'); }
-function addBonus() { state.bonus.push({ title: '', desc: '', value: '' }); saveState(); syncAdminInputs('bonus'); renderPage(); }
-function addFaq() { state.faq.push({ q: '', a: '' }); saveState(); syncAdminInputs('faq'); }
- 
-function exportHTML() {
-  alert('Pronto para exportar! Copie o código HTML e cole no seu arquivo');
-}
- 
-function clearAll() {
-  if (confirm('Tem certeza? Vai resetar TUDO para os padrões!')) {
-    state = JSON.parse(JSON.stringify(DEFAULT_DATA));
-    saveState();
-    renderPage();
-    switchAdminTab('hero');
-  }
-}
- 
-function closeAdmin() {
-  document.getElementById('landing').style.display = 'block';
-  document.getElementById('admin-panel').style.display = 'none';
-}
- 
-// ===== SISTEMA DE AUTENTICAÇÃO SEGURO =====
-const MASTER_CODE = 'treino';
-let currentUser = null;
-let isLoggedIn = false;
- 
-function openLoginModal() {
-  document.getElementById('login-modal').style.display = 'flex';
-  document.getElementById('login-form-step').style.display = 'block';
-  document.getElementById('register-form-step').style.display = 'none';
-  document.getElementById('login-message').innerHTML = '';
-  document.getElementById('login-code').value = '';
-  document.getElementById('login-code').focus();
-}
- 
-function closeLoginModal() {
-  document.getElementById('login-modal').style.display = 'none';
-  document.getElementById('login-code').value = '';
-  document.getElementById('register-password').value = '';
-  document.getElementById('register-password-confirm').value = '';
-}
- 
-function verifyLoginCode() {
-  const code = document.getElementById('login-code').value.trim();
-  
-  if (!code) {
-    showLoginMessage('Digite o código de acesso', false);
-    return;
-  }
-  
-  // Verificar código mestre
-  if (code === MASTER_CODE) {
-    currentUser = 'admin-' + Math.random().toString(36).substr(2, 9);
-    showLoginMessage('✓ Código correto! Agora crie sua senha pessoal.', true);
-    
-    setTimeout(() => {
-      document.getElementById('login-form-step').style.display = 'none';
-      document.getElementById('register-form-step').style.display = 'block';
-      document.getElementById('login-message').innerHTML = '';
-    }, 1000);
-    return;
-  }
-  
-  // Verificar senhas pessoais armazenadas
-  const savedPasswords = JSON.parse(localStorage.getItem('adminPasswords') || '{}');
-  if (savedPasswords[code]) {
-    loginSuccess();
-    return;
-  }
-  
-  showLoginMessage('✗ Código incorreto!', false);
-  document.getElementById('login-code').value = '';
-}
- 
-function registerPassword() {
-  const password = document.getElementById('register-password').value;
-  const passwordConfirm = document.getElementById('register-password-confirm').value;
-  
-  if (!password || !passwordConfirm) {
-    showLoginMessage('Preencha os dois campos', false);
-    return;
-  }
-  
-  if (password.length < 4) {
-    showLoginMessage('A senha deve ter no mínimo 4 caracteres', false);
-    return;
-  }
-  
-  if (password !== passwordConfirm) {
-    showLoginMessage('As senhas não conferem', false);
-    return;
-  }
-  
-  // Salvar senha no localStorage
-  const savedPasswords = JSON.parse(localStorage.getItem('adminPasswords') || '{}');
-  savedPasswords[password] = true;
-  localStorage.setItem('adminPasswords', JSON.stringify(savedPasswords));
-  
-  showLoginMessage('✓ Senha criada com sucesso!', true);
-  
-  setTimeout(() => {
-    loginSuccess();
-  }, 1000);
-}
- 
-function skipRegistration() {
-  loginSuccess();
-}
- 
-function loginSuccess() {
-  isLoggedIn = true;
-  closeLoginModal();
-  
-  document.getElementById('landing').style.display = 'none';
-  document.getElementById('admin-panel').style.display = 'block';
-  
-  // Mostrar informação de usuário logado
-  updateUserInfo();
-  syncAdminInputs('hero');
-}
- 
-function updateUserInfo() {
-  const adminHeader = document.getElementById('admin-btn').parentElement;
-  let userInfoEl = document.querySelector('.user-info');
-  
-  if (!userInfoEl) {
-    userInfoEl = document.createElement('div');
-    userInfoEl.className = 'user-info';
-    adminHeader.appendChild(userInfoEl);
-  }
-  
-  if (isLoggedIn) {
-    userInfoEl.textContent = '✓ Logado no painel administrativo';
-    userInfoEl.style.color = 'var(--primary-green)';
-  }
-}
- 
-function showLoginMessage(message, success) {
-  const messageEl = document.getElementById('login-message');
-  messageEl.textContent = message;
-  messageEl.className = 'login-message' + (success ? ' login-success' : '');
-}
- 
-function logout() {
-  if (confirm('Tem certeza que quer sair do painel administrativo?')) {
-    isLoggedIn = false;
-    currentUser = null;
-    
-    document.getElementById('admin-panel').style.display = 'none';
-    document.getElementById('landing').style.display = 'block';
-    
-    const userInfoEl = document.querySelector('.user-info');
-    if (userInfoEl) {
-      userInfoEl.remove();
-    }
-  }
-}
- 
-// Event listener do botão admin
-document.getElementById('admin-btn').addEventListener('click', () => {
-  if (!isLoggedIn) {
-    openLoginModal();
-  }
-});
- 
-// Inicializa
-renderPage();
-</script>
- 
-</body>
-</html>
