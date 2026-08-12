@@ -1889,6 +1889,7 @@ function uploadProofImage(index, file) {
 
 function openAddAdminModal() {
   document.getElementById('add-admin-modal').classList.add('show');
+  document.getElementById('admin-name').focus();
 }
 
 function closeAddAdminModal() {
@@ -1897,19 +1898,25 @@ function closeAddAdminModal() {
   document.getElementById('admin-email-input').value = '';
 }
 
-function addNewAdmin(e) {
-  e.preventDefault();
-  const name = document.getElementById('admin-name').value;
-  const email = document.getElementById('admin-email-input').value;
+function submitAddAdmin() {
+  const name = document.getElementById('admin-name').value.trim();
+  const email = document.getElementById('admin-email-input').value.trim();
+  
   if (!name || !email) {
     alert('Preencha todos os campos');
     return;
   }
+  
+  if (!email.includes('@')) {
+    alert('Digite um email válido');
+    return;
+  }
+  
   state.admins.push({ name, email, createdAt: new Date().toLocaleDateString('pt-BR') });
   saveState();
   renderAdminsList();
   closeAddAdminModal();
-  alert('Admin adicionado com sucesso!');
+  alert('✓ Admin adicionado com sucesso!');
 }
 
 function removeAdmin(index) {
@@ -2108,20 +2115,20 @@ renderPage();
       <h2>Adicionar Novo Admin</h2>
       <button class="modal-close" onclick="closeAddAdminModal()">×</button>
     </div>
-    <form class="modal-form" onsubmit="addNewAdmin(event)">
+    <div class="modal-form">
       <div>
         <label style="display: block; margin-bottom: 8px; font-weight: 600;">Nome</label>
-        <input type="text" id="admin-name" placeholder="Nome completo" required>
+        <input type="text" id="admin-name" placeholder="Nome completo">
       </div>
       <div>
         <label style="display: block; margin-bottom: 8px; font-weight: 600;">Email</label>
-        <input type="email" id="admin-email-input" placeholder="email@example.com" required>
+        <input type="email" id="admin-email-input" placeholder="email@example.com">
       </div>
       <div class="modal-actions">
         <button type="button" class="btn-secondary" onclick="closeAddAdminModal()">Cancelar</button>
-        <button type="submit" class="btn-primary">Adicionar Admin</button>
+        <button type="button" class="btn-primary" onclick="submitAddAdmin()">Adicionar Admin</button>
       </div>
-    </form>
+    </div>
   </div>
 </div>
 
