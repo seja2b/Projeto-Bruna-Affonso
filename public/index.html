@@ -1798,6 +1798,16 @@ function switchAdminTab(tab) {
   syncAdminInputs(tab);
 }
 
+function clickProofInput(index) {
+  const fileInputs = document.querySelectorAll('.proof-file-input');
+  for (let input of fileInputs) {
+    if (input.getAttribute('data-index') === index) {
+      input.click();
+      break;
+    }
+  }
+}
+
 function syncAdminInputs(tab) {
   if (tab === 'hero') {
     document.getElementById('video-url-hero').value = state.videoUrlHero;
@@ -1810,8 +1820,8 @@ function syncAdminInputs(tab) {
     editor.innerHTML = state.proof.map((p, i) => `
       <div class="proof-item-edit">
         <div class="file-input-wrapper">
-          <label class="file-input-label" onclick="document.getElementById('proof-file-${i}').click()">Clique para adicionar foto</label>
-          <input type="file" id="proof-file-${i}" accept="image/*" onchange="uploadProofImage(${i}, this.files[0])">
+          <label class="file-input-label" data-index="${i}" onclick="clickProofInput(this.getAttribute('data-index'))">Clique para adicionar foto</label>
+          <input type="file" class="proof-file-input" data-index="${i}" accept="image/*" onchange="uploadProofImage(this.getAttribute('data-index'), this.files[0])">
         </div>
         <img class="image-preview ${p.image ? 'show' : ''}" src="${p.image || ''}" alt="Foto do depoimento">
         <input type="text" placeholder="Nome da pessoa" value="${p.title}" onchange="state.proof[${i}].title = this.value; saveState(); renderPage();">
