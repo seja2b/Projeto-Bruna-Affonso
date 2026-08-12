@@ -77,7 +77,6 @@
       transform: none;
     }
 
-    /* LOGIN / AUTENTICAÇÃO 2FA */
     #login-modal {
       position: fixed;
       top: 0;
@@ -204,7 +203,6 @@
       background: #dc2626;
     }
 
-    /* HERO */
     #hero {
       text-align: center;
       padding: 5rem 0;
@@ -249,7 +247,6 @@
       background-clip: text;
     }
 
-    /* SOCIAL PROOF */
     .proof-cards {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -297,7 +294,6 @@
       background: linear-gradient(135deg, var(--primary-purple), var(--primary-pink));
     }
 
-    /* DIFERENCIAIS */
     .diferenciais-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -339,7 +335,6 @@
       font-size: 1rem;
     }
 
-    /* COMO FUNCIONA */
     #funciona {
       background: var(--dark-bg);
       padding: 4rem 0;
@@ -432,7 +427,6 @@
       font-weight: 600;
     }
 
-    /* PERSONAS */
     .personas-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -462,7 +456,6 @@
       line-height: 1.5;
     }
 
-    /* BONUS */
     #bonus {
       background: white;
     }
@@ -522,7 +515,6 @@
       border-radius: 8px;
     }
 
-    /* PRECO - COM FUNDO ESCURO */
     #preco {
       background: var(--dark-bg);
       padding: 4rem 0;
@@ -615,7 +607,6 @@
       color: var(--primary-pink);
     }
 
-    /* GARANTIA */
     .guarantee-badge {
       background: white;
       border: 2px solid var(--primary-purple);
@@ -652,7 +643,6 @@
       line-height: 1.6;
     }
 
-    /* FAQ */
     #faq {
       background: var(--dark-bg);
     }
@@ -716,7 +706,6 @@
       font-weight: 400;
     }
 
-    /* CRIADOR */
     #creator {
       background: white;
       color: #1f2937;
@@ -781,7 +770,6 @@
       object-fit: cover;
     }
 
-    /* CLOSE */
     #close {
       background: white;
       color: #1f2937;
@@ -818,7 +806,6 @@
       color: #0f172a;
     }
 
-    /* RODAPÉ */
     footer {
       background: var(--dark-bg);
       color: var(--text-white);
@@ -840,7 +827,6 @@
       text-decoration: underline;
     }
 
-    /* ADMIN PANEL */
     #admin-panel {
       display: none;
       position: fixed;
@@ -991,7 +977,6 @@
       box-shadow: 0 6px 20px rgba(124, 58, 237, 0.4);
     }
 
-    /* IMAGE PREVIEW */
     .image-preview {
       width: 100%;
       max-width: 300px;
@@ -1037,7 +1022,6 @@
       display: none;
     }
 
-    /* ADMIN MODAL */
     .modal-overlay {
       position: fixed;
       top: 0;
@@ -1215,44 +1199,22 @@
     @media (max-width: 768px) {
       h1 { font-size: 2rem; }
       h2 { font-size: 1.5rem; }
-      
-      .step-card {
-        grid-template-columns: 1fr;
-      }
-      
-      .creator-content {
-        grid-template-columns: 1fr;
-      }
-      
-      .bonus-card {
-        grid-template-columns: 1fr;
-      }
-      
-      .admin-content {
-        grid-template-columns: 1fr;
-      }
-      
-      .admin-sidebar {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
-        gap: 0.5rem;
-      }
-      
-      .proof-grid {
-        grid-template-columns: 1fr;
-      }
+      .step-card { grid-template-columns: 1fr; }
+      .creator-content { grid-template-columns: 1fr; }
+      .bonus-card { grid-template-columns: 1fr; }
+      .admin-content { grid-template-columns: 1fr; }
+      .admin-sidebar { display: grid; grid-template-columns: repeat(auto-fit, minmax(80px, 1fr)); gap: 0.5rem; }
+      .proof-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
 <body>
 
-<!-- LOGIN MODAL COM 2FA -->
 <div id="login-modal" style="display: none;">
   <div class="login-container">
     <h2>🔐 Consultoria BA</h2>
     <div id="login-message" class="login-message"></div>
     
-    <!-- PASSO 1: E-mail -->
     <div id="email-step" style="display: block;">
       <p class="login-step-title">Digite seu e-mail para receber o código</p>
       <input type="email" id="login-email" placeholder="seu@email.com" style="margin-bottom: 0.5rem;">
@@ -1262,7 +1224,6 @@
       </div>
     </div>
 
-    <!-- PASSO 2: Validar Código -->
     <div id="code-step" style="display: none;">
       <p class="login-step-title">Código enviado para seu e-mail</p>
       <p style="font-size: 0.8rem; color: #666; text-align: center; margin-bottom: 1rem;">Válido por 10 minutos</p>
@@ -1273,7 +1234,6 @@
       </div>
     </div>
 
-    <!-- PASSO 3: Criar Senha -->
     <div id="password-step" style="display: none;">
       <p class="login-step-title">Crie sua senha de acesso</p>
       <input type="password" id="register-password" placeholder="Digite uma senha" style="margin-bottom: 0.5rem;">
@@ -1286,7 +1246,6 @@
   </div>
 </div>
 
-<!-- ADMIN PANEL -->
 <div id="admin-panel">
   <div class="admin-header">
     <div>
@@ -1444,9 +1403,7 @@
   </div>
 </div>
 
-<!-- LANDING PAGE -->
 <div id="landing">
-  <!-- HERO -->
   <section id="hero">
     <div class="container">
       <p class="hero-subtitle">● INÍCIO</p>
@@ -1461,7 +1418,6 @@
     </div>
   </section>
 
-  <!-- APÓS VÍDEO -->
   <section style="background: #f9fafb; text-align: center;">
     <div class="container">
       <p id="after-video-text" style="font-size: 1.125rem; font-weight: 600; margin-bottom: 0.5rem;">Você acabou de ver como transformar seu corpo aprendendo a treinar e tendo todo o suporte e acompanhamento que garante o sucesso.</p>
@@ -1469,7 +1425,6 @@
     </div>
   </section>
 
-  <!-- DEPOIMENTOS -->
   <section>
     <div class="container">
       <p style="text-align: center; color: #999; font-size: 0.875rem; margin-bottom: 1rem;">● PROVAS SOCIAIS</p>
@@ -1489,7 +1444,6 @@
     </div>
   </section>
 
-  <!-- O MÉTODO / DIFERENCIAIS -->
   <section>
     <div class="container">
       <p style="text-align: center; color: #999; font-size: 0.875rem; margin-bottom: 1rem;">● O MÉTODO</p>
@@ -1502,7 +1456,6 @@
     </div>
   </section>
 
-  <!-- PERSONAS / FUNCIONA PARA VOCÊ SE -->
   <section>
     <div class="container">
       <p style="text-align: center; color: #999; font-size: 0.875rem; margin-bottom: 1rem;">● PARA QUEM</p>
@@ -1516,7 +1469,6 @@
     </div>
   </section>
 
-  <!-- COMO FUNCIONA NA PRÁTICA -->
   <section id="funciona">
     <div class="container">
       <p class="funciona-subtitle">● PROCESSO</p>
@@ -1528,7 +1480,6 @@
     </div>
   </section>
 
-  <!-- BÔNUS -->
   <section id="bonus">
     <div class="container">
       <p style="text-align: center; color: #999; font-size: 0.875rem; margin-bottom: 1rem;">● EXTRAS</p>
@@ -1538,7 +1489,6 @@
     </div>
   </section>
 
-  <!-- PREÇO - FUNDO ESCURO -->
   <section id="preco">
     <div class="container">
       <p style="color: #d1d5db; font-size: 0.875rem; margin-bottom: 1rem;">● INVESTIMENTO</p>
@@ -1564,7 +1514,6 @@
     </div>
   </section>
 
-  <!-- GARANTIA -->
   <section style="background: white;">
     <div class="guarantee-badge">
       <div class="guarantee-seal">✓</div>
@@ -1573,7 +1522,6 @@
     </div>
   </section>
 
-  <!-- FAQ -->
   <section id="faq">
     <div class="container">
       <h2>Dúvidas? Temos as respostas</h2>
@@ -1581,7 +1529,6 @@
     </div>
   </section>
 
-  <!-- CRIADOR -->
   <section id="creator">
     <div class="container">
       <h2>Quem é sua personal</h2>
@@ -1597,7 +1544,6 @@
     </div>
   </section>
 
-  <!-- CLOSE FINAL -->
   <section id="close">
     <div class="container" style="max-width: 800px;">
       <h2>A decisão é sua.</h2>
@@ -1609,7 +1555,6 @@
     </div>
   </section>
 
-  <!-- RODAPÉ -->
   <footer id="footer">
     <div class="container">
       <p id="footer-text">© 2024 Bruna Affonso - Consultoria Online. Todos os direitos reservados.</p>
@@ -1836,12 +1781,8 @@ function uploadImage(type, index = null) {
       document.getElementById('creator-image-preview-img').style.display = 'block';
     } else if (type === 'proof' && index !== null) {
       state.proof[index].image = base64;
-      document.getElementById(`proof-image-preview-${index}`).src = base64;
-      document.getElementById(`proof-image-preview-${index}`).style.display = 'block';
     } else if (type === 'metodo' && index !== null) {
       state.metodImages[index].url = base64;
-      document.getElementById(`metodo-image-preview-${index}`).src = base64;
-      document.getElementById(`metodo-image-preview-${index}`).style.display = 'block';
     }
     saveState();
     renderPage();
@@ -1866,7 +1807,18 @@ function syncAdminInputs(tab) {
     document.getElementById('checkout-url').value = state.checkoutUrl;
   } else if (tab === 'proof') {
     const editor = document.getElementById('proofs-editor');
-    editor.innerHTML = state.proof.map((p, i) => `<div class="proof-item-edit"><div class="file-input-wrapper"><label class="file-input-label">Clique para adicionar foto</label><input type="file" accept="image/*" onchange="uploadProofImage(${i}, this.files[0])"></div><img class="image-preview ${p.image ? 'show' : ''}" src="${p.image || ''}" alt="Foto do depoimento"><input type="text" placeholder="Nome da pessoa" value="${p.title}" onchange="state.proof[${i}].title = this.value; saveState(); renderPage();"><textarea placeholder="Depoimento / Resultado" onchange="state.proof[${i}].desc = this.value; saveState(); renderPage();">${p.desc}</textarea><button type="button" class="btn-remove" onclick="state.proof.splice(${i}, 1); saveState(); syncAdminInputs('proof'); renderPage();">Remover</button></div>`).join('');
+    editor.innerHTML = state.proof.map((p, i) => `
+      <div class="proof-item-edit">
+        <div class="file-input-wrapper">
+          <label class="file-input-label" onclick="document.getElementById('proof-file-${i}').click()">Clique para adicionar foto</label>
+          <input type="file" id="proof-file-${i}" accept="image/*" onchange="uploadProofImage(${i}, this.files[0])">
+        </div>
+        <img class="image-preview ${p.image ? 'show' : ''}" src="${p.image || ''}" alt="Foto do depoimento">
+        <input type="text" placeholder="Nome da pessoa" value="${p.title}" onchange="state.proof[${i}].title = this.value; saveState(); renderPage();">
+        <textarea placeholder="Depoimento / Resultado" onchange="state.proof[${i}].desc = this.value; saveState(); renderPage();">${p.desc}</textarea>
+        <button type="button" class="btn-remove" onclick="state.proof.splice(${i}, 1); saveState(); syncAdminInputs('proof'); renderPage();">Remover</button>
+      </div>
+    `).join('');
   } else if (tab === 'admins') {
     renderAdminsList();
   } else if (tab === 'diferenciais') {
@@ -2140,7 +2092,6 @@ if (isLoggedIn) {
 renderPage();
 </script>
 
-<!-- ADD ADMIN MODAL -->
 <div id="add-admin-modal" class="modal-overlay">
   <div class="modal-content">
     <div class="modal-header">
