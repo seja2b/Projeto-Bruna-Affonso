@@ -1223,6 +1223,110 @@
       .admin-sidebar { display: grid; grid-template-columns: repeat(auto-fit, minmax(80px, 1fr)); gap: 0.5rem; }
       .proof-grid { grid-template-columns: 1fr; }
     }
+    /* Protótipo profissional — preserva a paleta e a estrutura comercial original */
+    :root {
+      --primary-purple: #7c3aed;
+      --primary-pink: #ec4899;
+      --primary-orange: #f97316;
+      --primary-green: #22c55e;
+      --dark-bg: #0b1020;
+      --dark-card: #151b30;
+      --surface: #ffffff;
+      --surface-soft: #f8f7fb;
+      --line: rgba(15, 23, 42, .09);
+      --shadow: 0 24px 70px rgba(39, 25, 74, .12);
+    }
+
+    html { scroll-behavior: smooth; overflow-x: hidden; }
+    body { overflow-x: hidden; font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: var(--surface-soft); }
+    .container { max-width: 1180px; padding: 0 24px; }
+    section { padding: 96px 0; }
+    h2 { font-size: clamp(2rem, 4vw, 3.35rem); letter-spacing: -.045em; }
+
+    .site-header {
+      position: sticky; top: 0; z-index: 900;
+      background: rgba(255,255,255,.86); border-bottom: 1px solid var(--line);
+      backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
+    }
+    .site-nav { min-height: 76px; display: flex; align-items: center; justify-content: space-between; gap: 28px; }
+    .brand { display: flex; align-items: center; gap: 12px; color: #111827; text-decoration: none; font-weight: 800; letter-spacing: -.03em; }
+    .brand-mark { width: 42px; height: 42px; border-radius: 14px; display: grid; place-items: center; color: white; background: linear-gradient(135deg, var(--primary-purple), var(--primary-pink) 58%, var(--primary-orange)); box-shadow: 0 10px 24px rgba(124,58,237,.25); }
+    .brand-copy small { display: block; color: #7c3aed; font-size: 10px; letter-spacing: .18em; text-transform: uppercase; }
+    .nav-links { display: flex; align-items: center; gap: 26px; }
+    .nav-links a { color: #475569; text-decoration: none; font-size: 14px; font-weight: 650; }
+    .nav-links a:hover { color: var(--primary-purple); }
+    .nav-cta { padding: 11px 20px !important; color: white !important; border-radius: 999px; background: linear-gradient(90deg, var(--primary-purple), var(--primary-pink)); box-shadow: 0 10px 24px rgba(236,72,153,.22); }
+
+    #hero { position: relative; overflow: hidden; text-align: left; padding: 94px 0 108px; background: radial-gradient(circle at 8% 10%, rgba(124,58,237,.13), transparent 30%), radial-gradient(circle at 94% 16%, rgba(236,72,153,.12), transparent 28%), #fff; }
+    #hero::after { content: ""; position: absolute; width: 360px; height: 360px; right: -180px; bottom: -210px; border-radius: 50%; background: rgba(249,115,22,.12); filter: blur(4px); }
+    .hero-grid { display: grid; grid-template-columns: minmax(0, .92fr) minmax(430px, 1.08fr); align-items: center; gap: 70px; position: relative; z-index: 1; }
+    .eyebrow, .hero-subtitle { display: inline-flex; align-items: center; gap: 8px; color: var(--primary-purple); font-size: 12px; font-weight: 800; letter-spacing: .17em; text-transform: uppercase; }
+    .hero-title-wrapper { margin: 18px 0 22px; }
+    .hero-title-line1, .hero-title-line2 { font-size: clamp(3rem, 5.6vw, 5.35rem); line-height: .98; letter-spacing: -.065em; }
+    .hero-title-line1 { color: #10172a; }
+    #hero-desc { max-width: 580px; font-size: 1.15rem !important; line-height: 1.75; color: #5b6475 !important; }
+    .hero-note { display: flex; align-items: center; gap: 10px; margin: 0 0 24px; color: #687386; font-size: 14px; }
+    .hero-note-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--primary-green); box-shadow: 0 0 0 6px rgba(34,197,94,.12); }
+    .hero-media { position: relative; padding: 13px; border: 1px solid rgba(124,58,237,.15); border-radius: 30px; background: rgba(255,255,255,.7); box-shadow: var(--shadow); }
+    .hero-media::before { content: ""; position: absolute; inset: -1px; z-index: -1; border-radius: inherit; background: linear-gradient(135deg, rgba(124,58,237,.6), rgba(236,72,153,.45), rgba(249,115,22,.35)); filter: blur(18px); opacity: .28; }
+    #video-container { margin: 0 !important; overflow: hidden; border-radius: 20px; background: #0b1020; min-height: 330px; }
+    #video-container iframe { display: block; width: 100%; min-height: 330px; border: 0; }
+    .btn { padding: 15px 27px; background: linear-gradient(90deg, var(--primary-purple), var(--primary-pink)); box-shadow: 0 14px 30px rgba(124,58,237,.22); }
+    .btn:hover { box-shadow: 0 18px 36px rgba(124,58,237,.3); }
+
+    #hero + section { padding: 34px 0; background: #10172a !important; color: white; }
+    #hero + section p { max-width: 900px; margin-inline: auto; color: #cbd5e1 !important; }
+    .proof-cards { grid-template-columns: repeat(3, 1fr); }
+    .proof-card { position: relative; overflow: hidden; min-height: 260px; border: 1px solid rgba(255,255,255,.07); border-radius: 22px; background: linear-gradient(145deg, #171d33, #101526); box-shadow: 0 18px 45px rgba(15,23,42,.14); }
+    .proof-card::before { content: "“"; position: absolute; right: 20px; top: -18px; color: rgba(236,72,153,.16); font: 900 110px Georgia, serif; }
+    .diferenciais-grid { gap: 18px; }
+    .diferencial-card { min-height: 230px; display: flex; flex-direction: column; justify-content: center; border: 1px solid var(--line) !important; border-radius: 22px; box-shadow: 0 14px 40px rgba(30,41,59,.06); }
+    .diferencial-icon { width: 58px; height: 58px; display: grid; place-items: center; margin: 0 auto 20px; border-radius: 18px; background: white; box-shadow: 0 12px 30px rgba(124,58,237,.12); }
+    #funciona, #preco, #faq, footer { background: linear-gradient(145deg, #0b1020, #141b32); }
+    .step-card { border-radius: 24px; padding: 38px; box-shadow: 0 24px 55px rgba(0,0,0,.18); }
+    .step-badge { background: linear-gradient(90deg, var(--primary-purple), var(--primary-pink)); }
+    .persona-card, .bonus-card { border: 1px solid rgba(255,255,255,.07); border-radius: 20px; background: linear-gradient(145deg, #171d33, #101526); }
+    .price-highlight, .planos-section, .guarantee-badge { border-radius: 26px; box-shadow: var(--shadow); }
+    .price-highlight { border: 1px solid rgba(236,72,153,.16); }
+    .faq-item { border: 1px solid rgba(255,255,255,.08); border-radius: 14px; }
+    .creator-content { padding: 24px; border: 1px solid var(--line); border-radius: 28px; background: white; box-shadow: var(--shadow); }
+    .creator-image { height: 430px !important; border-radius: 20px !important; background: linear-gradient(135deg, #ede9fe, #fce7f3); }
+    #close { background: radial-gradient(circle at 50% 0%, rgba(236,72,153,.1), transparent 48%), white; }
+    #admin-btn { width: 48px; height: 48px; padding: 0; overflow: hidden; font-size: 0; border-radius: 16px; background: #10172a; }
+    #admin-btn::after { content: "⚙"; font-size: 20px; }
+
+    @media (max-width: 900px) {
+      section { padding: 72px 0; }
+      .nav-links a:not(.nav-cta) { display: none; }
+      .hero-grid { grid-template-columns: 1fr; gap: 42px; }
+      .hero-copy { text-align: center; }
+      #hero-desc { margin-inline: auto !important; }
+      .hero-note { justify-content: center; }
+      .hero-copy .btn { width: 100%; max-width: 420px; }
+      .proof-cards { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 640px) {
+      .container { padding: 0 18px; }
+      .site-nav { min-height: 68px; }
+      .brand-copy span { font-size: 14px; }
+      .nav-cta { padding: 10px 14px !important; font-size: 12px !important; }
+      #hero { padding: 64px 0 72px; }
+      .hero-grid > *, .hero-copy { min-width: 0; }
+      .hero-title-line1, .hero-title-line2 { font-size: clamp(2.35rem, 11.5vw, 3.35rem); overflow-wrap: anywhere; }
+      #video-container, #video-container iframe { min-height: 215px; }
+      .hero-media { padding: 8px; border-radius: 22px; }
+      .proof-cards { grid-template-columns: 1fr; }
+      .step-card, .bonus-card, .creator-content { grid-template-columns: 1fr; padding: 24px; }
+      .step-card:nth-child(even) { direction: ltr; }
+      .price-highlight, .planos-section { padding: 28px 20px; }
+      .price-main { font-size: 2.6rem; }
+      .plano-item { align-items: flex-start; gap: 18px; }
+    }
+    @media (max-width: 440px) {
+      .nav-cta { display: none; }
+      .site-nav { justify-content: center; }
+      .hero-copy .btn { padding-inline: 16px; font-size: 14px; }
+    }
   </style>
 </head>
 <body>
@@ -1444,17 +1548,35 @@
 </div>
 
 <div id="landing">
+  <header class="site-header">
+    <div class="container site-nav">
+      <a class="brand" href="#hero" aria-label="Bruna Affonso Consultoria">
+        <span class="brand-mark">BA</span>
+        <span class="brand-copy"><span>Bruna Affonso</span><small>Consultoria online</small></span>
+      </a>
+      <nav class="nav-links" aria-label="Navegação principal">
+        <a href="#funciona">Como funciona</a>
+        <a href="#creator">Sua personal</a>
+        <a href="#faq">Dúvidas</a>
+        <a class="nav-cta" href="#preco">Quero começar</a>
+      </nav>
+    </div>
+  </header>
   <section id="hero">
-    <div class="container">
-      <p class="hero-subtitle">● INÍCIO</p>
-      <div class="hero-title-wrapper">
-        <span class="hero-title-line1">Consultoria Online</span>
-        <span class="hero-title-line2" id="hero-title">Bruna Affonso</span>
+    <div class="container hero-grid">
+      <div class="hero-copy">
+        <p class="hero-subtitle">Consultoria feminina personalizada</p>
+        <div class="hero-title-wrapper">
+          <span class="hero-title-line1">Consultoria Online</span>
+          <span class="hero-title-line2" id="hero-title">Bruna Affonso</span>
+        </div>
+        <p id="hero-desc">Se você tenta, mas não vê o resultado que você quer no espelho, o problema pode estar em COMO você está treinando.</p>
+        <p class="hero-note"><span class="hero-note-dot"></span>Assista ao vídeo e conheça o método BA</p>
+        <a href="" class="btn" id="cta-hero" onclick="event.preventDefault(); window.location.href = state.checkoutUrl;">Quero começar minha transformação</a>
       </div>
-      <p id="hero-desc" style="font-size: 1.125rem; color: #666; margin: 1.5rem 0;">Se você tenta, mas não vê o resultado que você quer no espelho, o problema pode estar em COMO você está treinando.</p>
-      <p style="color: #999; margin-bottom: 2rem;">Toque no play e descubra como finalmente transformar seu corpo</p>
-      <div id="video-container" style="margin: 2rem 0;"></div>
-      <a href="" class="btn" id="cta-hero" onclick="event.preventDefault(); window.location.href = state.checkoutUrl;">Quero começar a consultoria agora!</a>
+      <div class="hero-media">
+        <div id="video-container"></div>
+      </div>
     </div>
   </section>
 
@@ -2158,3 +2280,4 @@ renderPage();
 
 </body>
 </html>
+
