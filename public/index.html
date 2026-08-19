@@ -1456,8 +1456,9 @@
     <div id="login-message" class="login-message"></div>
     
     <div id="email-step" style="display: block;">
-      <p class="login-step-title">Digite seu e-mail para receber o código</p>
+      <p class="login-step-title">Informe o e-mail autorizado e o código privado</p>
       <input type="email" id="login-email" placeholder="seu@email.com" style="margin-bottom: 0.5rem;">
+      <input type="password" id="admin-access-code" placeholder="Código privado de acesso" autocomplete="current-password" style="margin-bottom: 0.75rem;">
       <div class="login-buttons">
         <button class="btn-login" id="send-code-btn" onclick="sendEmailCode()">Enviar Código</button>
         <button class="btn-cancel" onclick="closeLoginModal()">Cancelar</button>
@@ -1474,15 +1475,6 @@
       </div>
     </div>
 
-    <div id="password-step" style="display: none;">
-      <p class="login-step-title">Crie sua senha de acesso</p>
-      <input type="password" id="register-password" placeholder="Digite uma senha" style="margin-bottom: 0.5rem;">
-      <input type="password" id="register-password-confirm" placeholder="Confirme a senha" style="margin-bottom: 0.5rem;">
-      <div class="login-buttons">
-        <button class="btn-login" onclick="registerPassword()">Criar Senha</button>
-        <button class="btn-cancel" onclick="skipRegistration()">Pular</button>
-      </div>
-    </div>
   </div>
 </div>
 
@@ -2260,13 +2252,15 @@ function closeAdmin() {
   document.getElementById('admin-panel').style.display = 'none';
 }
 
-let isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+let adminSessionToken = sessionStorage.getItem('adminSessionToken') || '';
+let isLoggedIn = false;
 
 async function sendEmailCode() {
   const email = document.getElementById('login-email').value.trim();
+  const accessCode = document.getElementById('admin-access-code').value;
   const btn = document.getElementById('send-code-btn');
-  if (!email) {
-    showLoginMessage('Digite um e-mail válido', false);
+  if (!email || !accessCode) {
+    showLoginMessage('Informe o e-mail e o código privado.', false);
     return;
   }
   btn.disabled = true;
@@ -2276,22 +2270,20 @@ async function sendEmailCode() {
     const response = await fetch(`${API_URL}/api/send-code`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email })
+      body: JSON.stringify({ email, accessCode })
     });
     const data = await response.json();
     if (data.success) {
       currentUserEmail = email;
-      showLoginMessage('✓ Código gerado!', true);
-      if (data.testCode) {
-        showLoginMessage(`✓ Código de teste: ${data.testCode}`, true);
-      }
+      document.getElementById('admin-access-code').value = '';
+      showLoginMessage('Código enviado para o e-mail autorizado.', true);
       setTimeout(() => {
         document.getElementById('email-step').style.display = 'none';
         document.getElementById('code-step').style.display = 'block';
         document.getElementById('login-message').innerHTML = '';
       }, 1500);
     } else {
-      showLoginMessage('Erro ao enviar código. Tente novamente.', false);
+      showLoginMessage(data.error || 'Não foi possível enviar o código.', false);
     }
   } catch (error) {
     showLoginMessage('Erro de conexão. Verifique sua internet.', false);
@@ -2303,10 +2295,13 @@ async function sendEmailCode() {
 
 async function validateCode() {
   const code = document.getElementById('login-code').value.trim();
+  const btn = document.querySelector('#code-step .btn-login');
   if (code.length !== 6) {
     showLoginMessage('Digite um código de 6 dígitos', false);
     return;
   }
+  btn.disabled = true;
+  btn.textContent = 'Validando...';
   try {
     const response = await fetch(`${API_URL}/api/validate-code`, {
       method: 'POST',
@@ -2315,65 +2310,38 @@ async function validateCode() {
     });
     const data = await response.json();
     if (data.success) {
-      showLoginMessage('✓ Código validado!', true);
-      setTimeout(() => {
-        document.getElementById('code-step').style.display = 'none';
-        document.getElementById('password-step').style.display = 'block';
-        document.getElementById('login-message').innerHTML = '';
-      }, 1000);
+      adminSessionToken = data.sessionToken;
+      sessionStorage.setItem('adminSessionToken', adminSessionToken);
+      loginSuccess();
     } else {
-      showLoginMessage('✗ Código inválido ou expirado', false);
+      showLoginMessage(data.error || 'Código inválido ou expirado.', false);
     }
   } catch (error) {
     showLoginMessage('Erro de conexão', false);
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'Validar';
   }
-}
-
-function registerPassword() {
-  const password = document.getElementById('register-password').value;
-  const passwordConfirm = document.getElementById('register-password-confirm').value;
-  if (!password || !passwordConfirm) {
-    showLoginMessage('Preencha os dois campos', false);
-    return;
-  }
-  if (password.length < 4) {
-    showLoginMessage('Mínimo 4 caracteres', false);
-    return;
-  }
-  if (password !== passwordConfirm) {
-    showLoginMessage('As senhas não conferem', false);
-    return;
-  }
-  const savedPasswords = JSON.parse(localStorage.getItem('adminPasswords') || '{}');
-  savedPasswords[password] = true;
-  localStorage.setItem('adminPasswords', JSON.stringify(savedPasswords));
-  showLoginMessage('✓ Senha criada com sucesso!', true);
-  setTimeout(() => {
-    loginSuccess();
-  }, 1000);
-}
-
-function skipRegistration() {
-  loginSuccess();
 }
 
 function loginSuccess() {
   isLoggedIn = true;
-  localStorage.setItem('isLoggedIn', 'true');
   closeLoginModal();
   document.getElementById('landing').style.display = 'none';
   document.getElementById('admin-panel').style.display = 'block';
   syncAdminInputs('hero');
 }
 
-function logout() {
-  if (confirm('Tem certeza que quer sair do painel administrativo?')) {
-    isLoggedIn = false;
-    localStorage.setItem('isLoggedIn', 'false');
-    currentUserEmail = '';
-    document.getElementById('admin-panel').style.display = 'none';
-    document.getElementById('landing').style.display = 'block';
+async function logout() {
+  if (adminSessionToken) {
+    fetch(`${API_URL}/api/admin/logout`, { method: 'POST', headers: { Authorization: `Bearer ${adminSessionToken}` } }).catch(() => {});
   }
+  adminSessionToken = '';
+  sessionStorage.removeItem('adminSessionToken');
+  isLoggedIn = false;
+  currentUserEmail = '';
+  document.getElementById('admin-panel').style.display = 'none';
+  document.getElementById('landing').style.display = 'block';
 }
 
 function openLoginModal() {
@@ -2381,12 +2349,10 @@ function openLoginModal() {
     document.getElementById('login-modal').style.display = 'flex';
     document.getElementById('email-step').style.display = 'block';
     document.getElementById('code-step').style.display = 'none';
-    document.getElementById('password-step').style.display = 'none';
     document.getElementById('login-message').innerHTML = '';
     document.getElementById('login-email').value = '';
     document.getElementById('login-code').value = '';
-    document.getElementById('register-password').value = '';
-    document.getElementById('register-password-confirm').value = '';
+    document.getElementById('admin-access-code').value = '';
     document.getElementById('login-email').focus();
   }
 }
@@ -2395,8 +2361,7 @@ function closeLoginModal() {
   document.getElementById('login-modal').style.display = 'none';
   document.getElementById('login-email').value = '';
   document.getElementById('login-code').value = '';
-  document.getElementById('register-password').value = '';
-  document.getElementById('register-password-confirm').value = '';
+  document.getElementById('admin-access-code').value = '';
 }
 
 function backToEmail() {
@@ -2412,8 +2377,25 @@ function showLoginMessage(message, success) {
   messageEl.className = 'login-message' + (success ? ' login-success' : '');
 }
 
-document.getElementById('admin-btn').addEventListener('click', () => {
-  if (isLoggedIn) {
+async function verifyAdminSession() {
+  if (!adminSessionToken) return false;
+  try {
+    const response = await fetch(`${API_URL}/api/admin/session`, { headers: { Authorization: `Bearer ${adminSessionToken}` } });
+    const data = await response.json();
+    if (!response.ok || !data.success) throw new Error('Sessão inválida');
+    currentUserEmail = data.email;
+    isLoggedIn = true;
+    return true;
+  } catch {
+    adminSessionToken = '';
+    sessionStorage.removeItem('adminSessionToken');
+    isLoggedIn = false;
+    return false;
+  }
+}
+
+document.getElementById('admin-btn').addEventListener('click', async () => {
+  if (isLoggedIn || await verifyAdminSession()) {
     document.getElementById('landing').style.display = 'none';
     document.getElementById('admin-panel').style.display = 'block';
   } else {
@@ -2421,11 +2403,7 @@ document.getElementById('admin-btn').addEventListener('click', () => {
   }
 });
 
-if (isLoggedIn) {
-  // Permanecer logado
-} else {
-  document.getElementById('landing').style.display = 'block';
-}
+document.getElementById('landing').style.display = 'block';
 
 renderPage();
 </script>
