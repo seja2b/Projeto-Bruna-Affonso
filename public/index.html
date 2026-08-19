@@ -1299,6 +1299,16 @@
     .step-card { border-radius: 24px; padding: 38px; box-shadow: 0 24px 55px rgba(0,0,0,.18); }
     .step-badge { background: linear-gradient(90deg, var(--primary-purple), var(--primary-pink)); }
     .persona-card, .bonus-card { border: 1px solid rgba(255,255,255,.07); border-radius: 20px; background: linear-gradient(145deg, #171d33, #101526); }
+    .personas-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
+    .persona-card { position: relative; min-height: 210px; padding: 28px; display: flex; flex-direction: column; align-items: flex-start; justify-content: space-between; gap: 28px; overflow: hidden; color: #1c2538; border: 1px solid #e7e5ef; border-radius: 22px; background: white; box-shadow: 0 16px 42px rgba(31,25,54,.07); transition: transform .25s ease, box-shadow .25s ease; }
+    .persona-card:hover { transform: translateY(-4px); box-shadow: 0 22px 55px rgba(31,25,54,.12); }
+    .persona-card::after { content: ""; position: absolute; right: -55px; bottom: -60px; width: 140px; height: 140px; border-radius: 50%; background: rgba(124,58,237,.055); }
+    .persona-card:nth-child(2n)::after { background: rgba(236,72,153,.06); }
+    .persona-card:nth-child(3n)::after { background: rgba(249,115,22,.07); }
+    .persona-index { width: 42px; height: 42px; display: grid; place-items: center; border-radius: 14px; color: #7c3aed; font-size: 11px; font-weight: 850; letter-spacing: .08em; background: #f1ebff; }
+    .persona-content { position: relative; z-index: 1; }
+    .persona-text { margin-bottom: 8px; color: #1d2639; font-size: 17px; font-weight: 750; line-height: 1.35; letter-spacing: -.02em; }
+    .persona-desc { margin: 0; color: #6b7486; font-size: 13px; line-height: 1.6; }
     .price-highlight, .planos-section, .guarantee-badge { border-radius: 26px; box-shadow: var(--shadow); }
     #preco { position: relative; overflow: hidden; }
     #preco::before { content: ""; position: absolute; width: 420px; height: 420px; top: -220px; left: -180px; border-radius: 50%; background: rgba(124,58,237,.2); filter: blur(10px); }
@@ -1319,8 +1329,25 @@
     .payment-safe { margin: 16px 0 0; color: #94a3b8; font-size: 12px; }
     .planos-section { display: none; }
     .faq-item { border: 1px solid rgba(255,255,255,.08); border-radius: 14px; }
-    .creator-content { padding: 24px; border: 1px solid var(--line); border-radius: 28px; background: white; box-shadow: var(--shadow); }
-    .creator-image { height: 430px !important; border-radius: 20px !important; background: linear-gradient(135deg, #ede9fe, #fce7f3); }
+    #creator { position: relative; overflow: hidden; background: linear-gradient(180deg, #fff, #faf8fd); }
+    #creator::before { content: ""; position: absolute; width: 460px; height: 460px; left: -260px; top: 40px; border-radius: 50%; background: rgba(124,58,237,.07); }
+    #creator > .container > h2 { display: none; }
+    .creator-content { position: relative; grid-template-columns: .95fr 1.05fr; gap: 0; max-width: 1100px; padding: 0; overflow: hidden; border: 1px solid #e7e3ed; border-radius: 32px; background: #11182b; box-shadow: 0 32px 85px rgba(17,24,43,.18); }
+    .creator-info { padding: 58px 52px; display: flex; flex-direction: column; justify-content: center; color: white; }
+    .creator-eyebrow { margin-bottom: 22px; color: #c9a8ff; font-size: 11px; font-weight: 800; letter-spacing: .17em; text-transform: uppercase; }
+    .creator-info h3 { margin: 0 0 18px; color: white; font-size: clamp(2.5rem, 5vw, 4.4rem); line-height: .98; letter-spacing: -.06em; }
+    .creator-desc { max-width: 500px; margin-bottom: 34px; color: #b7c0d3; font-size: 15px; line-height: 1.8; }
+    .creator-stats { grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 0; }
+    .creator-stat { padding: 15px 10px; text-align: left; border: 1px solid rgba(255,255,255,.09); border-radius: 14px; background: rgba(255,255,255,.055); }
+    .stat-number { color: #f0b4df; font-size: 1.35rem; }
+    .stat-label { color: #8994ab; font-size: 10px; line-height: 1.35; }
+    .creator-visual { position: relative; min-height: 570px; overflow: hidden; background: linear-gradient(145deg, #7c3aed, #ec4899 60%, #f97316); }
+    .creator-image { position: relative; z-index: 2; width: 100%; height: 100% !important; min-height: 570px; display: none; object-fit: cover; border-radius: 0 !important; }
+    .creator-image.has-image { display: block; }
+    .creator-placeholder { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; color: white; text-align: center; background: radial-gradient(circle at 70% 20%, rgba(255,255,255,.2), transparent 26%); }
+    .creator-placeholder.hidden { display: none; }
+    .creator-monogram { font-size: clamp(5rem, 10vw, 8rem); font-weight: 850; line-height: 1; letter-spacing: -.08em; text-shadow: 0 18px 45px rgba(76,21,120,.25); }
+    .creator-placeholder span:last-child { margin-top: 14px; font-size: 11px; font-weight: 750; letter-spacing: .18em; text-transform: uppercase; }
     #close { background: radial-gradient(circle at 50% 0%, rgba(236,72,153,.1), transparent 48%), white; }
     #admin-btn { width: 48px; height: 48px; padding: 0; overflow: hidden; font-size: 0; border-radius: 16px; background: #10172a; }
     #admin-btn::after { content: "⚙"; font-size: 20px; }
@@ -1389,6 +1416,8 @@
       .hero-media { padding: 8px; border-radius: 22px; }
       .proof-cards { grid-template-columns: 1fr; }
       .method-grid { grid-template-columns: 1fr; }
+      .personas-grid { grid-template-columns: 1fr; }
+      .persona-card { min-height: 180px; }
       .step-card, .bonus-card, .creator-content { grid-template-columns: 1fr; padding: 24px; }
       .step-card:nth-child(even) { direction: ltr; }
       .price-highlight, .planos-section { padding: 28px 20px; }
@@ -1406,6 +1435,9 @@
       .admin-tab::before { display: none; }
       .admin-content > div:last-child { padding: 16px; }
       .admin-tab-content { padding: 24px 18px; border-radius: 17px; }
+      .creator-content { padding: 0; }
+      .creator-info { padding: 38px 24px; }
+      .creator-visual, .creator-image { min-height: 430px; }
       .guarantee-badge { padding: 30px 22px; text-align: center; }
       .guarantee-seal { position: static; margin: 0 auto 18px; transform: none; }
     }
@@ -1798,11 +1830,18 @@
       
       <div class="creator-content">
         <div class="creator-info">
+          <p class="creator-eyebrow">Conheça quem vai acompanhar você</p>
           <h3 id="creator-name">Bruna Affonso</h3>
           <p class="creator-desc" id="creator-desc">Personal Trainer especializada em transformação corporal</p>
           <div class="creator-stats" id="creator-stats"></div>
         </div>
-        <img id="creator-image-display" class="creator-image" src="" style="width: 100%; height: 300px; border-radius: 12px; object-fit: cover;">
+        <div class="creator-visual">
+          <img id="creator-image-display" class="creator-image" src="" alt="Bruna Affonso">
+          <div id="creator-image-placeholder" class="creator-placeholder">
+            <span class="creator-monogram">BA</span>
+            <span>Sua personal, do seu lado</span>
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -1871,12 +1910,12 @@ const DEFAULT_DATA = {
   ],
   personasIntro: 'Funciona para você se:',
   personas: [
-    { text: '⏱️ Tem pouco tempo' },
-    { text: '🆕 Nunca treinou' },
-    { text: '📊 Está estagnada' },
-    { text: '🔄 Já tentou de tudo' },
-    { text: '✈️ Viaja muito' },
-    { text: '🏆 Quer se olhar com orgulho' }
+    { text: 'Tem uma rotina corrida', desc: 'Precisa de um treino eficiente que se adapte ao tempo que você realmente tem.' },
+    { text: 'Está começando agora', desc: 'Quer aprender os fundamentos e entrar na academia com mais segurança.' },
+    { text: 'Parou de evoluir', desc: 'Treina, mas sente que os resultados não acompanham todo o seu esforço.' },
+    { text: 'Já tentou outros métodos', desc: 'Busca uma estratégia personalizada em vez de mais uma fórmula genérica.' },
+    { text: 'Precisa de flexibilidade', desc: 'Viaja ou muda a rotina e quer continuar treinando com direção.' },
+    { text: 'Quer recuperar a confiança', desc: 'Deseja se sentir forte, segura e orgulhosa da própria evolução.' }
   ],
   personasOutro: 'Funciona independente da sua situação atual - daqui para frente você tem a chance de mudar!',
   divertidoText: 'Treinar pode ser muito mais divertido do que você imagina.',
@@ -1934,6 +1973,10 @@ if (state.diferenciais?.some(item => /[📚💪✨]/u.test(`${item.icon}${item.t
   state.diferenciais = JSON.parse(JSON.stringify(DEFAULT_DATA.diferenciais));
   localStorage.setItem('pageState', JSON.stringify(state));
 }
+if (state.personas?.some(item => /[⏱🆕📊🔄✈🏆]/u.test(item.text) || !item.desc)) {
+  state.personas = JSON.parse(JSON.stringify(DEFAULT_DATA.personas));
+  localStorage.setItem('pageState', JSON.stringify(state));
+}
 
 function saveState() {
   localStorage.setItem('pageState', JSON.stringify(state));
@@ -1969,7 +2012,7 @@ function renderPage() {
     document.getElementById('personas-intro').innerHTML = state.personasIntro;
   }
   if (document.getElementById('personas')) {
-    document.getElementById('personas').innerHTML = state.personas.map(p => `<div class="persona-card"><div class="persona-check">✓</div><div class="persona-text">${p.text}</div></div>`).join('');
+    document.getElementById('personas').innerHTML = state.personas.map((p, i) => `<article class="persona-card"><div class="persona-index">0${i + 1}</div><div class="persona-content"><div class="persona-text">${p.text}</div><p class="persona-desc">${p.desc || ''}</p></div></article>`).join('');
   }
   if (document.getElementById('personas-outro')) {
     document.getElementById('personas-outro').innerHTML = state.personasOutro;
@@ -1993,9 +2036,12 @@ function renderPage() {
     document.getElementById('creator-desc').innerHTML = state.creatorDesc;
   }
   if (document.getElementById('creator-image-display')) {
-    if (state.creatorImage && state.creatorImage.startsWith('data:image')) {
-      document.getElementById('creator-image-display').src = state.creatorImage;
-    }
+    const creatorImage = document.getElementById('creator-image-display');
+    const creatorPlaceholder = document.getElementById('creator-image-placeholder');
+    const hasCreatorImage = Boolean(state.creatorImage);
+    creatorImage.classList.toggle('has-image', hasCreatorImage);
+    creatorPlaceholder?.classList.toggle('hidden', hasCreatorImage);
+    if (hasCreatorImage) creatorImage.src = state.creatorImage;
   }
   if (document.getElementById('creator-stats')) {
     document.getElementById('creator-stats').innerHTML = state.creatorStats.map(s => `<div class="creator-stat"><div class="stat-number">${s.number}</div><div class="stat-label">${s.label}</div></div>`).join('');
@@ -2110,7 +2156,7 @@ function syncAdminInputs(tab) {
     editor.innerHTML = state.steps.map((s, i) => `<div class="edit-group" style="background: #f3f4f6; padding: 1rem; border-radius: 6px; margin-bottom: 1rem;"><label>Etapa ${i + 1} - Título</label><input type="text" value="${s.title}" onchange="state.steps[${i}].title = this.value; saveState(); renderPage();"><label>Descrição</label><textarea onchange="state.steps[${i}].desc = this.value; saveState(); renderPage();">${s.desc}</textarea><button class="btn-admin btn-danger" style="margin-top: 0.5rem;" onclick="state.steps.splice(${i}, 1); saveState(); syncAdminInputs('steps'); renderPage();">Remover</button></div>`).join('');
   } else if (tab === 'personas') {
     const editor = document.getElementById('personas-editor');
-    editor.innerHTML = state.personas.map((p, i) => `<div class="edit-group" style="background: #f3f4f6; padding: 1rem; border-radius: 6px; margin-bottom: 1rem;"><label>Persona ${i + 1}</label><input type="text" value="${p.text}" onchange="state.personas[${i}].text = this.value; saveState(); renderPage();"><button class="btn-admin btn-danger" style="margin-top: 0.5rem;" onclick="state.personas.splice(${i}, 1); saveState(); syncAdminInputs('personas'); renderPage();">Remover</button></div>`).join('');
+    editor.innerHTML = state.personas.map((p, i) => `<div class="edit-group" style="background: #f3f4f6; padding: 1rem; border-radius: 6px; margin-bottom: 1rem;"><label>Perfil ${i + 1}</label><input type="text" value="${p.text}" onchange="state.personas[${i}].text = this.value; saveState(); renderPage();"><label style="margin-top: 12px;">Descrição</label><textarea onchange="state.personas[${i}].desc = this.value; saveState(); renderPage();">${p.desc || ''}</textarea><button class="btn-admin btn-danger" style="margin-top: 0.5rem;" onclick="state.personas.splice(${i}, 1); saveState(); syncAdminInputs('personas'); renderPage();">Remover</button></div>`).join('');
   } else if (tab === 'bonus') {
     const editor = document.getElementById('bonus-editor');
     editor.innerHTML = state.bonus.map((b, i) => `<div class="edit-group" style="background: #f3f4f6; padding: 1rem; border-radius: 6px; margin-bottom: 1rem;"><label>Bônus ${i + 1}</label><input type="text" value="${b.title}" onchange="state.bonus[${i}].title = this.value; saveState(); renderPage();"><label>Descrição</label><textarea onchange="state.bonus[${i}].desc = this.value; saveState(); renderPage();">${b.desc}</textarea><label>Valor</label><input type="text" value="${b.value}" onchange="state.bonus[${i}].value = this.value; saveState(); renderPage();"><button class="btn-admin btn-danger" style="margin-top: 0.5rem;" onclick="state.bonus.splice(${i}, 1); saveState(); syncAdminInputs('bonus'); renderPage();">Remover</button></div>`).join('');
@@ -2139,7 +2185,7 @@ function syncAdminInputs(tab) {
 function addProof() { state.proof.push({ title: '', desc: '', image: '' }); saveState(); syncAdminInputs('proof'); }
 function addDiferencial() { state.diferenciais.push({ text: '', icon: '💪' }); saveState(); syncAdminInputs('diferenciais'); }
 function addStep() { state.steps.push({ num: state.steps.length + 1, title: '', desc: '' }); saveState(); syncAdminInputs('steps'); }
-function addPersona() { state.personas.push({ text: '' }); saveState(); syncAdminInputs('personas'); }
+function addPersona() { state.personas.push({ text: '', desc: '' }); saveState(); syncAdminInputs('personas'); }
 function addBonus() { state.bonus.push({ title: '', desc: '', value: '' }); saveState(); syncAdminInputs('bonus'); renderPage(); }
 function addFaq() { state.faq.push({ q: '', a: '' }); saveState(); syncAdminInputs('faq'); }
 
