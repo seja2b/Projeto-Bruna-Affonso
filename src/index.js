@@ -1,13 +1,6 @@
 const SESSION_TTL = 60 * 60 * 8;
-const CODE_TTL = 60 * 10;
+const ATTEMPT_TTL = 60 * 15;
 const MAX_ATTEMPTS = 5;
-
-const normalizeEmail = (value = '') => value.trim().toLowerCase();
-const emailHash = email => sha256(normalizeEmail(email));
-
-function allowedEmails(env) {
-  return new Set((env.ADMIN_EMAILS || '').split(',').map(normalizeEmail).filter(Boolean));
-}
 
 function corsHeaders(request) {
   const origin = request.headers.get('Origin');
@@ -36,16 +29,18 @@ async function sha256(value) {
   return [...new Uint8Array(digest)].map(byte => byte.toString(16).padStart(2, '0')).join('');
 }
 
-async function secureEquals(left, right) {
-  if (!left || !right) return false;
-  const [a, b] = await Promise.all([sha256(left), sha256(right)]);
-  return safeHexEquals(a, b);
+function safeHexEquals(left, right) {
+  let difference = left.length ^ right.length;
+  for (let index = 0; index < left.length; index += 1) {
+    difference |= left.charCodeAt(index) ^ right.charCodeAt(index);
+  }
+  return difference === 0;
 }
 
-function safeHexEquals(a, b) {
-  let difference = a.length ^ b.length;
-  for (let index = 0; index < a.length; index += 1) difference |= a.charCodeAt(index) ^ b.charCodeAt(index);
-  return difference === 0;
+async function secureEquals(left, right) {
+  if (!left || !right) return false;
+  const [leftHash, rightHash] = await Promise.all([sha256(left), sha256(right)]);
+  return safeHexEquals(leftHash, rightHash);
 }
 
 function randomToken() {
@@ -59,85 +54,42 @@ function bearerToken(request) {
   return value.startsWith('Bearer ') ? value.slice(7).trim() : '';
 }
 
-async function requestCode(request, env) {
-  if (!env.ADMIN_ACCESS_CODE || !env.ADMIN_EMAILS || !env.SENDGRID_API_KEY) {
-    console.error('[Admin Auth] Required secrets are missing');
-    return json(request, { success: false, error: 'Autenticação administrativa indisponível.' }, 503);
-  }
-
-  const { email: rawEmail, accessCode = '' } = await request.json();
-  const email = normalizeEmail(rawEmail);
-  const isAuthorized = allowedEmails(env).has(email) && await secureEquals(accessCode, env.ADMIN_ACCESS_CODE);
-  if (!isAuthorized) return json(request, { success: false, error: 'Código privado ou e-mail não autorizado.' }, 403);
-
-  const hash = await emailHash(email);
-  if (await env.CODES.get(`admin-cooldown:${hash}`)) {
-    return json(request, { success: false, error: 'Aguarde um minuto antes de solicitar outro código.' }, 429);
-  }
-
-  const code = Math.floor(100000 + Math.random() * 900000).toString();
-  const codeKey = `admin-code:${hash}`;
-  await env.CODES.put(codeKey, JSON.stringify({ hash: await sha256(code), attempts: 0 }), { expirationTtl: CODE_TTL });
-  await env.CODES.put(`admin-cooldown:${hash}`, '1', { expirationTtl: 60 });
-
-  const response = await fetch('https://api.sendgrid.com/v3/mail/send', {
-    method: 'POST',
-    headers: { Authorization: `Bearer ${env.SENDGRID_API_KEY}`, 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      personalizations: [{ to: [{ email }] }],
-      from: { email: env.ADMIN_FROM_EMAIL || 'noreply@consultoriaba.com', name: 'Bruna Affonso' },
-      subject: 'Seu código de acesso administrativo',
-      content: [{ type: 'text/html', value: emailTemplate(code) }]
-    })
-  });
-
-  if (!response.ok) {
-    const providerError = await response.text();
-    await env.CODES.delete(codeKey);
-    console.error('[Admin Auth] SendGrid error', response.status, providerError);
-    return json(request, {
-      success: false,
-      error: `Não foi possível enviar o código por e-mail. Referência: EMAIL_${response.status}`
-    }, 502);
-  }
-  return json(request, { success: true, message: 'Código enviado para o e-mail autorizado.' });
+async function attemptKey(request) {
+  const source = request.headers.get('CF-Connecting-IP') || request.headers.get('User-Agent') || 'unknown';
+  return `admin-attempts:${await sha256(source)}`;
 }
 
-function emailTemplate(code) {
-  return `<div style="font-family:Arial,sans-serif;max-width:520px;margin:auto;padding:32px;color:#172033"><div style="display:inline-block;padding:12px 16px;border-radius:14px;background:linear-gradient(135deg,#7c3aed,#ec4899);color:white;font-weight:700">BA</div><h1 style="font-size:24px;margin:24px 0 8px">Acesso administrativo</h1><p style="color:#667085">Use o código abaixo para acessar o painel. Ele expira em 10 minutos e funciona uma única vez.</p><div style="margin:28px 0;padding:20px;border-radius:14px;background:#f5f1ff;color:#7c3aed;font-size:34px;font-weight:800;letter-spacing:10px;text-align:center">${code}</div><p style="font-size:12px;color:#98a2b3">Se você não solicitou este acesso, ignore este e-mail.</p></div>`;
-}
-
-async function validateCode(request, env) {
-  const { email: rawEmail, code = '' } = await request.json();
-  const email = normalizeEmail(rawEmail);
-  if (!allowedEmails(env).has(email) || !/^\d{6}$/.test(code)) {
-    return json(request, { success: false, error: 'Código inválido ou expirado.' }, 400);
+async function login(request, env) {
+  if (!env.ADMIN_ACCESS_CODE) {
+    console.error('[Admin Auth] ADMIN_ACCESS_CODE is missing');
+    return json(request, { success: false, error: 'Acesso administrativo indisponível.' }, 503);
   }
 
-  const key = `admin-code:${await emailHash(email)}`;
-  const stored = await env.CODES.get(key, 'json');
-  if (!stored || stored.attempts >= MAX_ATTEMPTS) {
-    await env.CODES.delete(key);
-    return json(request, { success: false, error: 'Código inválido ou expirado.' }, 401);
+  const key = await attemptKey(request);
+  const attempts = Number(await env.CODES.get(key) || 0);
+  if (attempts >= MAX_ATTEMPTS) {
+    return json(request, { success: false, error: 'Muitas tentativas. Aguarde 15 minutos.' }, 429);
   }
 
-  if (!safeHexEquals(await sha256(code), stored.hash)) {
-    stored.attempts += 1;
-    await env.CODES.put(key, JSON.stringify(stored), { expirationTtl: CODE_TTL });
-    return json(request, { success: false, error: 'Código inválido ou expirado.' }, 401);
+  const { accessCode = '' } = await request.json();
+  if (!(await secureEquals(accessCode, env.ADMIN_ACCESS_CODE))) {
+    await env.CODES.put(key, String(attempts + 1), { expirationTtl: ATTEMPT_TTL });
+    return json(request, { success: false, error: 'Código de acesso inválido.' }, 401);
   }
 
   await env.CODES.delete(key);
   const sessionToken = randomToken();
-  await env.CODES.put(`admin-session:${await sha256(sessionToken)}`, JSON.stringify({ email }), { expirationTtl: SESSION_TTL });
+  await env.CODES.put(`admin-session:${await sha256(sessionToken)}`, JSON.stringify({ createdAt: Date.now() }), {
+    expirationTtl: SESSION_TTL
+  });
   return json(request, { success: true, sessionToken, expiresIn: SESSION_TTL });
 }
 
 async function validateSession(request, env) {
   const token = bearerToken(request);
   if (!token) return json(request, { success: false }, 401);
-  const session = await env.CODES.get(`admin-session:${await sha256(token)}`, 'json');
-  return session ? json(request, { success: true, email: session.email }) : json(request, { success: false }, 401);
+  const session = await env.CODES.get(`admin-session:${await sha256(token)}`);
+  return session ? json(request, { success: true }) : json(request, { success: false }, 401);
 }
 
 async function logout(request, env) {
@@ -151,8 +103,7 @@ export default {
     const url = new URL(request.url);
     if (request.method === 'OPTIONS') return new Response(null, { status: 204, headers: corsHeaders(request) });
     try {
-      if (url.pathname === '/api/send-code' && request.method === 'POST') return await requestCode(request, env);
-      if (url.pathname === '/api/validate-code' && request.method === 'POST') return await validateCode(request, env);
+      if (url.pathname === '/api/admin/login' && request.method === 'POST') return await login(request, env);
       if (url.pathname === '/api/admin/session' && request.method === 'GET') return await validateSession(request, env);
       if (url.pathname === '/api/admin/logout' && request.method === 'POST') return await logout(request, env);
 
