@@ -1287,13 +1287,72 @@
     .step-badge { background: linear-gradient(90deg, var(--primary-purple), var(--primary-pink)); }
     .persona-card, .bonus-card { border: 1px solid rgba(255,255,255,.07); border-radius: 20px; background: linear-gradient(145deg, #171d33, #101526); }
     .price-highlight, .planos-section, .guarantee-badge { border-radius: 26px; box-shadow: var(--shadow); }
-    .price-highlight { border: 1px solid rgba(236,72,153,.16); }
+    #preco { position: relative; overflow: hidden; }
+    #preco::before { content: ""; position: absolute; width: 420px; height: 420px; top: -220px; left: -180px; border-radius: 50%; background: rgba(124,58,237,.2); filter: blur(10px); }
+    #preco .container { position: relative; z-index: 1; }
+    .pricing-grid { max-width: 980px; margin: 44px auto 0; display: grid; grid-template-columns: .85fr 1.15fr; align-items: stretch; border-radius: 30px; overflow: hidden; background: white; box-shadow: 0 36px 90px rgba(0,0,0,.3); }
+    .pricing-summary { padding: 48px 42px; color: white; background: linear-gradient(145deg, #7c3aed, #a736cb 52%, #ec4899); }
+    .pricing-kicker { display: inline-flex; padding: 7px 12px; border: 1px solid rgba(255,255,255,.3); border-radius: 999px; font-size: 11px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; }
+    .pricing-summary h3 { margin: 28px 0 12px; font-size: 2rem; letter-spacing: -.04em; }
+    .pricing-summary p { color: rgba(255,255,255,.8); font-size: 14px; }
+    .pricing-features { display: grid; gap: 14px; margin-top: 30px; }
+    .pricing-feature { display: flex; align-items: center; gap: 11px; font-size: 14px; font-weight: 650; }
+    .pricing-feature span { width: 23px; height: 23px; display: grid; place-items: center; flex: 0 0 23px; border-radius: 50%; color: #7026be; background: white; font-size: 12px; }
+    .price-highlight { margin: 0; max-width: none; padding: 50px 46px; display: flex; flex-direction: column; justify-content: center; border: 0; border-radius: 0; box-shadow: none; }
+    .price-tag { margin: 0; color: #64748b; font-weight: 700; letter-spacing: .02em; }
+    .price-main { margin: 12px 0 4px; font-size: clamp(2.8rem, 5vw, 4.4rem); line-height: 1; letter-spacing: -.06em; background: linear-gradient(90deg, var(--primary-purple), var(--primary-pink)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .price-subtext { margin-bottom: 28px; }
+    .price-highlight .btn { width: 100%; padding: 17px 24px; }
+    .payment-safe { margin: 16px 0 0; color: #94a3b8; font-size: 12px; }
+    .planos-section { display: none; }
     .faq-item { border: 1px solid rgba(255,255,255,.08); border-radius: 14px; }
     .creator-content { padding: 24px; border: 1px solid var(--line); border-radius: 28px; background: white; box-shadow: var(--shadow); }
     .creator-image { height: 430px !important; border-radius: 20px !important; background: linear-gradient(135deg, #ede9fe, #fce7f3); }
     #close { background: radial-gradient(circle at 50% 0%, rgba(236,72,153,.1), transparent 48%), white; }
     #admin-btn { width: 48px; height: 48px; padding: 0; overflow: hidden; font-size: 0; border-radius: 16px; background: #10172a; }
     #admin-btn::after { content: "⚙"; font-size: 20px; }
+
+    /* Painel editorial profissional */
+    #admin-panel { background: #f3f5f9; color: #162033; }
+    .admin-header { position: sticky; top: 0; z-index: 20; min-height: 82px; padding: 16px 30px; border-bottom: 1px solid #e5e9f1; background: rgba(255,255,255,.92); backdrop-filter: blur(16px); box-shadow: 0 8px 30px rgba(15,23,42,.04); }
+    .admin-header h3 { color: #121a2c; font-size: 18px; letter-spacing: -.02em; }
+    .admin-header .user-info { margin-top: 3px !important; color: #64748b !important; font-size: 12px !important; }
+    .admin-content { grid-template-columns: 260px minmax(0, 1fr); max-width: none; min-height: calc(100vh - 82px); margin: 0; }
+    .admin-sidebar { position: sticky; top: 82px; height: calc(100vh - 82px); max-height: none; padding: 26px 16px; gap: 6px; overflow-y: auto; border-right: 1px solid rgba(255,255,255,.08); background: linear-gradient(180deg, #10172a, #0b1020); }
+    .admin-sidebar::before { content: "CONTEÚDO DA PÁGINA"; padding: 4px 14px 12px; color: #707c96; font-size: 10px; font-weight: 800; letter-spacing: .16em; }
+    .admin-tab { position: relative; padding: 12px 14px 12px 42px; border-radius: 11px; color: #aeb8cc; font-size: 13px; font-weight: 650; }
+    .admin-tab::before { content: ""; position: absolute; left: 17px; top: 50%; width: 8px; height: 8px; border: 2px solid #7d88a0; border-radius: 3px; transform: translateY(-50%); }
+    .admin-tab:hover { color: white; background: rgba(255,255,255,.06); }
+    .admin-tab.active { color: white; background: linear-gradient(90deg, rgba(124,58,237,.92), rgba(236,72,153,.78)); box-shadow: 0 12px 28px rgba(124,58,237,.22); }
+    .admin-tab.active::before { border-color: white; background: white; }
+    .admin-content > div:last-child { width: 100%; max-width: 1080px; padding: 38px; }
+    .admin-tab-content { margin: 0; padding: 38px; border: 1px solid #e8ebf1; border-radius: 22px; background: white; box-shadow: 0 18px 55px rgba(15,23,42,.07); }
+    .admin-tab-content h2 { margin: 0 0 28px; padding-bottom: 20px; border-bottom: 1px solid #edf0f5; color: #121a2c; font-size: 25px; letter-spacing: -.035em; }
+    .edit-group { margin-bottom: 22px; }
+    .edit-group label { margin-bottom: 8px; color: #354056; font-size: 12px; font-weight: 750; letter-spacing: .02em; }
+    .edit-group input, .edit-group textarea, .proof-item-edit input, .proof-item-edit textarea, .modal-form input { min-height: 48px; padding: 13px 15px; border: 1px solid #dce1ea; border-radius: 11px; color: #172033; background: #fbfcfe; transition: border-color .2s, box-shadow .2s, background .2s; }
+    .edit-group textarea, .proof-item-edit textarea { min-height: 112px; }
+    .edit-group input:focus, .edit-group textarea:focus, .proof-item-edit input:focus, .proof-item-edit textarea:focus { outline: none; border-color: #8b5cf6; background: white; box-shadow: 0 0 0 4px rgba(124,58,237,.09); }
+    .btn-admin, .btn-primary { padding: 12px 19px; border-radius: 11px; background: linear-gradient(90deg, var(--primary-purple), var(--primary-pink)); box-shadow: 0 10px 24px rgba(124,58,237,.18); }
+    .btn-admin:hover, .btn-primary:hover { background: linear-gradient(90deg, #6d28d9, #db2777); box-shadow: 0 14px 30px rgba(124,58,237,.24); }
+    .btn-logout { padding: 11px 17px; border: 1px solid #fed7df; border-radius: 11px; color: #be123c; background: #fff1f4; }
+    .file-input-label { padding: 28px 18px; border: 1.5px dashed #cbd3e1; border-radius: 14px; background: #f8f9fc; }
+    .proof-grid { grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 18px; }
+    .proof-item-edit, .admin-item { padding: 18px; border: 1px solid #e5e9f0; border-radius: 16px; background: #fafbfc; }
+    .modal-overlay { background: rgba(8,13,27,.68); backdrop-filter: blur(7px); }
+    .modal-content { padding: 28px; border: 1px solid rgba(255,255,255,.5); border-radius: 20px; box-shadow: 0 30px 90px rgba(4,8,20,.32); }
+    .admin-tab-content .edit-group[style] { padding: 18px !important; border: 1px solid #e5e9f0; border-radius: 16px !important; background: #fafbfc !important; }
+    #login-modal { background: rgba(8,13,27,.78); backdrop-filter: blur(10px); }
+    .login-container { position: relative; overflow: hidden; max-width: 430px; padding: 34px; border: 1px solid rgba(255,255,255,.6); border-radius: 24px; box-shadow: 0 35px 100px rgba(4,8,20,.4); }
+    .login-container::before { content: "BA"; width: 54px; height: 54px; display: grid; place-items: center; margin: 0 auto 18px; border-radius: 17px; color: white; font-weight: 800; background: linear-gradient(135deg, var(--primary-purple), var(--primary-pink), var(--primary-orange)); box-shadow: 0 14px 30px rgba(124,58,237,.24); }
+    .login-container h2 { margin: 0 0 8px; color: #121a2c; font-size: 25px; }
+    .login-container input { min-height: 50px; padding: 13px 15px; border: 1px solid #dce1ea; border-radius: 12px; background: #fafbfc; }
+    .login-buttons button { min-height: 46px; border-radius: 11px; }
+    .btn-login { background: linear-gradient(90deg, var(--primary-purple), var(--primary-pink)); }
+    .guarantee-badge { position: relative; max-width: 780px; padding: 38px 42px 38px 150px; text-align: left; border: 1px solid rgba(124,58,237,.16); background: linear-gradient(135deg, #fff, #faf7ff); }
+    .guarantee-seal { position: absolute; left: 34px; top: 50%; width: 86px; height: 86px; margin: 0; transform: translateY(-50%); box-shadow: 0 18px 35px rgba(124,58,237,.22); }
+    .guarantee-title { color: #151d31; font-size: 1.55rem; letter-spacing: -.03em; }
+    .guarantee-text { margin: 0; font-size: 14px; line-height: 1.75; }
 
     @media (max-width: 900px) {
       section { padding: 72px 0; }
@@ -1321,6 +1380,20 @@
       .price-highlight, .planos-section { padding: 28px 20px; }
       .price-main { font-size: 2.6rem; }
       .plano-item { align-items: flex-start; gap: 18px; }
+      .pricing-grid { grid-template-columns: 1fr; }
+      .pricing-summary, .price-highlight { padding: 34px 24px; }
+      .admin-header { align-items: flex-start; padding: 14px 16px; }
+      .admin-header > div:last-child { gap: 7px !important; }
+      .admin-header .btn-logout, .admin-header .btn-admin { padding: 9px 11px; font-size: 11px; }
+      .admin-content { grid-template-columns: 1fr; }
+      .admin-sidebar { position: static; height: auto; padding: 12px; display: flex; flex-direction: row; overflow-x: auto; border-right: 0; }
+      .admin-sidebar::before { display: none; }
+      .admin-tab { flex: 0 0 auto; padding: 10px 14px; }
+      .admin-tab::before { display: none; }
+      .admin-content > div:last-child { padding: 16px; }
+      .admin-tab-content { padding: 24px 18px; border-radius: 17px; }
+      .guarantee-badge { padding: 30px 22px; text-align: center; }
+      .guarantee-seal { position: static; margin: 0 auto 18px; transform: none; }
     }
     @media (max-width: 440px) {
       .nav-cta { display: none; }
@@ -1333,7 +1406,7 @@
 
 <div id="login-modal" style="display: none;">
   <div class="login-container">
-    <h2>🔐 Consultoria BA</h2>
+    <h2>Acesso administrativo</h2>
     <div id="login-message" class="login-message"></div>
     
     <div id="email-step" style="display: block;">
@@ -1393,34 +1466,34 @@
 <div id="admin-panel">
   <div class="admin-header">
     <div>
-      <h3 style="margin: 0;">🔐 Painel Administrativo - Bruna Affonso</h3>
-      <div class="user-info" style="margin-top: 0.5rem; font-size: 0.875rem; color: var(--primary-green);">✓ Logado no painel administrativo</div>
+      <h3 style="margin: 0;">Painel editorial · Bruna Affonso</h3>
+      <div class="user-info" style="margin-top: 0.5rem; font-size: 0.875rem; color: var(--primary-green);">Conteúdo e configurações da landing page</div>
     </div>
     <div style="display: flex; gap: 1rem;">
-      <button class="btn-logout" onclick="logout()">🚪 Logout</button>
-      <button class="btn-admin" onclick="closeAdmin()">← Voltar</button>
+      <button class="btn-logout" onclick="logout()">Sair</button>
+      <button class="btn-admin" onclick="closeAdmin()">Ver página</button>
     </div>
   </div>
 
   <div class="admin-content">
     <div class="admin-sidebar">
-      <button class="admin-tab active" onclick="switchAdminTab('hero')">Hero</button>
-      <button class="admin-tab" onclick="switchAdminTab('proof')">Social Proof</button>
-      <button class="admin-tab" onclick="switchAdminTab('admins')">Admins</button>
+      <button class="admin-tab active" onclick="switchAdminTab('hero')">Apresentação</button>
+      <button class="admin-tab" onclick="switchAdminTab('proof')">Depoimentos</button>
+      <button class="admin-tab" onclick="switchAdminTab('admins')">Administradores</button>
       <button class="admin-tab" onclick="switchAdminTab('diferenciais')">Diferenciais</button>
       <button class="admin-tab" onclick="switchAdminTab('metodo')">Imagens Método</button>
       <button class="admin-tab" onclick="switchAdminTab('steps')">Como Funciona</button>
-      <button class="admin-tab" onclick="switchAdminTab('personas')">Personas</button>
+      <button class="admin-tab" onclick="switchAdminTab('personas')">Público ideal</button>
       <button class="admin-tab" onclick="switchAdminTab('bonus')">Bônus</button>
-      <button class="admin-tab" onclick="switchAdminTab('preco')">Preço</button>
-      <button class="admin-tab" onclick="switchAdminTab('faq')">FAQ</button>
-      <button class="admin-tab" onclick="switchAdminTab('creator')">Criador</button>
-      <button class="admin-tab" onclick="switchAdminTab('settings')">Config</button>
+      <button class="admin-tab" onclick="switchAdminTab('preco')">Investimento</button>
+      <button class="admin-tab" onclick="switchAdminTab('faq')">Perguntas frequentes</button>
+      <button class="admin-tab" onclick="switchAdminTab('creator')">Sobre a Bruna</button>
+      <button class="admin-tab" onclick="switchAdminTab('settings')">Configurações</button>
     </div>
 
     <div>
       <div id="admin-hero-tab" class="admin-tab-content">
-        <h2>Hero Section</h2>
+        <h2>Apresentação principal</h2>
         <div class="edit-group">
           <label>URL do Vídeo</label>
           <input type="text" id="video-url-hero" onchange="state.videoUrlHero = this.value; saveState(); renderPage();">
@@ -1486,7 +1559,7 @@
       </div>
 
       <div id="admin-preco-tab" class="admin-tab-content" style="display:none;">
-        <h2>Preço</h2>
+        <h2>Investimento da consultoria</h2>
         <div class="edit-group">
           <label>Título</label>
           <input type="text" id="price-title" onchange="state.priceTitle = this.value; saveState(); renderPage();">
@@ -1656,11 +1729,25 @@
       <p style="color: #d1d5db; font-size: 0.875rem; margin-bottom: 1rem;">● INVESTIMENTO</p>
       <h2>Quanto custa começar:</h2>
       
-      <div class="price-highlight">
-        <p class="price-tag">Garanta sua vaga agora por apenas</p>
-        <div class="price-main" id="price-main">6x R$ 219,00</div>
-        <p class="price-subtext">ou <span id="price-vista">R$ 1.314</span> à vista com desconto</p>
-        <a href="" class="btn" id="cta-price" onclick="event.preventDefault(); window.location.href = state.checkoutUrl;" style="background: var(--primary-green);">Quero garantir meu acesso completo agora</a>
+      <div class="pricing-grid">
+        <div class="pricing-summary">
+          <span class="pricing-kicker">Consultoria completa</span>
+          <h3>Seu treino com direção, suporte e estratégia.</h3>
+          <p>Uma experiência construída para você evoluir com segurança e consistência.</p>
+          <div class="pricing-features">
+            <div class="pricing-feature"><span>✓</span> Treinos personalizados</div>
+            <div class="pricing-feature"><span>✓</span> Acompanhamento individual</div>
+            <div class="pricing-feature"><span>✓</span> Correção dos exercícios</div>
+            <div class="pricing-feature"><span>✓</span> Videoaulas e conteúdos extras</div>
+          </div>
+        </div>
+        <div class="price-highlight">
+          <p class="price-tag">Invista na sua transformação</p>
+          <div class="price-main" id="price-main">6x R$ 219,00</div>
+          <p class="price-subtext">ou <span id="price-vista">R$ 1.314</span> à vista com desconto</p>
+          <a href="" class="btn" id="cta-price" onclick="event.preventDefault(); window.location.href = state.checkoutUrl;">Quero garantir minha vaga</a>
+          <p class="payment-safe">Pagamento seguro · Garantia de 7 dias</p>
+        </div>
       </div>
 
       <div class="planos-section">
