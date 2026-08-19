@@ -92,9 +92,13 @@ async function requestCode(request, env) {
   });
 
   if (!response.ok) {
+    const providerError = await response.text();
     await env.CODES.delete(codeKey);
-    console.error('[Admin Auth] SendGrid error', response.status);
-    return json(request, { success: false, error: 'Não foi possível enviar o código por e-mail.' }, 502);
+    console.error('[Admin Auth] SendGrid error', response.status, providerError);
+    return json(request, {
+      success: false,
+      error: `Não foi possível enviar o código por e-mail. Referência: EMAIL_${response.status}`
+    }, 502);
   }
   return json(request, { success: true, message: 'Código enviado para o e-mail autorizado.' });
 }
