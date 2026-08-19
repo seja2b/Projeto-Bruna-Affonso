@@ -4,6 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Bruna Affonso - Personal Trainer</title>
+  <link rel="icon" type="image/jpeg" href="https://i.imgur.com/RU6wtlH.jpg">
+  <link rel="apple-touch-icon" href="https://i.imgur.com/RU6wtlH.jpg">
   <style>
     * {
       margin: 0;
@@ -1280,8 +1282,19 @@
     .proof-card { position: relative; overflow: hidden; min-height: 260px; border: 1px solid rgba(255,255,255,.07); border-radius: 22px; background: linear-gradient(145deg, #171d33, #101526); box-shadow: 0 18px 45px rgba(15,23,42,.14); }
     .proof-card::before { content: "“"; position: absolute; right: 20px; top: -18px; color: rgba(236,72,153,.16); font: 900 110px Georgia, serif; }
     .diferenciais-grid { gap: 18px; }
-    .diferencial-card { min-height: 230px; display: flex; flex-direction: column; justify-content: center; border: 1px solid var(--line) !important; border-radius: 22px; box-shadow: 0 14px 40px rgba(30,41,59,.06); }
-    .diferencial-icon { width: 58px; height: 58px; display: grid; place-items: center; margin: 0 auto 20px; border-radius: 18px; background: white; box-shadow: 0 12px 30px rgba(124,58,237,.12); }
+    .diferencial-card { position: relative; overflow: hidden; min-height: 250px; padding: 34px; display: flex; flex-direction: column; justify-content: flex-end; align-items: flex-start; text-align: left; border: 1px solid var(--line) !important; border-radius: 24px; box-shadow: 0 18px 48px rgba(30,41,59,.08); }
+    .diferencial-card::after { content: ""; position: absolute; width: 150px; height: 150px; right: -70px; top: -70px; border-radius: 50%; background: rgba(255,255,255,.52); }
+    .diferencial-icon { width: 54px; height: 54px; display: grid; place-items: center; margin: 0 0 36px; border-radius: 17px; color: white; font-size: 13px; font-weight: 850; letter-spacing: .08em; background: linear-gradient(135deg, var(--primary-purple), var(--primary-pink)); box-shadow: 0 14px 30px rgba(124,58,237,.2); }
+    .diferencial-text { max-width: 260px; color: #20283a; font-size: 17px; line-height: 1.45; letter-spacing: -.015em; }
+    .method-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
+    .method-media { position: relative; overflow: hidden; aspect-ratio: 16/9; border: 1px solid #e4e8f0; border-radius: 24px; background: #11182b; box-shadow: 0 20px 50px rgba(15,23,42,.11); }
+    .method-media img { width: 100%; height: 100%; display: block; object-fit: cover; transition: transform .45s ease; }
+    .method-media:hover img { transform: scale(1.025); }
+    .method-placeholder { width: 100%; height: 100%; padding: 28px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; background: radial-gradient(circle at 50% 30%, rgba(124,58,237,.18), transparent 36%), linear-gradient(145deg, #171e34, #0f1528); color: white; }
+    .method-placeholder-icon { width: 58px; height: 58px; display: grid; place-items: center; margin-bottom: 18px; border: 1px solid rgba(255,255,255,.15); border-radius: 18px; color: #f0d9ff; background: rgba(255,255,255,.07); }
+    .method-placeholder-icon svg { width: 25px; height: 25px; }
+    .method-placeholder strong { margin-bottom: 6px; font-size: 16px; }
+    .method-placeholder span { color: #98a3bb; font-size: 12px; }
     #funciona, #preco, #faq, footer { background: linear-gradient(145deg, #0b1020, #141b32); }
     .step-card { border-radius: 24px; padding: 38px; box-shadow: 0 24px 55px rgba(0,0,0,.18); }
     .step-badge { background: linear-gradient(90deg, var(--primary-purple), var(--primary-pink)); }
@@ -1375,6 +1388,7 @@
       #video-container, #video-container iframe { min-height: 215px; }
       .hero-media { padding: 8px; border-radius: 22px; }
       .proof-cards { grid-template-columns: 1fr; }
+      .method-grid { grid-template-columns: 1fr; }
       .step-card, .bonus-card, .creator-content { grid-template-columns: 1fr; padding: 24px; }
       .step-card:nth-child(even) { direction: ltr; }
       .price-highlight, .planos-section { padding: 28px 20px; }
@@ -1686,7 +1700,7 @@
       <p style="text-align: center; color: #666; margin-bottom: 2rem;">Permitindo que você tenha além de resultados, independência na academia e se sinta segura treinando.</p>
       <div class="diferenciais-grid" id="diferenciais"></div>
       <div style="text-align: center; margin-top: 3rem;">
-        <div id="metodo-images" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;"></div>
+        <div id="metodo-images" class="method-grid"></div>
       </div>
     </div>
   </section>
@@ -1837,9 +1851,9 @@ const DEFAULT_DATA = {
   proofComum: 'E elas têm algo em comum: São pessoas normais com rotinas reais | Não fazem dieta nem treino "milagroso" | Investiram em si mesmas | Apenas aplicando os treinos feitos para elas com a orientação certa',
   
   diferenciais: [
-    { text: '📚 A única consultoria que te ensina a treinar', icon: '📚' },
-    { text: '💪 Você tem além de resultados, independência na academia', icon: '💪' },
-    { text: '✨ Se sinta segura treinando sozinha', icon: '✨' }
+    { text: 'Aprenda a treinar com técnica e consciência', icon: '01' },
+    { text: 'Conquiste resultados e independência na academia', icon: '02' },
+    { text: 'Treine com mais segurança e confiança', icon: '03' }
   ],
   
   metodImages: [
@@ -1916,6 +1930,11 @@ const DEFAULT_DATA = {
 let state = JSON.parse(localStorage.getItem('pageState')) || JSON.parse(JSON.stringify(DEFAULT_DATA));
 let currentUserEmail = '';
 
+if (state.diferenciais?.some(item => /[📚💪✨]/u.test(`${item.icon}${item.text}`))) {
+  state.diferenciais = JSON.parse(JSON.stringify(DEFAULT_DATA.diferenciais));
+  localStorage.setItem('pageState', JSON.stringify(state));
+}
+
 function saveState() {
   localStorage.setItem('pageState', JSON.stringify(state));
 }
@@ -1941,7 +1960,7 @@ function renderPage() {
     document.getElementById('diferenciais').innerHTML = state.diferenciais.map(d => `<div class="diferencial-card"><div class="diferencial-icon">${d.icon}</div><div class="diferencial-text">${d.text}</div></div>`).join('');
   }
   if (document.getElementById('metodo-images')) {
-    document.getElementById('metodo-images').innerHTML = state.metodImages.map((img, i) => `<div style="border-radius: 12px; overflow: hidden; background: #f0f0f0; aspect-ratio: 16/9;">${img.url ? `<img src="${img.url}" style="width: 100%; height: 100%; object-fit: cover;" alt="${img.title}">` : `<div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: #e5e5e5; color: #999; font-size: 0.875rem;">📸 ${img.title}</div>`}</div>`).join('');
+    document.getElementById('metodo-images').innerHTML = state.metodImages.map((img) => `<div class="method-media">${img.url ? `<img src="${img.url}" alt="${img.title}">` : `<div class="method-placeholder"><div class="method-placeholder-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M15 10l4.55-2.28A1 1 0 0121 8.62v6.76a1 1 0 01-1.45.9L15 14"/><rect x="3" y="6" width="12" height="12" rx="3"/></svg></div><strong>${img.title}</strong><span>Adicione a capa pelo painel editorial</span></div>`}</div>`).join('');
   }
   if (document.getElementById('steps')) {
     document.getElementById('steps').innerHTML = state.steps.map(s => `<div class="step-card"><div><div class="step-badge">ETAPA ${s.num}</div><h3 class="step-title">${s.title}</h3><p class="step-desc">${s.desc}</p><div class="step-checks"><div class="check-item"><span class="check-icon">✓</span> Estruturado e planejado</div><div class="check-item"><span class="check-icon">✓</span> Com total acompanhamento</div></div></div><div class="step-image">📸 ${s.title}</div></div>`).join('');
