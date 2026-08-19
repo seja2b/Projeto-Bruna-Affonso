@@ -1456,22 +1456,11 @@
     <div id="login-message" class="login-message"></div>
     
     <div id="email-step" style="display: block;">
-      <p class="login-step-title">Informe o e-mail autorizado e o código privado</p>
-      <input type="email" id="login-email" placeholder="seu@email.com" style="margin-bottom: 0.5rem;">
-      <input type="password" id="admin-access-code" placeholder="Código privado de acesso" autocomplete="current-password" style="margin-bottom: 0.75rem;">
+      <p class="login-step-title">Digite o código privado para acessar o painel</p>
+      <input type="password" id="admin-access-code" placeholder="Código de acesso" autocomplete="current-password" style="margin-bottom: 0.75rem;">
       <div class="login-buttons">
-        <button class="btn-login" id="send-code-btn" onclick="sendEmailCode()">Enviar Código</button>
+        <button class="btn-login" id="access-code-btn" onclick="loginWithAccessCode()">Entrar</button>
         <button class="btn-cancel" onclick="closeLoginModal()">Cancelar</button>
-      </div>
-    </div>
-
-    <div id="code-step" style="display: none;">
-      <p class="login-step-title">Código enviado para seu e-mail</p>
-      <p style="font-size: 0.8rem; color: #666; text-align: center; margin-bottom: 1rem;">Válido por 10 minutos</p>
-      <input type="text" id="login-code" placeholder="000000" class="code-input" maxlength="6" style="margin-bottom: 1rem;">
-      <div class="login-buttons">
-        <button class="btn-login" onclick="validateCode()">Validar</button>
-        <button class="btn-cancel" onclick="backToEmail()">Voltar</button>
       </div>
     </div>
 
@@ -2255,72 +2244,36 @@ function closeAdmin() {
 let adminSessionToken = sessionStorage.getItem('adminSessionToken') || '';
 let isLoggedIn = false;
 
-async function sendEmailCode() {
-  const email = document.getElementById('login-email').value.trim();
+async function loginWithAccessCode() {
   const accessCode = document.getElementById('admin-access-code').value;
-  const btn = document.getElementById('send-code-btn');
-  if (!email || !accessCode) {
-    showLoginMessage('Informe o e-mail e o código privado.', false);
-    return;
-  }
-  btn.disabled = true;
-  btn.textContent = 'Enviando...';
-  showLoginMessage('Enviando código...', true);
-  try {
-    const response = await fetch(`${API_URL}/api/send-code`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, accessCode })
-    });
-    const data = await response.json();
-    if (data.success) {
-      currentUserEmail = email;
-      document.getElementById('admin-access-code').value = '';
-      showLoginMessage('Código enviado para o e-mail autorizado.', true);
-      setTimeout(() => {
-        document.getElementById('email-step').style.display = 'none';
-        document.getElementById('code-step').style.display = 'block';
-        document.getElementById('login-message').innerHTML = '';
-      }, 1500);
-    } else {
-      showLoginMessage(data.error || 'Não foi possível enviar o código.', false);
-    }
-  } catch (error) {
-    showLoginMessage('Erro de conexão. Verifique sua internet.', false);
-  } finally {
-    btn.disabled = false;
-    btn.textContent = 'Enviar Código';
-  }
-}
-
-async function validateCode() {
-  const code = document.getElementById('login-code').value.trim();
-  const btn = document.querySelector('#code-step .btn-login');
-  if (code.length !== 6) {
-    showLoginMessage('Digite um código de 6 dígitos', false);
+  const btn = document.getElementById('access-code-btn');
+  if (!accessCode) {
+    showLoginMessage('Digite o código de acesso.', false);
     return;
   }
   btn.disabled = true;
   btn.textContent = 'Validando...';
+  showLoginMessage('Validando acesso...', true);
   try {
-    const response = await fetch(`${API_URL}/api/validate-code`, {
+    const response = await fetch(`${API_URL}/api/admin/login`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email: currentUserEmail, code })
+      body: JSON.stringify({ accessCode })
     });
     const data = await response.json();
     if (data.success) {
       adminSessionToken = data.sessionToken;
       sessionStorage.setItem('adminSessionToken', adminSessionToken);
+      document.getElementById('admin-access-code').value = '';
       loginSuccess();
     } else {
-      showLoginMessage(data.error || 'Código inválido ou expirado.', false);
+      showLoginMessage(data.error || 'Código de acesso inválido.', false);
     }
   } catch (error) {
-    showLoginMessage('Erro de conexão', false);
+    showLoginMessage('Erro de conexão. Verifique sua internet.', false);
   } finally {
     btn.disabled = false;
-    btn.textContent = 'Validar';
+    btn.textContent = 'Entrar';
   }
 }
 
@@ -2348,27 +2301,15 @@ function openLoginModal() {
   if (!isLoggedIn) {
     document.getElementById('login-modal').style.display = 'flex';
     document.getElementById('email-step').style.display = 'block';
-    document.getElementById('code-step').style.display = 'none';
     document.getElementById('login-message').innerHTML = '';
-    document.getElementById('login-email').value = '';
-    document.getElementById('login-code').value = '';
     document.getElementById('admin-access-code').value = '';
-    document.getElementById('login-email').focus();
+    document.getElementById('admin-access-code').focus();
   }
 }
 
 function closeLoginModal() {
   document.getElementById('login-modal').style.display = 'none';
-  document.getElementById('login-email').value = '';
-  document.getElementById('login-code').value = '';
   document.getElementById('admin-access-code').value = '';
-}
-
-function backToEmail() {
-  document.getElementById('code-step').style.display = 'none';
-  document.getElementById('email-step').style.display = 'block';
-  document.getElementById('login-message').innerHTML = '';
-  document.getElementById('login-code').value = '';
 }
 
 function showLoginMessage(message, success) {
@@ -2393,6 +2334,10 @@ async function verifyAdminSession() {
     return false;
   }
 }
+
+document.getElementById('admin-access-code').addEventListener('keydown', event => {
+  if (event.key === 'Enter') loginWithAccessCode();
+});
 
 document.getElementById('admin-btn').addEventListener('click', async () => {
   if (isLoggedIn || await verifyAdminSession()) {
