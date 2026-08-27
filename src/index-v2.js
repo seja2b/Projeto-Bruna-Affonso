@@ -68,6 +68,7 @@ function applyApprovedLayout(html) {
 
   let updated = html.replace(currentPrice, APPROVED_PRICE_MARKUP);
   updated = updated.replace(currentHeroCta, HERO_CTA);
+  updated = updated.replace('<span class="payment-badge">PLANO MENSAL</span>', '<span class="payment-badge">PLANO RECORRENTE</span>');
 
   if (!updated.includes('approved-price-v2-styles')) {
     updated = updated.replace('</head>', `${APPROVED_PRICE_STYLES}\n</head>`);
