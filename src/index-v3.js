@@ -76,19 +76,41 @@ function applyFooterTrust(html) {
   const runtimeFix = `
 <script id="footer-runtime-fix">
 (function(){
-  function enforceFooter(){
+  function enforceSiteUpdates(){
     var footerText=document.getElementById('footer-text');
     var footerEmail=document.getElementById('footer-email');
     if(footerText){footerText.textContent='© 2026 Bruna Affonso - Consultoria Online. Todos os direitos reservados.';}
     if(footerEmail){footerEmail.href='mailto:brunaribeiroac@gmail.com';footerEmail.textContent='📧 brunaribeiroac@gmail.com';}
+
     if(typeof state==='object' && state){
       state.contactEmail='brunaribeiroac@gmail.com';
       state.footerText='© 2026 Bruna Affonso - Consultoria Online. Todos os direitos reservados.';
+
+      if(Array.isArray(state.bonus)){
+        state.bonus=state.bonus.filter(function(item){
+          return !/aula presencial/i.test((item && item.title) || '');
+        });
+      }
+
+      if(Array.isArray(state.faq)){
+        state.faq=state.faq.filter(function(item){
+          return !(/aula presencial/i.test((item && item.q) || '') || /aula presencial/i.test((item && item.a) || ''));
+        });
+      }
+
+      try{ if(typeof saveState==='function'){ saveState(); } }catch(e){}
+      try{ if(typeof renderPage==='function'){ renderPage(); } }catch(e){}
     }
   }
-  if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',enforceFooter);}else{enforceFooter();}
-  setTimeout(enforceFooter,250);
-  setTimeout(enforceFooter,1000);
+
+  if(document.readyState==='loading'){
+    document.addEventListener('DOMContentLoaded',enforceSiteUpdates);
+  }else{
+    enforceSiteUpdates();
+  }
+
+  setTimeout(enforceSiteUpdates,250);
+  setTimeout(enforceSiteUpdates,1000);
 })();
 </script>`;
 
