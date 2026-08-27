@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Prévia V2 · Investimento · Bruna Affonso</title>
+  <style>
+    *{box-sizing:border-box}
+    body{margin:0;font-family:Arial,Helvetica,sans-serif;background:linear-gradient(145deg,#0b1020,#141b32);color:#fff}
+    .preview-note{max-width:1000px;margin:0 auto;padding:22px 18px 0;color:#aab4c7;font-size:12px;text-align:center}
+    .container{max-width:1120px;margin:0 auto;padding:0 20px}
+    #preco{padding:64px 0 90px}
+    .eyebrow{margin:0 0 10px;text-align:center;color:#b7c0d3;font-size:12px;font-weight:700;letter-spacing:.14em}
+    h1{margin:0;text-align:center;font-size:clamp(2rem,4vw,3rem);line-height:1.08}
+    .lead{max-width:620px;margin:14px auto 0;text-align:center;color:#9ca7bb;font-size:15px;line-height:1.65}
+    .shell{max-width:980px;margin:38px auto 0;overflow:hidden;border:1px solid rgba(255,255,255,.08);border-radius:26px;background:#fff;box-shadow:0 30px 70px rgba(0,0,0,.28)}
+    .tabs{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:8px;background:#f5f6fa;border-bottom:1px solid #e8eaf0}
+    .tab{padding:15px 18px;border:0;border-radius:16px;background:transparent;color:#667085;font:inherit;font-size:14px;font-weight:700;cursor:pointer}
+    .tab small{display:block;margin-top:3px;font-size:11px;font-weight:400;opacity:.75}
+    .tab.active{color:#fff;background:linear-gradient(100deg,#7c3aed,#a936ca 55%,#ec4899);box-shadow:0 10px 24px rgba(124,58,237,.2)}
+    .panel{padding:32px}
+    .panel[hidden]{display:none!important}
+    .monthly-card{display:grid;grid-template-columns:1fr .9fr;overflow:hidden;border:1px solid #e8e7ef;border-radius:22px;background:#fff}
+    .monthly-copy{padding:36px;color:#fff;background:linear-gradient(145deg,#7c3aed,#a936ca 54%,#ec4899)}
+    .badge{display:inline-block;padding:7px 11px;border:1px solid rgba(255,255,255,.3);border-radius:999px;font-size:10px;font-weight:700;letter-spacing:.14em}
+    .monthly-copy h3{margin:20px 0 10px;font-size:2rem;line-height:1.1}
+    .monthly-copy p{margin:0;color:rgba(255,255,255,.8);font-size:14px;line-height:1.65}
+    .benefits{display:grid;gap:11px;margin-top:24px}
+    .benefits div{display:flex;align-items:center;gap:10px;font-size:13px;font-weight:700}
+    .benefits span{width:22px;height:22px;display:grid;place-items:center;border-radius:50%;color:#7429b7;background:#fff;font-size:11px}
+    .price-side{padding:38px 34px;display:flex;flex-direction:column;justify-content:center;text-align:center;color:#172033;background:linear-gradient(180deg,#fff,#fbfaff)}
+    .price-label{color:#687386;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase}
+    .price-block{margin:16px 0 24px}
+    .price-line{display:flex;align-items:baseline;justify-content:center;gap:8px}
+    .currency{font-size:1.15rem;font-weight:700}
+    .amount{font-size:3.35rem;font-weight:700;line-height:1;letter-spacing:0}
+    .period{display:block;margin-top:5px;color:#7d8798;font-size:.95rem;font-weight:600}
+    .primary{display:block;width:100%;padding:15px 20px;border-radius:999px;color:#fff;text-decoration:none;font-weight:700;background:linear-gradient(90deg,#7c3aed,#ec4899);box-shadow:0 14px 30px rgba(124,58,237,.22)}
+    .note{margin:12px 0 0;color:#98a2b3;font-size:11px}
+    .pix-head{text-align:center;margin-bottom:24px;color:#172033}
+    .pix-head .badge{color:#7c3aed;border-color:rgba(124,58,237,.18);background:#f3edff}
+    .pix-head h3{margin:14px 0 6px;font-size:1.7rem}
+    .pix-head p{margin:0;color:#727d90;font-size:13px}
+    .pix-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+    .pix-card{padding:24px;border:1px solid #e6e7ed;border-radius:18px;background:#fff;color:#172033;box-shadow:0 10px 26px rgba(15,23,42,.05)}
+    .pix-card small{color:#7c3aed;font-size:10px;font-weight:700;letter-spacing:.14em}
+    .pix-card h4{margin:8px 0 5px;font-size:18px}
+    .pix-card p{margin:0;color:#798396;font-size:12px;line-height:1.55}
+    .pix-price{margin:20px 0 16px;font-size:2rem;font-weight:700}
+    .copy{width:100%;min-height:46px;border:1px solid rgba(124,58,237,.18);border-radius:12px;color:#6d28d9;background:#f5f0ff;font:inherit;font-size:13px;font-weight:700;cursor:pointer}
+    .copy.copied{color:#087a45;border-color:rgba(16,185,129,.22);background:#ecfdf5}
+    .signup{margin-top:18px;padding:20px;display:grid;grid-template-columns:1fr auto;gap:14px;align-items:center;border:1px solid #e8e8ef;border-radius:16px;background:#f8f9fc;color:#172033}
+    .signup strong{font-size:14px}
+    .signup p{margin:3px 0 0;color:#7a8496;font-size:11px;line-height:1.5}
+    .signup a{padding:11px 16px;border-radius:11px;color:#fff;text-decoration:none;font-size:12px;font-weight:700;background:#172033}
+    .support{max-width:980px;margin:18px auto 0;padding:20px 22px;display:grid;grid-template-columns:1fr auto;gap:16px;align-items:center;border:1px solid rgba(255,255,255,.09);border-radius:18px;background:rgba(255,255,255,.055)}
+    .support span{display:block;margin-bottom:3px;color:#25d366;font-size:9px;font-weight:700;letter-spacing:.14em}
+    .support strong{display:block;font-size:14px}
+    .support p{margin:3px 0 0;color:#9ba6ba;font-size:11px}
+    .whatsapp{padding:12px 18px;border-radius:999px;color:#072d1a;text-decoration:none;font-size:12px;font-weight:700;background:#25d366}
+    @media(max-width:760px){.tabs{grid-template-columns:1fr}.panel{padding:18px}.monthly-card,.pix-grid{grid-template-columns:1fr}.monthly-copy,.price-side{padding:28px 22px}.signup,.support{grid-template-columns:1fr}.signup a,.whatsapp{text-align:center}.amount{font-size:3rem}}
+  </style>
+</head>
+<body>
+  <div class="preview-note">PRÉVIA VISUAL V2 · não altera o site oficial</div>
+  <section id="preco">
+    <div class="container">
+      <p class="eyebrow">● INVESTIMENTO</p>
+      <h1>Escolha a melhor forma de começar</h1>
+      <p class="lead">Tenha acompanhamento personalizado com uma forma de pagamento que faça sentido para você.</p>
+      <div class="shell">
+        <div class="tabs">
+          <button class="tab active" data-tab="monthly" onclick="switchTab('monthly')">Mensal recorrente<small>R$ 250 por mês</small></button>
+          <button class="tab" data-tab="pix" onclick="switchTab('pix')">Pagamento via PIX<small>3 ou 6 meses</small></button>
+        </div>
+        <div class="panel" data-panel="monthly">
+          <div class="monthly-card">
+            <div class="monthly-copy">
+              <span class="badge">PLANO MENSAL</span>
+              <h3>Acompanhamento recorrente</h3>
+              <p>Cobrança mensal automática para você manter o acompanhamento ativo de forma simples e prática.</p>
+              <div class="benefits">
+                <div><span>✓</span> Treinos personalizados</div>
+                <div><span>✓</span> Acompanhamento individual</div>
+                <div><span>✓</span> Correção dos exercícios</div>
+                <div><span>✓</span> Videoaulas e conteúdos extras</div>
+              </div>
+            </div>
+            <div class="price-side">
+              <span class="price-label">Investimento mensal</span>
+              <div class="price-block">
+                <div class="price-line"><span class="currency">R$</span><span class="amount">250</span></div>
+                <span class="period">por mês</span>
+              </div>
+              <a class="primary" href="https://pages.mfitpersonal.com.br/p/lsk?checkout=true" target="_blank" rel="noopener noreferrer">Assinar plano mensal</a>
+              <p class="note">Checkout seguro pela MFit Personal</p>
+            </div>
+          </div>
+        </div>
+        <div class="panel" data-panel="pix" hidden>
+          <div class="pix-head">
+            <span class="badge">PAGAMENTO À VISTA</span>
+            <h3>Escolha o período de acompanhamento</h3>
+            <p>Copie o PIX da opção desejada e conclua o pagamento no seu banco.</p>
+          </div>
+          <div class="pix-grid">
+            <article class="pix-card">
+              <small>3 MESES</small>
+              <h4>Acompanhamento trimestral</h4>
+              <p>Três meses de acompanhamento personalizado.</p>
+              <div class="pix-price">R$ 600</div>
+              <button class="copy" data-pix="00020126590014BR.GOV.BCB.PIX0111083141835470222consultoria trimestral5204000053039865406600.005802BR5924Bruna Ribeiro Affonso de6009SAO PAULO62140510Ok1WygFVZZ6304C4D2" onclick="copyPix(this)">Copiar código PIX</button>
+            </article>
+            <article class="pix-card">
+              <small>6 MESES</small>
+              <h4>Acompanhamento semestral</h4>
+              <p>Seis meses de acompanhamento personalizado.</p>
+              <div class="pix-price">R$ 1.200</div>
+              <button class="copy" data-pix="00020126330014BR.GOV.BCB.PIX01110831418354752040000530398654071200.005802BR5924Bruna Ribeiro Affonso de6009SAO PAULO62140510oKLFius8uy6304156C" onclick="copyPix(this)">Copiar código PIX</button>
+            </article>
+          </div>
+          <div class="signup">
+            <div><strong>Já realizou o pagamento?</strong><p>Crie seu cadastro para iniciar o acesso à plataforma e dar sequência ao acompanhamento.</p></div>
+            <a href="https://client.mfitpersonal.com.br/out/signup-link/Njk2NjE=" target="_blank" rel="noopener noreferrer">Criar meu cadastro</a>
+          </div>
+        </div>
+      </div>
+      <div class="support">
+        <div><span>PRECISA DE AJUDA?</span><strong>Ficou com alguma dúvida sobre o pagamento?</strong><p>Fale diretamente com a Bruna pelo WhatsApp.</p></div>
+        <a class="whatsapp" href="https://wa.me/5571984369339?text=Ol%C3%A1%2C%20Bruna!%20Tenho%20uma%20d%C3%BAvida%20sobre%20a%20consultoria%20e%20as%20formas%20de%20pagamento." target="_blank" rel="noopener noreferrer">Falar no WhatsApp</a>
+      </div>
+    </div>
+  </section>
+  <script>
+    function switchTab(tab){document.querySelectorAll('[data-tab]').forEach(function(b){b.classList.toggle('active',b.dataset.tab===tab)});document.querySelectorAll('[data-panel]').forEach(function(p){p.hidden=p.dataset.panel!==tab})}
+    async function copyPix(button){var code=button.dataset.pix||'';var original=button.textContent;try{if(navigator.clipboard&&window.isSecureContext){await navigator.clipboard.writeText(code)}else{var t=document.createElement('textarea');t.value=code;t.style.position='fixed';t.style.opacity='0';document.body.appendChild(t);t.select();document.execCommand('copy');t.remove()}button.classList.add('copied');button.textContent='PIX copiado!';setTimeout(function(){button.classList.remove('copied');button.textContent=original},2200)}catch(e){button.textContent='Não foi possível copiar';setTimeout(function(){button.textContent=original},2200)}}
+  </script>
+</body>
+</html>
