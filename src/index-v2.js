@@ -60,9 +60,14 @@ const APPROVED_PRICE_STYLES = `
   }
 </style>`;
 
-function applyApprovedPriceLayout(html) {
+const HERO_CTA = `<a href="#preco" class="btn" id="cta-hero" onclick="event.preventDefault(); var target=document.getElementById('preco'); if(target){target.scrollIntoView({behavior:'smooth',block:'start'});}">Quero começar minha transformação</a>`;
+
+function applyApprovedLayout(html) {
   const currentPrice = /<div class="payment-price"><span class="currency">R\$<\/span><span class="amount">250<\/span><span class="period">\/mês<\/span><\/div>/;
+  const currentHeroCta = /<a href="" class="btn" id="cta-hero" onclick="event\.preventDefault\(\); window\.location\.href = state\.checkoutUrl;">Quero começar minha transformação<\/a>/;
+
   let updated = html.replace(currentPrice, APPROVED_PRICE_MARKUP);
+  updated = updated.replace(currentHeroCta, HERO_CTA);
 
   if (!updated.includes('approved-price-v2-styles')) {
     updated = updated.replace('</head>', `${APPROVED_PRICE_STYLES}\n</head>`);
@@ -82,7 +87,7 @@ export default {
     const headers = new Headers(response.headers);
     headers.delete('Content-Length');
 
-    return new Response(applyApprovedPriceLayout(html), {
+    return new Response(applyApprovedLayout(html), {
       status: response.status,
       statusText: response.statusText,
       headers
