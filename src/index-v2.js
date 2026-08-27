@@ -61,14 +61,17 @@ const APPROVED_PRICE_STYLES = `
 </style>`;
 
 const HERO_CTA = `<a href="#preco" class="btn" id="cta-hero" onclick="event.preventDefault(); var target=document.getElementById('preco'); if(target){target.scrollIntoView({behavior:'smooth',block:'start'});}">Quero começar minha transformação</a>`;
+const CLOSE_CTA = `<a href="#preco" class="btn" id="close-button" onclick="event.preventDefault(); var target=document.getElementById('preco'); if(target){target.scrollIntoView({behavior:'smooth',block:'start'});}" style="background: var(--primary-pink); font-size: 1.1rem; padding: 16px 40px;">Comece agora!</a>`;
 
 function applyApprovedLayout(html) {
   const currentPrice = /<div class="payment-price"><span class="currency">R\$<\/span><span class="amount">250<\/span><span class="period">\/mês<\/span><\/div>/;
   const currentHeroCta = /<a href="" class="btn" id="cta-hero" onclick="event\.preventDefault\(\); window\.location\.href = state\.checkoutUrl;">Quero começar minha transformação<\/a>/;
+  const currentCloseCta = /<a href="" class="btn" id="close-button" onclick="event\.preventDefault\(\); window\.location\.href = state\.checkoutUrl;" style="background: var\(--primary-pink\); font-size: 1\.1rem; padding: 16px 40px;">Comece agora!<\/a>/;
 
   let updated = html.replace(currentPrice, APPROVED_PRICE_MARKUP);
   updated = updated.replace(currentHeroCta, HERO_CTA);
-  updated = updated.replace('<span class="payment-badge">PLANO MENSAL</span>', '<span class="payment-badge">PLANO RECORRENTE</span>');
+  updated = updated.replace(currentCloseCta, CLOSE_CTA);
+  updated = updated.replace(/>Assinar plano mensal<\/a>/g, '>Assinar plano recorrente</a>');
 
   if (!updated.includes('approved-price-v2-styles')) {
     updated = updated.replace('</head>', `${APPROVED_PRICE_STYLES}\n</head>`);
