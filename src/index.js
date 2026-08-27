@@ -40,7 +40,7 @@ const PAYMENT_SECTION = `
             </div>
             <div class="payment-card-action">
               <span class="payment-price-label">Investimento mensal</span>
-              <div class="payment-price"><span>R$</span> 250<small>/mês</small></div>
+              <div class="payment-price"><span class="currency">R$</span><span class="amount">250</span><span class="period">/mês</span></div>
               <a class="payment-primary-btn" href="https://pages.mfitpersonal.com.br/p/lsk?checkout=true" target="_blank" rel="noopener noreferrer">Assinar plano mensal</a>
               <p class="payment-note">Checkout seguro pela MFit Personal</p>
             </div>
@@ -136,9 +136,10 @@ const PAYMENT_STYLES = `
   .payment-benefits span { width: 22px; height: 22px; display: grid; place-items: center; border-radius: 50%; color: #7429b7; background: white; font-size: 11px; }
   .payment-card-action { padding: 38px; display: flex; flex-direction: column; justify-content: center; text-align: center; background: linear-gradient(180deg, #fff, #fbfaff); }
   .payment-price-label { color: #687386; font-size: 12px; font-weight: 750; letter-spacing: .06em; text-transform: uppercase; }
-  .payment-price { margin: 10px 0 24px; color: #151d31; font-size: clamp(3.4rem, 7vw, 5rem); font-weight: 850; line-height: .95; letter-spacing: -.065em; }
-  .payment-price > span { margin-right: 4px; font-size: .32em; vertical-align: top; letter-spacing: 0; }
-  .payment-price small { margin-left: 5px; color: #7d8798; font-size: .21em; font-weight: 700; letter-spacing: 0; }
+  .payment-price { margin: 14px 0 28px; display: flex; align-items: baseline; justify-content: center; gap: 8px; color: #151d31; line-height: 1; }
+  .payment-price .currency { font-size: 1.3rem; font-weight: 700; letter-spacing: 0; }
+  .payment-price .amount { font-size: clamp(3.9rem, 7vw, 5rem); font-weight: 700; letter-spacing: 0; line-height: 1; }
+  .payment-price .period { color: #7d8798; font-size: 1rem; font-weight: 700; letter-spacing: 0; }
   .payment-primary-btn { width: 100%; padding: 16px 20px; border-radius: 999px; color: white; text-decoration: none; font-weight: 800; background: linear-gradient(90deg, #7c3aed, #ec4899); box-shadow: 0 16px 34px rgba(124,58,237,.24); transition: .22s ease; }
   .payment-primary-btn:hover { transform: translateY(-2px); box-shadow: 0 20px 38px rgba(124,58,237,.3); }
   .payment-note { margin: 12px 0 0; color: #98a2b3; font-size: 11px; }
@@ -185,7 +186,10 @@ const PAYMENT_STYLES = `
   @media (max-width: 440px) {
     .payment-panel { padding: 14px; }
     .payment-card-copy, .payment-card-action, .pix-plan-card { padding: 24px 20px; }
-    .payment-price { font-size: 3.6rem; }
+    .payment-price { gap: 6px; }
+    .payment-price .currency { font-size: 1.05rem; }
+    .payment-price .amount { font-size: 3.6rem; }
+    .payment-price .period { font-size: .9rem; }
     .payment-support { padding: 18px; }
   }
 </style>`;
