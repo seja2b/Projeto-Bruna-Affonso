@@ -104,7 +104,7 @@ const PAYMENT_SECTION = `
           <strong>Ficou com alguma dúvida sobre o pagamento?</strong>
           <p>Fale diretamente com a Bruna pelo WhatsApp.</p>
         </div>
-        <a class="whatsapp-btn" href="https://wa.me/5571984369339?text=Ol%C3%A1%2C%20Bruna!%20Tenho%20uma%20d%C3%BAvida%20sobre%20a%20consultoria%20e%20as%20formas%20de%20pagamento." target="_blank" rel="noopener noreferrer">Falar no WhatsApp</a>
+        <a class="whatsapp-btn" href="https://wa.me/557199311112?text=Ol%C3%A1%2C%20Bruna!%20Tenho%20uma%20d%C3%BAvida%20sobre%20a%20consultoria%20e%20as%20formas%20de%20pagamento." target="_blank" rel="noopener noreferrer">Falar no WhatsApp</a>
       </div>
     </div>
   </section>`;
