@@ -363,7 +363,7 @@ export default {
       if (url.pathname === '/api/admin/session' && request.method === 'GET') return await validateSession(request, env);
       if (url.pathname === '/api/admin/logout' && request.method === 'POST') return await logout(request, env);
 
-      const page = await fetch('https://raw.githubusercontent.com/seja2b/Projeto-Bruna-Affonso/main/public/index.html');
+      const page = await fetch('https://raw.githubusercontent.com/seja2b/Projeto-Bruna-Affonso/main/public/index.html?v=20260903-video-fix');
       const html = enhancePaymentSection(await page.text());
       return new Response(html, { headers: { 'Content-Type': 'text/html; charset=utf-8', ...corsHeaders(request) } });
     } catch (error) {
