@@ -19,7 +19,7 @@ Os destaques legados “Estruturado e planejado” e “Com total acompanhamento
 - Persistência no binding `CODES` existente, chave isolada `editorial:steps:v1`, reutilizando a sessão administrativa existente. Nenhuma migração de banco ou novo serviço.
 - `GET /api/content/steps` público e `POST /api/admin/content/steps` autenticado. Limites de payload e validação de conteúdo no servidor.
 - Página pública carrega a configuração compartilhada; mantém textos e fallback sem imagem ou em falha de carregamento. Layout alternado no desktop e coluna única no mobile, imagens com object-fit cover e cantos arredondados.
-- As outras seções não foram modificadas. A alteração anterior de Fotos do Método não foi incorporada (não está em origin/main).
+- As outras seções não foram modificadas. A atualização de Fotos do Método já presente em main foi preservada ao atualizar a branch do PR.
 
 ## Validação
 - `node --test tests/steps.cjs` (Playwright disponível no ambiente; Edge local).
