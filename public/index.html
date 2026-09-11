@@ -1445,7 +1445,17 @@
       .site-nav { justify-content: center; }
       .hero-copy .btn { padding-inline: 16px; font-size: 14px; }
     }
-  </style>
+
+.step-image { overflow: hidden; position: relative; }
+.step-image img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.step-image [hidden] { display: none; }
+.step-fallback { padding: 24px; text-align: center; }
+.step-card > * { min-width: 0; overflow-wrap: anywhere; }
+.step-editor { padding: 20px; margin: 20px 0; background: #f3f4f6; border-radius: 16px; min-width: 0; }
+.step-editor input, .step-editor textarea { max-width: 100%; box-sizing: border-box; }
+.step-editor .step-image { max-width: 480px; margin: 16px 0; }
+.step-editor button { margin: 8px 8px 8px 0; }
+</style>
 </head>
 <body>
 
@@ -1508,7 +1518,7 @@
       <button class="admin-tab" onclick="switchAdminTab('admins')">Administradores</button>
       <button class="admin-tab" onclick="switchAdminTab('diferenciais')">Diferenciais</button>
       <button class="admin-tab" onclick="switchAdminTab('metodo')">Imagens Método</button>
-      <button class="admin-tab" onclick="switchAdminTab('steps')">Como Funciona</button>
+      <button class="admin-tab" onclick="switchAdminTab('steps')">Como funciona na prática?</button>
       <button class="admin-tab" onclick="switchAdminTab('personas')">Público ideal</button>
       <button class="admin-tab" onclick="switchAdminTab('bonus')">Bônus</button>
       <button class="admin-tab" onclick="switchAdminTab('preco')">Investimento</button>
@@ -1567,7 +1577,7 @@
       </div>
 
       <div id="admin-steps-tab" class="admin-tab-content" style="display:none;">
-        <h2>Etapas do Treinamento</h2>
+        <p>Conteúdo do site</p><h2>Como funciona na prática?</h2><p>Edite todas as etapas e publique para atualizar o site. As imagens usam recorte centralizado.</p><button class="btn-admin" id="publish-steps" onclick="publishSteps()" disabled>Publicar alterações</button><p id="steps-status" role="status" aria-live="polite"></p>
         <div id="steps-editor"></div>
         <button class="btn-admin" onclick="addStep()">+ Adicionar Etapa</button>
       </div>
@@ -1962,6 +1972,71 @@ function saveState() {
   localStorage.setItem('pageState', JSON.stringify(state));
 }
 
+
+const LEGACY_STEP_ITEMS = ['Estruturado e planejado', 'Com total acompanhamento'];
+const stepText = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const stepItems = s => Array.isArray(s.items) ? s.items : [...LEGACY_STEP_ITEMS];
+const stepImageUrl = value => /^(https:\/\/|data:image\/(png|jpeg|webp);base64,)/i.test(value || '') ? value : '';
+let stepsLoaded = false;
+let stepsRevision = null;
+let stepsDirty = false;
+function stepMedia(s) {
+  const image = stepImageUrl(s.image);
+  return '<div class="step-image">' + (image ? '<img src="'+stepText(image)+'" alt="'+stepText(s.title)+'" loading="lazy" onerror="this.hidden=true;this.nextElementSibling.hidden=false">' : '') + '<div class="step-fallback" '+(image ? 'hidden' : '')+'>'+stepText(s.title)+'</div></div>';
+}
+function stepMarkup(s, i) {
+  return '<article class="step-card"><div><div class="step-badge">ETAPA '+(i+1)+'</div><h3 class="step-title">'+stepText(s.title)+'</h3><p class="step-desc">'+stepText(s.desc)+'</p><div class="step-checks">'+stepItems(s).map(item => '<div class="check-item"><span class="check-icon">✓</span>'+stepText(item)+'</div>').join('')+'</div></div>'+stepMedia(s)+'</article>';
+}
+function stepEditor(s,i) {
+  return '<div class="edit-group step-editor"><h3>Etapa '+(i+1)+'</h3><label for="step-title-'+i+'">Título</label><input id="step-title-'+i+'" maxlength="200" value="'+stepText(s.title)+'" onchange="editStep('+i+',\'title\',this.value)"><label for="step-desc-'+i+'">Descrição</label><textarea id="step-desc-'+i+'" maxlength="5000" onchange="editStep('+i+',\'desc\',this.value)">'+stepText(s.desc)+'</textarea><label for="step-items-'+i+'">Itens/destaques (um por linha)</label><textarea id="step-items-'+i+'" onchange="editStep('+i+',\'items\',this.value.split(/\\n/).filter(x=>x.trim()))">'+stepText(stepItems(s).join('\n'))+'</textarea>'+stepMedia(s)+'<label for="step-file-'+i+'">Selecionar ou trocar imagem</label><input type="file" id="step-file-'+i+'" accept="image/jpeg,image/png,image/webp" onchange="uploadStepImage('+i+',this.files[0])"><p>JPG, PNG ou WebP, até 8 MB.</p><label for="step-url-'+i+'">Ou link HTTPS da imagem</label><input type="url" id="step-url-'+i+'" value="'+stepText(s.image?.startsWith('https:') ? s.image : '')+'"><button class="btn-admin" onclick="useStepImage('+i+')">Aplicar link</button><button class="btn-admin" onclick="editStep('+i+',\'image\',\'\');syncAdminInputs(\'steps\')">Remover imagem</button><p id="step-status-'+i+'" role="status"></p><button class="btn-admin btn-danger" onclick="removeStep('+i+')">Remover etapa</button></div>';
+}
+function stepsChanged() {
+  stepsDirty = true;
+  document.getElementById('steps-status').textContent = 'Alterações em prévia. Clique em Publicar alterações para salvar no site.';
+  renderPage();
+}
+function editStep(i, key, value) { state.steps[i] = {...state.steps[i], [key]:value}; stepsChanged(); }
+function removeStep(i) { if(confirm('Remover esta etapa? A alteração só será aplicada ao publicar.')) {state.steps.splice(i,1);stepsChanged();syncAdminInputs('steps');} }
+function loadStepImage(src) {
+  return new Promise((resolve,reject) => {
+    const img=new Image();const timer=setTimeout(()=>reject(new Error('Tempo esgotado ao carregar imagem.')),15000);
+    img.onload=()=>{clearTimeout(timer);resolve(img);};img.onerror=()=>{clearTimeout(timer);reject(new Error('Não foi possível abrir a imagem.'));};img.src=src;
+  });
+}
+async function uploadStepImage(i,file) {
+  if(!file) return;
+  const status=document.getElementById('step-status-'+i);
+  try {
+    if(!['image/jpeg','image/png','image/webp'].includes(file.type)||file.size>8*1024*1024) throw new Error('Selecione JPG, PNG ou WebP de até 8 MB.');
+    status.textContent='Preparando imagem…';
+    const src=await new Promise((resolve,reject)=>{const r=new FileReader();r.onload=()=>resolve(r.result);r.onerror=()=>reject(new Error('Falha ao ler arquivo.'));r.readAsDataURL(file);});
+    const img=await loadStepImage(src);const c=document.createElement('canvas');const scale=Math.min(1,1200/Math.max(img.width,img.height));c.width=Math.max(1,Math.round(img.width*scale));c.height=Math.max(1,Math.round(img.height*scale));c.getContext('2d').drawImage(img,0,0,c.width,c.height);
+    const data=c.toDataURL('image/webp',0.8);if(data.length>700000) throw new Error('Imagem muito grande. Escolha uma imagem menor.');
+    editStep(i,'image',data);syncAdminInputs('steps');
+  } catch(e) { status.textContent=e.message; }
+}
+async function useStepImage(i) {
+  try {const url=new URL(document.getElementById('step-url-'+i).value.trim());if(url.protocol!=='https:') throw new Error('Use um link HTTPS.');await loadStepImage(url.href);editStep(i,'image',url.href);syncAdminInputs('steps');} catch(e) {document.getElementById('step-status-'+i).textContent=e.message;}
+}
+async function loadPublishedSteps() {
+  try {
+    const response=await fetch('/api/content/steps',{cache:'no-store'});if(!response.ok) throw new Error();const data=await response.json();
+    if(Array.isArray(data.steps)&&!stepsDirty) state.steps=data.steps;
+    stepsRevision=data.revision;stepsLoaded=true;document.getElementById('publish-steps').disabled=false;renderPage();syncAdminInputs('steps');
+  } catch {document.getElementById('steps-status').textContent='Não foi possível carregar o conteúdo publicado. Recarregue a página antes de publicar.';}
+}
+async function publishSteps() {
+  if(!stepsLoaded) return;
+  const button=document.getElementById('publish-steps');button.disabled=true;
+  const snapshot=JSON.stringify(state.steps.map(s=>({...s,items:stepItems(s),image:s.image||''})));
+  try {
+    const response=await fetch('/api/admin/content/steps',{method:'POST',headers:{'Content-Type':'application/json',Authorization:'Bearer '+adminSessionToken},body:JSON.stringify({steps:JSON.parse(snapshot),revision:stepsRevision})});
+    const data=await response.json();if(!response.ok) throw new Error(data.error||'Não foi possível publicar.');stepsRevision=data.revision;
+    stepsDirty=JSON.stringify(state.steps.map(s=>({...s,items:stepItems(s),image:s.image||''})))!==snapshot;
+    document.getElementById('steps-status').textContent=stepsDirty?'Conteúdo publicado. Há novas alterações em prévia.':'Todas as etapas foram publicadas no site.';
+  } catch(e) {document.getElementById('steps-status').textContent=e.message;} finally {button.disabled=false;}
+}
+
 function renderPage() {
   document.getElementById('hero-title').innerHTML = state.heroDesc;
   if (document.getElementById('video-container')) {
@@ -1986,7 +2061,7 @@ function renderPage() {
     document.getElementById('metodo-images').innerHTML = state.metodImages.map((img) => `<div class="method-media">${img.url ? `<img src="${img.url}" alt="${img.title}">` : `<div class="method-placeholder"><div class="method-placeholder-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M15 10l4.55-2.28A1 1 0 0121 8.62v6.76a1 1 0 01-1.45.9L15 14"/><rect x="3" y="6" width="12" height="12" rx="3"/></svg></div><strong>${img.title}</strong><span>Adicione a capa pelo painel editorial</span></div>`}</div>`).join('');
   }
   if (document.getElementById('steps')) {
-    document.getElementById('steps').innerHTML = state.steps.map(s => `<div class="step-card"><div><div class="step-badge">ETAPA ${s.num}</div><h3 class="step-title">${s.title}</h3><p class="step-desc">${s.desc}</p><div class="step-checks"><div class="check-item"><span class="check-icon">✓</span> Estruturado e planejado</div><div class="check-item"><span class="check-icon">✓</span> Com total acompanhamento</div></div></div><div class="step-image">📸 ${s.title}</div></div>`).join('');
+    document.getElementById('steps').innerHTML = state.steps.map(stepMarkup).join('');
   }
   if (document.getElementById('personas-intro')) {
     document.getElementById('personas-intro').innerHTML = state.personasIntro;
@@ -2133,7 +2208,7 @@ function syncAdminInputs(tab) {
     editor.innerHTML = state.metodImages.map((img, i) => `<div class="edit-group" style="background: #f3f4f6; padding: 1rem; border-radius: 6px; margin-bottom: 1rem;"><label>Imagem ${i + 1}</label><label style="margin-top: 0.5rem;">URL da Imagem</label><input type="text" value="${img.url}" onchange="state.metodImages[${i}].url = this.value; saveState(); renderPage();" placeholder="Cole a URL da imagem"><label style="margin-top: 0.5rem;">📸 Ou faça upload</label><input type="file" id="metodo-image-upload-${i}" accept="image/*" onchange="uploadImage('metodo', ${i})" style="padding: 8px; border: 2px dashed #e5e7eb; width: 100%; cursor: pointer;"><img id="metodo-image-preview-${i}" style="max-width: 200px; max-height: 200px; border-radius: 6px; margin-top: 0.5rem; display: ${img.url ? 'block' : 'none'};" src="${img.url || ''}"></div>`).join('');
   } else if (tab === 'steps') {
     const editor = document.getElementById('steps-editor');
-    editor.innerHTML = state.steps.map((s, i) => `<div class="edit-group" style="background: #f3f4f6; padding: 1rem; border-radius: 6px; margin-bottom: 1rem;"><label>Etapa ${i + 1} - Título</label><input type="text" value="${s.title}" onchange="state.steps[${i}].title = this.value; saveState(); renderPage();"><label>Descrição</label><textarea onchange="state.steps[${i}].desc = this.value; saveState(); renderPage();">${s.desc}</textarea><button class="btn-admin btn-danger" style="margin-top: 0.5rem;" onclick="state.steps.splice(${i}, 1); saveState(); syncAdminInputs('steps'); renderPage();">Remover</button></div>`).join('');
+    editor.innerHTML = state.steps.map(stepEditor).join('');
   } else if (tab === 'personas') {
     const editor = document.getElementById('personas-editor');
     editor.innerHTML = state.personas.map((p, i) => `<div class="edit-group" style="background: #f3f4f6; padding: 1rem; border-radius: 6px; margin-bottom: 1rem;"><label>Perfil ${i + 1}</label><input type="text" value="${p.text}" onchange="state.personas[${i}].text = this.value; saveState(); renderPage();"><label style="margin-top: 12px;">Descrição</label><textarea onchange="state.personas[${i}].desc = this.value; saveState(); renderPage();">${p.desc || ''}</textarea><button class="btn-admin btn-danger" style="margin-top: 0.5rem;" onclick="state.personas.splice(${i}, 1); saveState(); syncAdminInputs('personas'); renderPage();">Remover</button></div>`).join('');
@@ -2164,7 +2239,7 @@ function syncAdminInputs(tab) {
 
 function addProof() { state.proof.push({ title: '', desc: '', image: '' }); saveState(); syncAdminInputs('proof'); }
 function addDiferencial() { state.diferenciais.push({ text: '', icon: '💪' }); saveState(); syncAdminInputs('diferenciais'); }
-function addStep() { state.steps.push({ num: state.steps.length + 1, title: '', desc: '' }); saveState(); syncAdminInputs('steps'); }
+function addStep() { state.steps.push({ num: state.steps.length + 1, title: '', desc: '', items: [], image: '' }); stepsChanged(); syncAdminInputs('steps'); }
 function addPersona() { state.personas.push({ text: '', desc: '' }); saveState(); syncAdminInputs('personas'); }
 function addBonus() { state.bonus.push({ title: '', desc: '', value: '' }); saveState(); syncAdminInputs('bonus'); renderPage(); }
 function addFaq() { state.faq.push({ q: '', a: '' }); saveState(); syncAdminInputs('faq'); }
@@ -2350,6 +2425,7 @@ document.getElementById('admin-btn').addEventListener('click', async () => {
 document.getElementById('landing').style.display = 'block';
 
 renderPage();
+loadPublishedSteps();
 </script>
 
 </body>
