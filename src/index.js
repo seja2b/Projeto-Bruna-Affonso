@@ -1,3 +1,4 @@
+import { stepsContent } from './steps-content.js';
 const SESSION_TTL = 60 * 60 * 8;
 const ATTEMPT_TTL = 60 * 15;
 const MAX_ATTEMPTS = 5;
@@ -359,11 +360,20 @@ export default {
     const url = new URL(request.url);
     if (request.method === 'OPTIONS') return new Response(null, { status: 204, headers: corsHeaders(request) });
     try {
+      if (url.pathname === '/api/content/steps') {
+        if (request.method !== 'GET') return new Response(null, {status: 405});
+        return await stepsContent(request, env, false);
+      }
+      if (url.pathname === '/api/admin/content/steps') {
+        const session = await validateSession(request, env);
+        if (!session.ok) return session;
+        return await stepsContent(request, env, true);
+      }
       if (url.pathname === '/api/admin/login' && request.method === 'POST') return await login(request, env);
       if (url.pathname === '/api/admin/session' && request.method === 'GET') return await validateSession(request, env);
       if (url.pathname === '/api/admin/logout' && request.method === 'POST') return await logout(request, env);
 
-      const page = await fetch('https://raw.githubusercontent.com/seja2b/Projeto-Bruna-Affonso/main/public/index.html?v=20260903-video-fix');
+      const page = await fetch('https://raw.githubusercontent.com/seja2b/Projeto-Bruna-Affonso/main/public/index.html?v=20260911-steps-editor');
       const html = enhancePaymentSection(await page.text());
       return new Response(html, { headers: { 'Content-Type': 'text/html; charset=utf-8', ...corsHeaders(request) } });
     } catch (error) {
