@@ -515,7 +515,15 @@
       height: 150px;
       background: linear-gradient(135deg, var(--primary-orange), var(--primary-red));
       border-radius: 8px;
+      overflow: hidden;
     }
+
+    .bonus-image img { width: 100%; height: 100%; display: block; object-fit: cover; }
+    .bonus-image-fallback { width: 100%; height: 100%; display: grid; place-items: center; padding: 20px; color: rgba(255,255,255,.86); font-size: .78rem; font-weight: 750; text-align: center; }
+    .bonus-editor-card { background: #f3f4f6; padding: 1rem; border-radius: 8px; margin-bottom: 1rem; }
+    .bonus-editor-card .bonus-image { max-width: 440px; margin: 12px 0; }
+    .bonus-editor-card input[type="file"] { padding: 10px; border: 2px dashed #c4b5fd; background: white; }
+    .bonus-image-status { min-height: 1.4em; color: #6d28d9; }
 
     #preco {
       background: var(--dark-bg);
@@ -1596,8 +1604,11 @@
 
       <div id="admin-bonus-tab" class="admin-tab-content" style="display:none;">
         <h2>Bônus</h2>
+        <p>Edite todos os cards, adicione imagens e publique para atualizar a página.</p>
         <div id="bonus-editor"></div>
         <button class="btn-admin" onclick="addBonus()">+ Adicionar Bônus</button>
+        <button class="btn-admin" id="publish-bonus" onclick="publishBonus()" disabled>Publicar alterações</button>
+        <p id="bonus-status" role="status" aria-live="polite"></p>
       </div>
 
       <div id="admin-preco-tab" class="admin-tab-content" style="display:none;">
@@ -1917,9 +1928,9 @@ const DEFAULT_DATA = {
   divertidoText: 'Treinar pode ser muito mais divertido do que você imagina.',
   
   bonus: [
-    { title: 'Kit de Boas-vindas', desc: 'Guia completo para começar', value: 'R$ 297' },
-    { title: '1 Aula Presencial Comigo', desc: 'Sessão ao vivo de treino', value: 'R$ 500' },
-    { title: 'Aula Bônus de Rotina', desc: 'Como construir uma rotina saudável eficiente', value: 'R$ 200' }
+    { title: 'Kit de Boas-vindas', desc: 'Guia completo para começar', value: 'R$ 297', image: '' },
+    { title: '1 Aula Presencial Comigo', desc: 'Sessão ao vivo de treino', value: 'R$ 500', image: '' },
+    { title: 'Aula Bônus de Rotina', desc: 'Como construir uma rotina saudável eficiente', value: 'R$ 200', image: '' }
   ],
   bonusIntro: 'Bônus exclusivos para quem entrar hoje:',
   
@@ -1963,6 +1974,7 @@ const DEFAULT_DATA = {
 };
 
 let state = JSON.parse(localStorage.getItem('pageState')) || JSON.parse(JSON.stringify(DEFAULT_DATA));
+state.bonus = Array.isArray(state.bonus) ? state.bonus.map(item => ({...item, image: item.image || ''})) : JSON.parse(JSON.stringify(DEFAULT_DATA.bonus));
 let currentUserEmail = '';
 
 if (state.diferenciais?.some(item => /[📚💪✨]/u.test(`${item.icon}${item.text}`))) {
@@ -2041,6 +2053,49 @@ async function publishSteps() {
     stepsDirty=JSON.stringify(state.steps.map(s=>({...s,items:stepItems(s),image:s.image||''})))!==snapshot;
     document.getElementById('steps-status').textContent=stepsDirty?'Conteúdo publicado. Há novas alterações em prévia.':'Todas as etapas foram publicadas no site.';
   } catch(e) {document.getElementById('steps-status').textContent=e.message;} finally {button.disabled=false;}
+}
+
+const bonusImageUrl = value => /^(https:\/\/|data:image\/(png|jpeg|webp);base64,)/i.test(value || '') ? value : '';
+let bonusLoaded = false;
+let bonusRevision = null;
+let bonusDirty = false;
+function bonusMedia(item) {
+  const image = bonusImageUrl(item.image);
+  return '<div class="bonus-image">' + (image ? '<img src="'+stepText(image)+'" alt="'+stepText(item.title)+'" loading="lazy" onerror="this.hidden=true;this.nextElementSibling.hidden=false">' : '') + '<div class="bonus-image-fallback" '+(image ? 'hidden' : '')+'>Imagem do bônus</div></div>';
+}
+function bonusChanged() {
+  bonusDirty = true;
+  const status = document.getElementById('bonus-status');
+  if (status) status.textContent = 'Alterações em prévia. Clique em Publicar alterações para atualizar o site.';
+  saveState();
+  renderPage();
+}
+function editBonus(i, key, value) { state.bonus[i] = {...state.bonus[i], [key]: value}; bonusChanged(); }
+function bonusStatus(i, message) { const el=document.getElementById('bonus-image-status-'+i);if(el)el.textContent=message; }
+async function uploadBonusImage(i, file) {
+  if (!file) return;
+  try {
+    if (!['image/jpeg','image/png','image/webp'].includes(file.type) || file.size > 8*1024*1024) throw new Error('Selecione JPG, PNG ou WebP de até 8 MB.');
+    bonusStatus(i,'Preparando imagem…');
+    const src=await new Promise((resolve,reject)=>{const reader=new FileReader();reader.onload=()=>resolve(reader.result);reader.onerror=()=>reject(new Error('Falha ao ler a imagem.'));reader.readAsDataURL(file);});
+    const img=await loadStepImage(src);const canvas=document.createElement('canvas');const targetRatio=2;let sx=0,sy=0,sw=img.width,sh=img.height;
+    if(sw/sh>targetRatio){sw=sh*targetRatio;sx=(img.width-sw)/2;}else{sh=sw/targetRatio;sy=(img.height-sh)/2;}
+    canvas.width=1200;canvas.height=600;canvas.getContext('2d').drawImage(img,sx,sy,sw,sh,0,0,1200,600);
+    const data=canvas.toDataURL('image/webp',.82);if(data.length>900000)throw new Error('Imagem muito grande. Escolha uma imagem menor.');
+    editBonus(i,'image',data);syncAdminInputs('bonus');bonusStatus(i,'Imagem pronta. Clique em Publicar alterações.');
+  } catch(error) { bonusStatus(i,error.message); }
+}
+async function useBonusImageUrl(i) {
+  try {const url=new URL(document.getElementById('bonus-url-'+i).value.trim());if(url.protocol!=='https:')throw new Error('Use um link HTTPS.');await loadStepImage(url.href);editBonus(i,'image',url.href);syncAdminInputs('bonus');bonusStatus(i,'Link aplicado. Clique em Publicar alterações.');}catch(error){bonusStatus(i,error.message);}
+}
+async function loadPublishedBonus() {
+  try {const response=await fetch('/api/content/bonus',{cache:'no-store'});if(!response.ok)throw new Error();const data=await response.json();if(Array.isArray(data.bonus)&&!bonusDirty)state.bonus=data.bonus.map(item=>({...item,image:item.image||''}));bonusRevision=data.revision;bonusLoaded=true;document.getElementById('publish-bonus').disabled=false;renderPage();}
+  catch {const status=document.getElementById('bonus-status');if(status)status.textContent='Não foi possível carregar os bônus publicados. Recarregue a página antes de publicar.';}
+}
+async function publishBonus() {
+  if(!bonusLoaded)return;const button=document.getElementById('publish-bonus');button.disabled=true;const snapshot=JSON.stringify(state.bonus.map(item=>({...item,image:item.image||''})));
+  try {const response=await fetch('/api/admin/content/bonus',{method:'POST',headers:{'Content-Type':'application/json',Authorization:'Bearer '+adminSessionToken},body:JSON.stringify({bonus:JSON.parse(snapshot),revision:bonusRevision})});const data=await response.json();if(!response.ok)throw new Error(data.error||'Não foi possível publicar.');bonusRevision=data.revision;bonusDirty=JSON.stringify(state.bonus.map(item=>({...item,image:item.image||''})))!==snapshot;document.getElementById('bonus-status').textContent=bonusDirty?'Conteúdo publicado. Há novas alterações em prévia.':'Todos os bônus foram publicados no site.';}
+  catch(error){document.getElementById('bonus-status').textContent=error.message;}finally{button.disabled=false;}
 }
 
 // Keep the existing pageState/metodImages schema, including custom fields and titles.
@@ -2151,7 +2206,7 @@ function renderPage() {
     document.getElementById('divertido-text').innerHTML = state.divertidoText;
   }
   if (document.getElementById('bonus-cards')) {
-    document.getElementById('bonus-cards').innerHTML = state.bonus.map(b => `<div class="bonus-card"><div><div class="bonus-badge">BÔNUS</div><div class="bonus-title">${b.title}</div><div class="bonus-desc">${b.desc}</div><div class="bonus-value">${b.value}</div></div><div class="bonus-image"></div></div>`).join('');
+    document.getElementById('bonus-cards').innerHTML = state.bonus.map(b => `<div class="bonus-card"><div><div class="bonus-badge">BÔNUS</div><div class="bonus-title">${stepText(b.title)}</div><div class="bonus-desc">${stepText(b.desc)}</div><div class="bonus-value">${stepText(b.value)}</div></div>${bonusMedia(b)}</div>`).join('');
   }
   if (document.getElementById('price-main')) {
     document.getElementById('price-main').innerHTML = state.priceMain;
@@ -2301,7 +2356,7 @@ function syncAdminInputs(tab) {
     editor.innerHTML = state.personas.map((p, i) => `<div class="edit-group" style="background: #f3f4f6; padding: 1rem; border-radius: 6px; margin-bottom: 1rem;"><label>Perfil ${i + 1}</label><input type="text" value="${p.text}" onchange="state.personas[${i}].text = this.value; saveState(); renderPage();"><label style="margin-top: 12px;">Descrição</label><textarea onchange="state.personas[${i}].desc = this.value; saveState(); renderPage();">${p.desc || ''}</textarea><button class="btn-admin btn-danger" style="margin-top: 0.5rem;" onclick="state.personas.splice(${i}, 1); saveState(); syncAdminInputs('personas'); renderPage();">Remover</button></div>`).join('');
   } else if (tab === 'bonus') {
     const editor = document.getElementById('bonus-editor');
-    editor.innerHTML = state.bonus.map((b, i) => `<div class="edit-group" style="background: #f3f4f6; padding: 1rem; border-radius: 6px; margin-bottom: 1rem;"><label>Bônus ${i + 1}</label><input type="text" value="${b.title}" onchange="state.bonus[${i}].title = this.value; saveState(); renderPage();"><label>Descrição</label><textarea onchange="state.bonus[${i}].desc = this.value; saveState(); renderPage();">${b.desc}</textarea><label>Valor</label><input type="text" value="${b.value}" onchange="state.bonus[${i}].value = this.value; saveState(); renderPage();"><button class="btn-admin btn-danger" style="margin-top: 0.5rem;" onclick="state.bonus.splice(${i}, 1); saveState(); syncAdminInputs('bonus'); renderPage();">Remover</button></div>`).join('');
+    editor.innerHTML = state.bonus.map((b, i) => `<div class="edit-group bonus-editor-card"><h3>Bônus ${i + 1}</h3><label>Título</label><input type="text" maxlength="200" value="${stepText(b.title)}" onchange="editBonus(${i},'title',this.value)"><label>Descrição</label><textarea maxlength="3000" onchange="editBonus(${i},'desc',this.value)">${stepText(b.desc)}</textarea><label>Valor</label><input type="text" maxlength="100" value="${stepText(b.value)}" onchange="editBonus(${i},'value',this.value)">${bonusMedia(b)}<label for="bonus-file-${i}">Selecionar ou trocar imagem</label><input type="file" id="bonus-file-${i}" accept="image/jpeg,image/png,image/webp" onchange="uploadBonusImage(${i},this.files[0])"><p>JPG, PNG ou WebP, até 8 MB. Formato recomendado: horizontal 2:1.</p><label for="bonus-url-${i}">Ou link HTTPS da imagem</label><input type="url" id="bonus-url-${i}" placeholder="https://…" value="${stepText(b.image?.startsWith('https:')?b.image:'')}"><button type="button" class="btn-admin" onclick="useBonusImageUrl(${i})">Aplicar link</button><button type="button" class="btn-admin" onclick="editBonus(${i},'image','');syncAdminInputs('bonus')" ${b.image?'':'disabled'}>Remover imagem</button><p class="bonus-image-status" id="bonus-image-status-${i}" role="status" aria-live="polite"></p><button type="button" class="btn-admin btn-danger" onclick="state.bonus.splice(${i},1);bonusChanged();syncAdminInputs('bonus')">Remover bônus</button></div>`).join('');
   } else if (tab === 'preco') {
     document.getElementById('price-title').value = state.priceTitle;
     document.getElementById('price-main').value = state.priceMain;
@@ -2328,7 +2383,7 @@ function addProof() { state.proof.push({ title: '', desc: '', image: '' }); save
 function addDiferencial() { state.diferenciais.push({ text: '', icon: '💪' }); saveState(); syncAdminInputs('diferenciais'); }
 function addStep() { state.steps.push({ num: state.steps.length + 1, title: '', desc: '', items: [], image: '' }); stepsChanged(); syncAdminInputs('steps'); }
 function addPersona() { state.personas.push({ text: '', desc: '' }); saveState(); syncAdminInputs('personas'); }
-function addBonus() { state.bonus.push({ title: '', desc: '', value: '' }); saveState(); syncAdminInputs('bonus'); renderPage(); }
+function addBonus() { state.bonus.push({ title: '', desc: '', value: '', image: '' }); bonusChanged(); syncAdminInputs('bonus'); }
 function addFaq() { state.faq.push({ q: '', a: '' }); saveState(); syncAdminInputs('faq'); }
 
 function uploadProofImage(index, file) {
@@ -2513,6 +2568,7 @@ document.getElementById('landing').style.display = 'block';
 
 renderPage();
 loadPublishedSteps();
+loadPublishedBonus();
 </script>
 
 </body>
