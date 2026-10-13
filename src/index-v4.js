@@ -108,7 +108,7 @@ function securityHeaders(headers, request, pathname, contentType) {
   if (contentType.includes('text/html')) {
     secured.set('Content-Security-Policy', [
       "default-src 'self'",
-      "script-src 'self' 'unsafe-inline'",
+      "script-src 'self' 'unsafe-inline' https://www.youtube.com",
       "style-src 'self' 'unsafe-inline'",
       "img-src 'self' data: https:",
       "font-src 'self' data: https:",
