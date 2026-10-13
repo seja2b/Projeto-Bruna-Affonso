@@ -1276,6 +1276,8 @@
     .hero-title-line1 { color: #10172a; }
     #hero-desc { max-width: 580px; font-size: 1.15rem !important; line-height: 1.75; color: #5b6475 !important; }
     .hero-note { display: flex; align-items: center; gap: 10px; margin: 0 0 24px; color: #687386; font-size: 14px; }
+    .hero-sound-button { border: 0; padding: 0; background: transparent; color: var(--primary-purple); font: inherit; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+    .hero-sound-button:focus-visible { outline: 2px solid var(--primary-purple); outline-offset: 4px; border-radius: 2px; }
     .hero-note-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--primary-green); box-shadow: 0 0 0 6px rgba(34,197,94,.12); }
     .hero-media { position: relative; padding: 13px; border: 1px solid rgba(124,58,237,.15); border-radius: 30px; background: rgba(255,255,255,.7); box-shadow: var(--shadow); }
     .hero-media::before { content: ""; position: absolute; inset: -1px; z-index: -1; border-radius: inherit; background: linear-gradient(135deg, rgba(124,58,237,.6), rgba(236,72,153,.45), rgba(249,115,22,.35)); filter: blur(18px); opacity: .28; }
@@ -1697,7 +1699,7 @@
           <span class="hero-title-line2" id="hero-title">Bruna Affonso</span>
         </div>
         <p id="hero-desc">Se você tenta, mas não vê o resultado que você quer no espelho, o problema pode estar em COMO você está treinando.</p>
-        <p class="hero-note"><span class="hero-note-dot"></span>Assista ao vídeo e conheça o método BA</p>
+        <p class="hero-note"><span class="hero-note-dot" aria-hidden="true"></span><span id="hero-video-note">Assista ao vídeo e conheça o método BA</span><button id="hero-sound-button" class="hero-sound-button" type="button" aria-controls="hero-video-player" hidden>Vídeo sem som · Ativar som</button></p>
         <a href="" class="btn" id="cta-hero" onclick="event.preventDefault(); window.location.href = state.checkoutUrl;">Quero começar minha transformação</a>
       </div>
       <div class="hero-media">
@@ -2167,11 +2169,104 @@ async function useMethodPhotoUrl(i) {
   } catch (error) { photoStatus(i, error.message); }
 }
 
+// Keep this player alive across content refreshes and scrolling. Only a changed
+// video URL replaces it; there are deliberately no viewport/pause listeners.
+let heroPlayer = null;
+let heroVideoUrl = null;
+let youtubeApiPromise = null;
+function loadHeroYoutubeApi() {
+  if (window.YT && window.YT.Player) return Promise.resolve(window.YT);
+  if (!youtubeApiPromise) {
+    youtubeApiPromise = new Promise(resolve => {
+      const previous = window.onYouTubeIframeAPIReady;
+      window.onYouTubeIframeAPIReady = () => {
+        resolve(window.YT);
+        if (typeof previous === 'function') previous();
+      };
+      const script = document.createElement('script');
+      script.src = 'https://www.youtube.com/iframe_api';
+      script.async = true;
+      document.head.appendChild(script);
+    });
+  }
+  return youtubeApiPromise;
+}
+function renderHeroVideo() {
+  const container = document.getElementById('video-container');
+  if (!container || heroVideoUrl === state.videoUrlHero) return;
+  let url;
+  try {
+    url = new URL(state.videoUrlHero);
+    if (!['https://www.youtube.com', 'https://www.youtube-nocookie.com'].includes(url.origin) || !url.pathname.startsWith('/embed/')) return;
+  } catch { return; }
+  heroVideoUrl = state.videoUrlHero;
+  if (heroPlayer) heroPlayer.destroy();
+  heroPlayer = null;
+  const button = document.getElementById('hero-sound-button');
+  const note = document.getElementById('hero-video-note');
+  function showSoundControl(show, blocked = false) {
+    button.hidden = !show;
+    note.hidden = show;
+    button.textContent = blocked ? 'Reproduzir vídeo com som' : 'Vídeo sem som · Ativar som';
+  }
+  showSoundControl(false);
+  url.searchParams.set('enablejsapi', '1');
+  url.searchParams.set('origin', window.location.origin);
+  url.searchParams.set('playsinline', '1');
+  url.searchParams.set('controls', '1');
+  // Start through onReady so the blocked event always has its handler attached.
+  url.searchParams.set('autoplay', '0');
+  url.searchParams.set('mute', '0');
+  const iframe = document.createElement('iframe');
+  iframe.id = 'hero-video-player';
+  iframe.src = url.href;
+  iframe.title = 'Vídeo de apresentação — Bruna Affonso';
+  iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+  iframe.allowFullscreen = true;
+  container.replaceChildren(iframe);
+  let userActivatedSound = false;
+  button.onclick = () => {
+    if (!heroPlayer) return;
+    userActivatedSound = true;
+    // This call is inside the user's click, respecting browser autoplay policy.
+    heroPlayer.unMute();
+    showSoundControl(false);
+    heroPlayer.playVideo();
+  };
+  loadHeroYoutubeApi().then(YT => {
+    if (!iframe.isConnected) return;
+    let mutedFallbackAttempted = false;
+    heroPlayer = new YT.Player(iframe, {
+      events: {
+        onReady: event => {
+          event.target.unMute();
+          event.target.playVideo();
+        },
+        onAutoplayBlocked: event => {
+          if (!mutedFallbackAttempted && !userActivatedSound) {
+            mutedFallbackAttempted = true;
+            event.target.mute();
+            showSoundControl(true);
+            event.target.playVideo();
+          } else {
+            // If even muted playback is blocked, leave playback to a user click.
+            showSoundControl(true, true);
+          }
+        },
+        onStateChange: event => {
+          if (event.data === YT.PlayerState.PLAYING) {
+            showSoundControl(event.target.isMuted());
+          }
+          // Never restart a paused/ended video, including after scrolling.
+        }
+      }
+    });
+  });
+}
+
 function renderPage() {
   document.getElementById('hero-title').innerHTML = state.heroDesc;
-  if (document.getElementById('video-container')) {
-    document.getElementById('video-container').innerHTML = `<iframe src="${state.videoUrlHero}" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
-  }
+  renderHeroVideo();
   if (document.getElementById('after-video-text')) {
     document.getElementById('after-video-text').innerHTML = state.afterVideoText;
   }
