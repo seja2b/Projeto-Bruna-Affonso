@@ -1,5 +1,6 @@
 import { stepsContent } from './steps-content.js';
 import { bonusContent } from './bonus-content.js';
+import { pageContent } from './page-content.js';
 const SESSION_TTL = 60 * 60 * 8;
 const ATTEMPT_TTL = 60 * 15;
 const MAX_ATTEMPTS = 5;
@@ -378,6 +379,15 @@ export default {
         const session = await validateSession(request, env);
         if (!session.ok) return session;
         return await bonusContent(request, env, true);
+      }
+      if (url.pathname === '/api/content/page') {
+        if (request.method !== 'GET') return new Response(null, {status: 405});
+        return await pageContent(request, env, false);
+      }
+      if (url.pathname === '/api/admin/content/page') {
+        const session = await validateSession(request, env);
+        if (!session.ok) return session;
+        return await pageContent(request, env, true);
       }
       if (url.pathname === '/api/admin/login' && request.method === 'POST') return await login(request, env);
       if (url.pathname === '/api/admin/session' && request.method === 'GET') return await validateSession(request, env);
