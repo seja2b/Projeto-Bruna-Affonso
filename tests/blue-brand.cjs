@@ -24,8 +24,11 @@ test('public page and injected layouts use the blue and white brand palette', ()
 
 test('header uses the Bruna Affonso brand mark instead of the BA placeholder', () => {
   const html = fs.readFileSync(path.join(__dirname, '../public/index.html'), 'utf8');
+  const exactLogo = path.join(__dirname, '../public/assets/bruna-affonso-logo-original.png');
 
-  assert.ok(html.includes('id="brand-logo-gradient"'));
-  assert.ok(html.includes('<svg viewBox="0 0 64 64"'));
+  assert.ok(html.includes('bruna-affonso-logo-original.png'));
+  assert.ok(!html.includes('id="brand-logo-gradient"'), 'redesigned vector logo must not return');
   assert.ok(!html.includes('<span class="brand-mark">BA</span>'));
+  assert.ok(fs.existsSync(exactLogo), 'missing original logo supplied by the client');
+  assert.ok(fs.statSync(exactLogo).size > 100000, 'original logo appears to have been replaced or recompressed');
 });
