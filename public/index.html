@@ -1980,17 +1980,29 @@ let state = JSON.parse(localStorage.getItem('pageState')) || JSON.parse(JSON.str
 state.bonus = Array.isArray(state.bonus) ? state.bonus.map(item => ({...item, image: item.image || ''})) : JSON.parse(JSON.stringify(DEFAULT_DATA.bonus));
 let currentUserEmail = '';
 
+function persistLocalState() {
+  try {
+    localStorage.setItem('pageState', JSON.stringify(state));
+    return true;
+  } catch (error) {
+    // Imagens editoriais em data URL podem ultrapassar a cota do navegador.
+    // O conteúdo publicado continua sendo a fonte principal e deve renderizar
+    // mesmo quando não couber uma segunda cópia no armazenamento local.
+    return false;
+  }
+}
+
 if (state.diferenciais?.some(item => /[📚💪✨]/u.test(`${item.icon}${item.text}`))) {
   state.diferenciais = JSON.parse(JSON.stringify(DEFAULT_DATA.diferenciais));
-  localStorage.setItem('pageState', JSON.stringify(state));
+  persistLocalState();
 }
 if (state.personas?.some(item => /[⏱🆕📊🔄✈🏆]/u.test(item.text) || !item.desc)) {
   state.personas = JSON.parse(JSON.stringify(DEFAULT_DATA.personas));
-  localStorage.setItem('pageState', JSON.stringify(state));
+  persistLocalState();
 }
 
 function saveState() {
-  localStorage.setItem('pageState', JSON.stringify(state));
+  persistLocalState();
   schedulePagePublish();
 }
 
@@ -2005,7 +2017,7 @@ async function loadPublishedPage() {
   try {
     const response=await fetch('/api/content/page',{cache:'no-store'});if(!response.ok)throw new Error();const data=await response.json();
     pageRevision=data.revision;
-    if(data.page){state={...state,...data.page};localStorage.setItem('pageState',JSON.stringify(state));}
+    if(data.page){state={...state,...data.page};persistLocalState();}
     pageLoaded=true;renderPage();syncStatus(data.page?'Conteúdo sincronizado entre desktop e celular.':'Pronto para sincronizar o conteúdo deste navegador.');
     return data;
   } catch {pageLoaded=true;syncStatus('Não foi possível sincronizar o conteúdo. Recarregue a página.',true);return {page:null,revision:null};}
