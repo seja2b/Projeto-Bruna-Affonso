@@ -23,7 +23,9 @@ test('landing loads published content and automatically syncs authenticated edit
     "fetch('/api/content/page'",
     "fetch('/api/admin/content/page'",
     'pageLoadPromise=loadPublishedPage()',
+    'persistLocalState()',
     'schedulePagePublish()',
     'Conteúdo salvo e sincronizado em todos os dispositivos.'
   ]) assert.ok(html.includes(required),required);
+  assert.ok(!html.includes("if(data.page){state={...state,...data.page};localStorage.setItem('pageState'"));
 });
