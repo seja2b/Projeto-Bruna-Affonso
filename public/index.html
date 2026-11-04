@@ -1520,6 +1520,7 @@
     <div>
       <h3 style="margin: 0;">Painel editorial · Bruna Affonso</h3>
       <div class="user-info" style="margin-top: 0.5rem; font-size: 0.875rem; color: var(--primary-green);">Conteúdo e configurações da landing page</div>
+      <div id="editorial-sync-status" style="margin-top:.3rem;font-size:.75rem;color:#64748b" role="status" aria-live="polite">Sincronizando conteúdo…</div>
     </div>
     <div style="display: flex; gap: 1rem;">
       <button class="btn-logout" onclick="logout()">Sair</button>
@@ -1990,7 +1991,35 @@ if (state.personas?.some(item => /[⏱🆕📊🔄✈🏆]/u.test(item.text) || 
 
 function saveState() {
   localStorage.setItem('pageState', JSON.stringify(state));
+  schedulePagePublish();
 }
+
+const PAGE_CONTENT_KEYS = ['videoUrlHero','heroTitle','heroDesc','ctaHeroText','afterVideoText','proof','proofIntro','proofComum','diferenciais','metodImages','personasIntro','personas','personasOutro','divertidoText','priceTitle','priceMain','priceVista','creatorName','creatorDesc','creatorImage','creatorYears','creatorFollowers','creatorStats','faq','closeDecision','closeNegative','closePositive','closeCall','contactEmail','footerText','checkoutUrl'];
+let pageRevision = null;
+let pageLoaded = false;
+let pagePublishTimer = null;
+let pageLoadPromise;
+const pageSnapshot = () => Object.fromEntries(PAGE_CONTENT_KEYS.map(key => [key, state[key]]));
+function syncStatus(message, error = false) { const el=document.getElementById('editorial-sync-status');if(el){el.textContent=message;el.style.color=error?'#dc2626':'#64748b';} }
+async function loadPublishedPage() {
+  try {
+    const response=await fetch('/api/content/page',{cache:'no-store'});if(!response.ok)throw new Error();const data=await response.json();
+    pageRevision=data.revision;
+    if(data.page){state={...state,...data.page};localStorage.setItem('pageState',JSON.stringify(state));}
+    pageLoaded=true;renderPage();syncStatus(data.page?'Conteúdo sincronizado entre desktop e celular.':'Pronto para sincronizar o conteúdo deste navegador.');
+    return data;
+  } catch {pageLoaded=true;syncStatus('Não foi possível sincronizar o conteúdo. Recarregue a página.',true);return {page:null,revision:null};}
+}
+async function publishPageContent() {
+  if(!isLoggedIn||!adminSessionToken)return;
+  if(!pageLoaded)await pageLoadPromise;
+  syncStatus('Salvando conteúdo para desktop e celular…');
+  try {
+    const response=await fetch('/api/admin/content/page',{method:'POST',headers:{'Content-Type':'application/json',Authorization:'Bearer '+adminSessionToken},body:JSON.stringify({page:pageSnapshot(),revision:pageRevision})});
+    const data=await response.json();if(!response.ok)throw new Error(data.error||'Não foi possível sincronizar.');pageRevision=data.revision;syncStatus('Conteúdo salvo e sincronizado em todos os dispositivos.');
+  } catch(error){syncStatus(error.message,true);}
+}
+function schedulePagePublish(){if(!isLoggedIn||!adminSessionToken)return;clearTimeout(pagePublishTimer);pagePublishTimer=setTimeout(publishPageContent,700);}
 
 
 const LEGACY_STEP_ITEMS = ['Estruturado e planejado', 'Com total acompanhamento'];
@@ -2588,12 +2617,14 @@ async function loginWithAccessCode() {
   }
 }
 
-function loginSuccess() {
+async function loginSuccess() {
   isLoggedIn = true;
   closeLoginModal();
   document.getElementById('landing').style.display = 'none';
   document.getElementById('admin-panel').style.display = 'block';
   syncAdminInputs('hero');
+  if(!pageLoaded)await pageLoadPromise;
+  if(!pageRevision)await publishPageContent();
 }
 
 async function logout() {
@@ -2654,6 +2685,8 @@ document.getElementById('admin-btn').addEventListener('click', async () => {
   if (isLoggedIn || await verifyAdminSession()) {
     document.getElementById('landing').style.display = 'none';
     document.getElementById('admin-panel').style.display = 'block';
+    if(!pageLoaded)await pageLoadPromise;
+    if(!pageRevision)await publishPageContent();
   } else {
     openLoginModal();
   }
@@ -2662,6 +2695,7 @@ document.getElementById('admin-btn').addEventListener('click', async () => {
 document.getElementById('landing').style.display = 'block';
 
 renderPage();
+pageLoadPromise=loadPublishedPage();
 loadPublishedSteps();
 loadPublishedBonus();
 </script>
