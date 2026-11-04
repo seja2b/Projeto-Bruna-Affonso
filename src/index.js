@@ -121,7 +121,7 @@ const PAYMENT_STYLES = `
   .payment-tabs { display: grid; grid-template-columns: 1fr 1fr; padding: 8px; gap: 8px; border-bottom: 1px solid #e8eaf0; background: #f5f6fa; }
   .payment-tab { min-width: 0; padding: 16px 18px; display: flex; align-items: center; justify-content: center; gap: 12px; border: 0; border-radius: 18px; color: #667085; background: transparent; cursor: pointer; font: inherit; text-align: left; transition: .22s ease; }
   .payment-tab:hover { color: #07369E; background: rgba(20,92,255,.06); }
-  .payment-tab.active { color: white; background: linear-gradient(100deg, #06174F 0%, #075EFF 56%, #2F8DFF 100%); box-shadow: 0 12px 28px rgba(20,92,255,.22); }
+  .payment-tab.active { color: white; background: linear-gradient(100deg, #06174F 0%, #0B3FD3 56%, #075EFF 100%); box-shadow: 0 12px 28px rgba(20,92,255,.22); }
   .payment-tab-icon { width: 38px; height: 38px; flex: 0 0 38px; display: grid; place-items: center; border: 1px solid currentColor; border-radius: 12px; opacity: .9; }
   .payment-tab-icon svg { width: 20px; height: 20px; }
   .payment-tab strong, .payment-tab small { display: block; }
@@ -130,7 +130,7 @@ const PAYMENT_STYLES = `
   .payment-panel { padding: 34px; }
   .payment-panel[hidden] { display: none !important; }
   .payment-card { display: grid; grid-template-columns: 1.05fr .95fr; overflow: hidden; border: 1px solid #e8e7ef; border-radius: 24px; background: #fff; }
-  .payment-card-copy { padding: 38px; color: white; background: radial-gradient(circle at 0 0, rgba(255,255,255,.22), transparent 34%), linear-gradient(145deg, #06174F 0%, #075EFF 56%, #2F8DFF 100%); }
+  .payment-card-copy { padding: 38px; color: white; background: radial-gradient(circle at 0 0, rgba(255,255,255,.22), transparent 34%), linear-gradient(145deg, #06174F 0%, #0B3FD3 56%, #075EFF 100%); }
   .payment-badge { display: inline-flex; padding: 7px 11px; border: 1px solid rgba(255,255,255,.3); border-radius: 999px; font-size: 10px; font-weight: 850; letter-spacing: .15em; }
   .payment-card-copy h3 { margin: 22px 0 10px; font-size: clamp(1.8rem, 3vw, 2.4rem); letter-spacing: -.045em; }
   .payment-description { max-width: 470px; margin: 0; color: rgba(255,255,255,.78); font-size: 14px; line-height: 1.7; }
@@ -143,7 +143,7 @@ const PAYMENT_STYLES = `
   .payment-price .currency { font-size: 1.3rem; font-weight: 700; letter-spacing: 0; }
   .payment-price .amount { font-size: clamp(3.9rem, 7vw, 5rem); font-weight: 700; letter-spacing: 0; line-height: 1; }
   .payment-price .period { color: #7d8798; font-size: 1rem; font-weight: 700; letter-spacing: 0; }
-  .payment-primary-btn { width: 100%; padding: 16px 20px; border-radius: 999px; color: white; text-decoration: none; font-weight: 800; background: linear-gradient(100deg, #06174F 0%, #075EFF 56%, #2F8DFF 100%); box-shadow: 0 16px 34px rgba(20,92,255,.24); transition: .22s ease; }
+  .payment-primary-btn { width: 100%; padding: 16px 20px; border-radius: 999px; color: white; text-decoration: none; font-weight: 800; background: linear-gradient(100deg, #06174F 0%, #0B3FD3 56%, #075EFF 100%); box-shadow: 0 16px 34px rgba(20,92,255,.24); transition: .22s ease; }
   .payment-primary-btn:hover { transform: translateY(-2px); box-shadow: 0 20px 38px rgba(20,92,255,.3); }
   .payment-note { margin: 12px 0 0; color: #98a2b3; font-size: 11px; }
   .pix-heading { max-width: 680px; margin: 0 auto 28px; text-align: center; }
