@@ -1261,7 +1261,7 @@
     .site-nav { min-height: 76px; display: flex; align-items: center; justify-content: space-between; gap: 28px; }
     .brand { display: flex; align-items: center; gap: 12px; color: #111827; text-decoration: none; font-weight: 800; letter-spacing: -.03em; }
     .brand-mark { width: 46px; height: 46px; border-radius: 14px; display: grid; place-items: center; overflow: hidden; background: linear-gradient(145deg, #020A2D, #071F66); box-shadow: 0 10px 24px rgba(20,92,255,.25); }
-    .brand-mark img { width: 37px; height: 37px; display: block; object-fit: contain; }
+    .brand-mark svg { width: 34px; height: 34px; display: block; overflow: visible; }
     .brand-copy small { display: block; color: #0A3DB8; font-size: 10px; letter-spacing: .18em; text-transform: uppercase; }
     .nav-links { display: flex; align-items: center; gap: 26px; }
     .nav-links a { color: #475569; text-decoration: none; font-size: 14px; font-weight: 650; }
@@ -1681,7 +1681,19 @@
   <header class="site-header">
     <div class="container site-nav">
       <a class="brand" href="#hero" aria-label="Bruna Affonso Consultoria">
-        <span class="brand-mark" aria-hidden="true"><img src="/assets/bruna-affonso-mark.png" alt="" width="37" height="37"></span>
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 64 64" role="img" focusable="false">
+            <defs>
+              <linearGradient id="brand-logo-gradient" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#fff"/>
+                <stop offset=".48" stop-color="#b9d2ff"/>
+                <stop offset="1" stop-color="#075eff"/>
+              </linearGradient>
+            </defs>
+            <path fill="url(#brand-logo-gradient)" d="M15 7 25 0v35.5c0 7.3 4.2 12.2 11.2 14.2l-2.8-9.6 9.8-2.8 6 20.9-5 1.5C27.1 64.8 15 54.9 15 35.5V7Z"/>
+            <path fill="url(#brand-logo-gradient)" d="M32 21.4c16.4-5.1 27 4.5 27 19.2V64l-10-7V40.6c0-8.1-5-12.3-14-9.5l-3-9.7Z"/>
+          </svg>
+        </span>
         <span class="brand-copy"><span>Bruna Affonso</span><small>Consultoria online</small></span>
       </a>
       <nav class="nav-links" aria-label="Navegação principal">

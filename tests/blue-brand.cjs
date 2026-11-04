@@ -23,10 +23,8 @@ test('public page and injected layouts use the blue and white brand palette', ()
 
 test('header uses the Bruna Affonso brand mark instead of the BA placeholder', () => {
   const html = fs.readFileSync(path.join(__dirname, '../public/index.html'), 'utf8');
-  const logoPath = path.join(__dirname, '../public/assets/bruna-affonso-mark.png');
 
-  assert.ok(html.includes('src="/assets/bruna-affonso-mark.png"'));
+  assert.ok(html.includes('id="brand-logo-gradient"'));
+  assert.ok(html.includes('<svg viewBox="0 0 64 64"'));
   assert.ok(!html.includes('<span class="brand-mark">BA</span>'));
-  assert.ok(fs.existsSync(logoPath), 'missing header logo asset');
-  assert.ok(fs.statSync(logoPath).size > 1000, 'header logo asset is unexpectedly small');
 });
