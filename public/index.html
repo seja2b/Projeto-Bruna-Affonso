@@ -1260,7 +1260,8 @@
     }
     .site-nav { min-height: 76px; display: flex; align-items: center; justify-content: space-between; gap: 28px; }
     .brand { display: flex; align-items: center; gap: 12px; color: #111827; text-decoration: none; font-weight: 800; letter-spacing: -.03em; }
-    .brand-mark { width: 42px; height: 42px; border-radius: 14px; display: grid; place-items: center; color: white; background: linear-gradient(135deg, var(--primary-purple), var(--primary-pink) 58%, var(--primary-orange)); box-shadow: 0 10px 24px rgba(20,92,255,.25); }
+    .brand-mark { width: 46px; height: 46px; border-radius: 14px; display: grid; place-items: center; overflow: hidden; background: linear-gradient(145deg, #020A2D, #071F66); box-shadow: 0 10px 24px rgba(20,92,255,.25); }
+    .brand-mark img { width: 37px; height: 37px; display: block; object-fit: contain; }
     .brand-copy small { display: block; color: #0A3DB8; font-size: 10px; letter-spacing: .18em; text-transform: uppercase; }
     .nav-links { display: flex; align-items: center; gap: 26px; }
     .nav-links a { color: #475569; text-decoration: none; font-size: 14px; font-weight: 650; }
@@ -1680,7 +1681,7 @@
   <header class="site-header">
     <div class="container site-nav">
       <a class="brand" href="#hero" aria-label="Bruna Affonso Consultoria">
-        <span class="brand-mark">BA</span>
+        <span class="brand-mark" aria-hidden="true"><img src="/assets/bruna-affonso-mark.png" alt="" width="37" height="37"></span>
         <span class="brand-copy"><span>Bruna Affonso</span><small>Consultoria online</small></span>
       </a>
       <nav class="nav-links" aria-label="Navegação principal">
