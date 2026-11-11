@@ -1651,6 +1651,7 @@
           <label>Foto</label>
           <input type="file" id="creator-image-upload" accept="image/*" onchange="uploadImage('creator')" style="padding: 8px; border: 2px dashed #e5e7eb; width: 100%; cursor: pointer;">
           <img id="creator-image-preview-img" style="max-width: 200px; max-height: 200px; border-radius: 6px; margin-top: 0.5rem; display: none;">
+          <p id="creator-image-status" role="status" aria-live="polite"></p>
         </div>
         <div class="edit-group">
           <label>Anos de Experiência</label>
@@ -2179,26 +2180,45 @@ function loadMethodPhoto(src) {
     img.src = src;
   });
 }
+async function optimizeEditorialImage(file, options = {}) {
+  if (!file || !['image/jpeg', 'image/png', 'image/webp'].includes(file.type) || file.size > 8 * 1024 * 1024) {
+    throw new Error('Selecione uma foto JPG, PNG ou WebP de até 8 MB.');
+  }
+  const source = await new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = () => reject(new Error('Não foi possível ler a imagem. Tente novamente.'));
+    reader.readAsDataURL(file);
+  });
+  const image = await loadMethodPhoto(source);
+  const maxSide = options.maxSide || 1400;
+  let width = image.naturalWidth || image.width;
+  let height = image.naturalHeight || image.height;
+  const initialScale = Math.min(1, maxSide / Math.max(width, height));
+  width = Math.max(1, Math.round(width * initialScale));
+  height = Math.max(1, Math.round(height * initialScale));
+  let quality = options.quality || .82;
+  const maxLength = options.maxLength || 520000;
+  for (let attempt = 0; attempt < 7; attempt += 1) {
+    const canvas = document.createElement('canvas');
+    canvas.width = width;
+    canvas.height = height;
+    canvas.getContext('2d').drawImage(image, 0, 0, width, height);
+    const data = canvas.toDataURL('image/webp', quality);
+    if (data.length <= maxLength) return data;
+    quality = Math.max(.58, quality - .06);
+    width = Math.max(1, Math.round(width * .86));
+    height = Math.max(1, Math.round(height * .86));
+  }
+  throw new Error('A imagem continua muito grande. Escolha uma foto menor.');
+}
 async function uploadMethodPhoto(i, file) {
   if (!file) return;
-  if (!['image/jpeg', 'image/png', 'image/webp'].includes(file.type) || file.size > 8 * 1024 * 1024) {
-    photoStatus(i, 'Selecione uma foto JPG, PNG ou WebP de até 8 MB.'); return;
-  }
   photoStatus(i, 'Preparando foto…');
   try {
-    const url = await new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onload = () => resolve(reader.result);
-      reader.onerror = () => reject(new Error('Não foi possível ler a foto. Tente novamente.'));
-      reader.readAsDataURL(file);
-    });
-    const img = await loadMethodPhoto(url);
-    const scale = Math.min(1, 1600 / Math.max(img.naturalWidth, img.naturalHeight));
-    const canvas = document.createElement('canvas');
-    canvas.width = Math.max(1, Math.round(img.naturalWidth * scale));
-    canvas.height = Math.max(1, Math.round(img.naturalHeight * scale));
-    canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
-    saveMethodPhoto(i, {url: canvas.toDataURL('image/webp', 0.85)});
+    const optimized = await optimizeEditorialImage(file, {maxSide: 1400, maxLength: 520000});
+    saveMethodPhoto(i, {url: optimized});
+    photoStatus(i, 'Imagem pronta. Aguarde a confirmação de sincronização no topo do painel.');
   } catch (error) { photoStatus(i, error.message); }
 }
 async function useMethodPhotoUrl(i) {
@@ -2404,13 +2424,14 @@ function toggleFaq(index) {
   }
 }
 
-function uploadImage(type, index = null) {
+async function uploadImage(type, index = null) {
   const input = document.getElementById(`${type}-image-upload${index !== null ? `-${index}` : ''}`);
   const file = input.files[0];
   if (!file) return;
-  const reader = new FileReader();
-  reader.onload = function(e) {
-    const base64 = e.target.result;
+  const status = type === 'creator' ? document.getElementById('creator-image-status') : null;
+  if (status) status.textContent = 'Preparando imagem…';
+  try {
+    const base64 = await optimizeEditorialImage(file, {maxSide: 1400, maxLength: 520000});
     if (type === 'creator') {
       state.creatorImage = base64;
       document.getElementById('creator-image-preview-img').src = base64;
@@ -2422,8 +2443,11 @@ function uploadImage(type, index = null) {
     }
     saveState();
     renderPage();
-  };
-  reader.readAsDataURL(file);
+    if (status) status.textContent = 'Imagem pronta. Aguarde a confirmação de sincronização no topo do painel.';
+  } catch (error) {
+    if (status) status.textContent = error.message;
+    else syncStatus(error.message, true);
+  }
 }
 
 function switchAdminTab(tab) {
@@ -2460,6 +2484,7 @@ function syncAdminInputs(tab) {
           <input type="file" class="proof-file-input" data-index="${i}" accept="image/*" onchange="uploadProofImage(this.getAttribute('data-index'), this.files[0])">
         </div>
         <img class="image-preview ${p.image ? 'show' : ''}" src="${p.image || ''}" alt="Foto do depoimento">
+        <p id="proof-image-status-${i}" role="status" aria-live="polite"></p>
         <input type="text" placeholder="Nome da pessoa" value="${p.title}" onchange="state.proof[${i}].title = this.value; saveState(); renderPage();">
         <textarea placeholder="Depoimento / Resultado" onchange="state.proof[${i}].desc = this.value; saveState(); renderPage();">${p.desc}</textarea>
         <button type="button" class="btn-remove" onclick="state.proof.splice(${i}, 1); saveState(); syncAdminInputs('proof'); renderPage();">Remover</button>
@@ -2523,16 +2548,21 @@ function addPersona() { state.personas.push({ text: '', desc: '' }); saveState()
 function addBonus() { state.bonus.push({ title: '', desc: '', value: '', image: '' }); bonusChanged(); syncAdminInputs('bonus'); }
 function addFaq() { state.faq.push({ q: '', a: '' }); saveState(); syncAdminInputs('faq'); }
 
-function uploadProofImage(index, file) {
+async function uploadProofImage(index, file) {
   if (!file) return;
-  const reader = new FileReader();
-  reader.onload = function(e) {
-    state.proof[index].image = e.target.result;
+  const status = document.getElementById(`proof-image-status-${index}`);
+  if (status) status.textContent = 'Preparando imagem…';
+  try {
+    state.proof[index].image = await optimizeEditorialImage(file, {maxSide: 1200, maxLength: 420000});
     saveState();
     syncAdminInputs('proof');
     renderPage();
-  };
-  reader.readAsDataURL(file);
+    const refreshedStatus = document.getElementById(`proof-image-status-${index}`);
+    if (refreshedStatus) refreshedStatus.textContent = 'Imagem pronta. Aguarde a confirmação de sincronização no topo do painel.';
+  } catch (error) {
+    if (status) status.textContent = error.message;
+    else syncStatus(error.message, true);
+  }
 }
 
 function openAddAdminModal() {
