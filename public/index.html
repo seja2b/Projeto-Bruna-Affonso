@@ -1385,6 +1385,10 @@
     .admin-content > div:last-child { width: 100%; max-width: 1080px; padding: 38px; }
     .admin-tab-content { margin: 0; padding: 38px; border: 1px solid #e8ebf1; border-radius: 22px; background: white; box-shadow: 0 18px 55px rgba(15,23,42,.07); }
     .admin-tab-content h2 { margin: 0 0 28px; padding-bottom: 20px; border-bottom: 1px solid #edf0f5; color: #121a2c; font-size: 25px; letter-spacing: -.035em; }
+    .section-save-bar { margin-top: 24px; padding-top: 20px; display: flex; align-items: center; gap: 14px; flex-wrap: wrap; border-top: 1px solid #edf0f5; }
+    .section-save-bar .btn-admin { min-width: 190px; }
+    .section-save-status { min-height: 1.4em; margin: 0; color: #64748b; font-size: .82rem; font-weight: 650; }
+    .section-save-status.is-error { color: #dc2626; }
     .edit-group { margin-bottom: 22px; }
     .edit-group label { margin-bottom: 8px; color: #354056; font-size: 12px; font-weight: 750; letter-spacing: .02em; }
     .edit-group input, .edit-group textarea, .proof-item-edit input, .proof-item-edit textarea, .modal-form input { min-height: 48px; padding: 13px 15px; border: 1px solid #dce1ea; border-radius: 11px; color: #172033; background: #fbfcfe; transition: border-color .2s, box-shadow .2s, background .2s; }
@@ -1568,12 +1572,14 @@
           <label>URL de Checkout</label>
           <input type="text" id="checkout-url" onchange="state.checkoutUrl = this.value; saveState();">
         </div>
+        <div class="section-save-bar"><button type="button" class="btn-admin" onclick="saveCurrentSection('hero')">Salvar apresentação</button><p class="section-save-status" id="save-status-hero" role="status" aria-live="polite"></p></div>
       </div>
 
       <div id="admin-proof-tab" class="admin-tab-content" style="display:none;">
         <h2>Depoimentos / Social Proof</h2>
         <button class="btn-admin" style="margin-bottom: 1.5rem;" onclick="addProof()">+ Adicionar Depoimento</button>
         <div class="proof-grid" id="proofs-editor"></div>
+        <div class="section-save-bar"><button type="button" class="btn-admin" onclick="saveCurrentSection('proof')">Salvar depoimentos</button><p class="section-save-status" id="save-status-proof" role="status" aria-live="polite"></p></div>
       </div>
 
       <div id="admin-admins-tab" class="admin-tab-content" style="display:none;">
@@ -1586,16 +1592,18 @@
         <h2>Benefícios/Diferenciais</h2>
         <div id="diferenciais-editor"></div>
         <button class="btn-admin" onclick="addDiferencial()">+ Adicionar Benefício</button>
+        <div class="section-save-bar"><button type="button" class="btn-admin" onclick="saveCurrentSection('diferenciais')">Salvar diferenciais</button><p class="section-save-status" id="save-status-diferenciais" role="status" aria-live="polite"></p></div>
       </div>
 
       <div id="admin-metodo-tab" class="admin-tab-content" style="display:none;">
         <h2>Imagens do Método</h2>
         <p style="color: #666; margin-bottom: 1.5rem;">Selecione uma foto para cada card. A prévia mostra o enquadramento da página.</p>
         <div id="metodo-editor"></div>
+        <div class="section-save-bar"><button type="button" class="btn-admin" onclick="saveCurrentSection('metodo')">Salvar fotos do método</button><p class="section-save-status" id="save-status-metodo" role="status" aria-live="polite"></p></div>
       </div>
 
       <div id="admin-steps-tab" class="admin-tab-content" style="display:none;">
-        <p>Conteúdo do site</p><h2>Como funciona na prática?</h2><p>Edite todas as etapas e publique para atualizar o site. As imagens usam recorte centralizado.</p><button class="btn-admin" id="publish-steps" onclick="publishSteps()" disabled>Publicar alterações</button><p id="steps-status" role="status" aria-live="polite"></p>
+        <p>Conteúdo do site</p><h2>Como funciona na prática?</h2><p>Edite todas as etapas e salve para atualizar o site. As imagens usam recorte centralizado.</p><button class="btn-admin" id="publish-steps" onclick="publishSteps()" disabled>Salvar alterações</button><p id="steps-status" role="status" aria-live="polite"></p>
         <div id="steps-editor"></div>
         <button class="btn-admin" onclick="addStep()">+ Adicionar Etapa</button>
       </div>
@@ -1604,6 +1612,7 @@
         <h2>Para Quem Funciona</h2>
         <div id="personas-editor"></div>
         <button class="btn-admin" onclick="addPersona()">+ Adicionar Persona</button>
+        <div class="section-save-bar"><button type="button" class="btn-admin" onclick="saveCurrentSection('personas')">Salvar público ideal</button><p class="section-save-status" id="save-status-personas" role="status" aria-live="polite"></p></div>
       </div>
 
       <div id="admin-bonus-tab" class="admin-tab-content" style="display:none;">
@@ -1611,7 +1620,7 @@
         <p>Edite todos os cards, adicione imagens e publique para atualizar a página.</p>
         <div id="bonus-editor"></div>
         <button class="btn-admin" onclick="addBonus()">+ Adicionar Bônus</button>
-        <button class="btn-admin" id="publish-bonus" onclick="publishBonus()" disabled>Publicar alterações</button>
+        <button class="btn-admin" id="publish-bonus" onclick="publishBonus()" disabled>Salvar alterações</button>
         <p id="bonus-status" role="status" aria-live="polite"></p>
       </div>
 
@@ -1629,12 +1638,14 @@
           <label>Preço à Vista</label>
           <input type="text" id="price-vista" onchange="state.priceVista = this.value; saveState(); renderPage();">
         </div>
+        <div class="section-save-bar"><button type="button" class="btn-admin" onclick="saveCurrentSection('preco')">Salvar investimento</button><p class="section-save-status" id="save-status-preco" role="status" aria-live="polite"></p></div>
       </div>
 
       <div id="admin-faq-tab" class="admin-tab-content" style="display:none;">
         <h2>FAQ</h2>
         <div id="faq-editor"></div>
         <button class="btn-admin" onclick="addFaq()">+ Adicionar Pergunta</button>
+        <div class="section-save-bar"><button type="button" class="btn-admin" onclick="saveCurrentSection('faq')">Salvar perguntas frequentes</button><p class="section-save-status" id="save-status-faq" role="status" aria-live="polite"></p></div>
       </div>
 
       <div id="admin-creator-tab" class="admin-tab-content" style="display:none;">
@@ -1661,6 +1672,7 @@
           <label>Seguidores / Clientes</label>
           <input type="text" id="creator-followers" onchange="state.creatorFollowers = this.value; saveState(); renderPage();">
         </div>
+        <div class="section-save-bar"><button type="button" class="btn-admin" onclick="saveCurrentSection('creator')">Salvar informações da Bruna</button><p class="section-save-status" id="save-status-creator" role="status" aria-live="polite"></p></div>
       </div>
 
       <div id="admin-settings-tab" class="admin-tab-content" style="display:none;">
@@ -1673,6 +1685,7 @@
           <label>Texto do Rodapé</label>
           <input type="text" id="footer-text" onchange="state.footerText = this.value; saveState(); renderPage();">
         </div>
+        <div class="section-save-bar"><button type="button" class="btn-admin" onclick="saveCurrentSection('settings')">Salvar configurações</button><p class="section-save-status" id="save-status-settings" role="status" aria-live="polite"></p></div>
       </div>
     </div>
   </div>
@@ -2025,15 +2038,22 @@ async function loadPublishedPage() {
   } catch {pageLoaded=true;syncStatus('Não foi possível sincronizar o conteúdo. Recarregue a página.',true);return {page:null,revision:null};}
 }
 async function publishPageContent() {
-  if(!isLoggedIn||!adminSessionToken)return;
+  if(!isLoggedIn||!adminSessionToken)return false;
   if(!pageLoaded)await pageLoadPromise;
   syncStatus('Salvando conteúdo para desktop e celular…');
   try {
     const response=await fetch('/api/admin/content/page',{method:'POST',headers:{'Content-Type':'application/json',Authorization:'Bearer '+adminSessionToken},body:JSON.stringify({page:pageSnapshot(),revision:pageRevision})});
-    const data=await response.json();if(!response.ok)throw new Error(data.error||'Não foi possível sincronizar.');pageRevision=data.revision;syncStatus('Conteúdo salvo e sincronizado em todos os dispositivos.');
-  } catch(error){syncStatus(error.message,true);}
+    const data=await response.json();if(!response.ok)throw new Error(data.error||'Não foi possível sincronizar.');pageRevision=data.revision;syncStatus('Conteúdo salvo e sincronizado em todos os dispositivos.');return true;
+  } catch(error){syncStatus(error.message,true);return false;}
 }
 function schedulePagePublish(){if(!isLoggedIn||!adminSessionToken)return;clearTimeout(pagePublishTimer);pagePublishTimer=setTimeout(publishPageContent,700);}
+async function saveCurrentSection(section) {
+  clearTimeout(pagePublishTimer);
+  const status=document.getElementById('save-status-'+section);
+  if(status){status.textContent='Salvando…';status.classList.remove('is-error');}
+  const saved=await publishPageContent();
+  if(status){status.textContent=saved?'Alterações salvas e sincronizadas.':'Não foi possível salvar. Confira a mensagem no topo do painel.';status.classList.toggle('is-error',!saved);}
+}
 
 
 const LEGACY_STEP_ITEMS = ['Estruturado e planejado', 'Com total acompanhamento'];

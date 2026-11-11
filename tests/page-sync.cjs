@@ -46,3 +46,14 @@ test('legacy creator photo does not block saving a new optimized testimonial pho
   assert.equal(saved.page.creatorImage.length,legacyCreatorImage.length);
   assert.equal(saved.page.proof[0].image.length,optimizedProofImage.length);
 });
+
+test('each editable content section has an explicit save action',()=>{
+  const html=fs.readFileSync(path.join(__dirname,'../public/index.html'),'utf8');
+  for(const section of ['hero','proof','diferenciais','metodo','personas','preco','faq','creator','settings']){
+    assert.ok(html.includes(`saveCurrentSection('${section}')`),`missing save action for ${section}`);
+    assert.ok(html.includes(`id="save-status-${section}"`),`missing save status for ${section}`);
+  }
+  assert.match(html,/id="publish-steps"[^>]*>Salvar alterações</);
+  assert.match(html,/id="publish-bonus"[^>]*>Salvar alterações</);
+  assert.match(html,/async function saveCurrentSection/);
+});
