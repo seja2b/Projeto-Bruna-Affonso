@@ -1,5 +1,9 @@
 const KEY = 'editorial:page:v1';
 const MAX_BYTES = 6 * 1024 * 1024;
+// Conteúdo legado já publicado contém uma foto da criadora com cerca de 2,8 MB.
+// Novos uploads são otimizados no navegador, mas a validação precisa aceitar a
+// imagem existente para que ela não bloqueie o salvamento das demais seções.
+const MAX_STRING_LENGTH = 4 * 1024 * 1024;
 const PAGE_KEYS = [
   'videoUrlHero', 'heroTitle', 'heroDesc', 'ctaHeroText', 'afterVideoText',
   'proof', 'proofIntro', 'proofComum', 'diferenciais', 'metodImages',
@@ -37,7 +41,7 @@ async function readJson(request) {
 function validValue(value, depth = 0) {
   if (depth > 4) return false;
   if (value === null || typeof value === 'boolean' || typeof value === 'number') return true;
-  if (typeof value === 'string') return value.length <= 1_000_000;
+  if (typeof value === 'string') return value.length <= MAX_STRING_LENGTH;
   if (Array.isArray(value)) return value.length <= 100 && value.every(item => validValue(item, depth + 1));
   if (!value || typeof value !== 'object' || Object.keys(value).length > 30) return false;
   return Object.entries(value).every(([key, item]) => key !== '__proto__' && key !== 'constructor' && validValue(item, depth + 1));

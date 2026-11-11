@@ -29,3 +29,20 @@ test('landing loads published content and automatically syncs authenticated edit
   ]) assert.ok(html.includes(required),required);
   assert.ok(!html.includes("if(data.page){state={...state,...data.page};localStorage.setItem('pageState'"));
 });
+
+test('legacy creator photo does not block saving a new optimized testimonial photo',async()=>{
+  const {pageContent}=await import('../src/page-content.js');
+  const legacyCreatorImage='data:image/jpeg;base64,'+'a'.repeat(2_811_670);
+  const optimizedProofImage='data:image/webp;base64,'+'b'.repeat(420_000);
+  const current={page:{creatorImage:legacyCreatorImage,proof:[{title:'Cliente',desc:'Resultado',image:''}]},revision:'current'};
+  const kv=new Map([['editorial:page:v1',JSON.stringify(current)]]);
+  const env={CODES:{get:async key=>kv.get(key),put:async(key,value)=>kv.set(key,value)}};
+  const response=await pageContent(new Request('https://example.test/api/admin/content/page',{
+    method:'POST',
+    body:JSON.stringify({revision:'current',page:{...current.page,proof:[{title:'Cliente',desc:'Resultado',image:optimizedProofImage}]}})
+  }),env,true);
+  assert.equal(response.status,200);
+  const saved=await response.json();
+  assert.equal(saved.page.creatorImage.length,legacyCreatorImage.length);
+  assert.equal(saved.page.proof[0].image.length,optimizedProofImage.length);
+});
