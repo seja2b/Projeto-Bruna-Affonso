@@ -518,7 +518,7 @@
       overflow: hidden;
     }
 
-    .bonus-image img { width: 100%; height: 100%; display: block; object-fit: cover; }
+    .bonus-image img { width: 100%; height: 100%; max-width: 100%; max-height: 100%; display: block; object-fit: contain; object-position: center; }
     .bonus-image-fallback { width: 100%; height: 100%; display: grid; place-items: center; padding: 20px; color: rgba(255,255,255,.86); font-size: .78rem; font-weight: 750; text-align: center; }
     .bonus-editor-card { background: #f3f4f6; padding: 1rem; border-radius: 8px; margin-bottom: 1rem; }
     .bonus-editor-card .bonus-image { max-width: 440px; margin: 12px 0; }
@@ -777,7 +777,8 @@
     .creator-image {
       width: 100%;
       border-radius: 12px;
-      object-fit: cover;
+      object-fit: contain;
+      object-position: center;
     }
 
     #close {
@@ -991,7 +992,8 @@
       width: 100%;
       max-width: 300px;
       height: 150px;
-      object-fit: cover;
+      object-fit: contain;
+      object-position: center;
       border-radius: 8px;
       margin: 10px 0;
       display: none;
@@ -1200,7 +1202,8 @@
     .proof-item-edit img {
       width: 100%;
       height: 150px;
-      object-fit: cover;
+      object-fit: contain;
+      object-position: center;
       border-radius: 6px;
       display: none;
     }
@@ -1300,13 +1303,13 @@
     .method-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
     .method-media { position: relative; overflow: hidden; aspect-ratio: 16/9; border: 1px solid #e4e8f0; border-radius: 24px; background: #11182b; box-shadow: 0 20px 50px rgba(15,23,42,.11); }
     .method-media [hidden] { display: none !important; }
-    .method-media img { width: 100%; height: 100%; display: block; object-fit: cover; transition: transform .45s ease; }
+    .method-media img { width: 100%; height: 100%; max-width: 100%; max-height: 100%; display: block; object-fit: contain; object-position: center; transition: none; }
     .method-photo-editor { padding: 20px; margin-bottom: 20px; border: 1px solid #e4e8f0; border-radius: 16px; background: #f8fafc; }
     .method-photo-editor .method-media { margin-bottom: 16px; }
     .method-photo-editor input { max-width: 100%; box-sizing: border-box; }
     .method-photo-editor button { margin: 8px 8px 0 0; }
     .method-photo-status { min-height: 1.5em; color: #9d174d; }
-    .method-media:hover img { transform: scale(1.025); }
+    .method-media:hover img { transform: none; }
     .method-placeholder { width: 100%; height: 100%; padding: 28px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; background: radial-gradient(circle at 50% 30%, rgba(20,92,255,.18), transparent 36%), linear-gradient(145deg, #171e34, #0f1528); color: white; }
     .method-placeholder-icon { width: 58px; height: 58px; display: grid; place-items: center; margin-bottom: 18px; border: 1px solid rgba(255,255,255,.15); border-radius: 18px; color: #EAF1FF; background: rgba(255,255,255,.07); }
     .method-placeholder-icon svg { width: 25px; height: 25px; }
@@ -1359,7 +1362,7 @@
     .stat-number { color: #D8E6FF; font-size: 1.35rem; }
     .stat-label { color: #8994ab; font-size: 10px; line-height: 1.35; }
     .creator-visual { position: relative; min-height: 570px; overflow: hidden; background: linear-gradient(145deg, #06174F 0%, #0B3FD3 58%, #075EFF 100%); }
-    .creator-image { position: relative; z-index: 2; width: 100%; height: 100% !important; min-height: 570px; display: none; object-fit: cover; border-radius: 0 !important; }
+    .creator-image { position: relative; z-index: 2; width: 100%; height: 100% !important; min-height: 570px; display: none; object-fit: contain; object-position: center; border-radius: 0 !important; }
     .creator-image.has-image { display: block; }
     .creator-placeholder { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; color: white; text-align: center; background: radial-gradient(circle at 70% 20%, rgba(255,255,255,.2), transparent 26%); }
     .creator-placeholder.hidden { display: none; }
@@ -1469,8 +1472,8 @@
       .hero-copy .btn { padding-inline: 16px; font-size: 14px; }
     }
 
-.step-image { overflow: hidden; position: relative; }
-.step-image img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.step-image { overflow: hidden; position: relative; aspect-ratio: 4 / 3; height: auto; min-height: 0; background: #eef3ff; }
+.step-image img { width: 100%; height: 100%; max-width: 100%; max-height: 100%; object-fit: contain; object-position: center; display: block; }
 .step-image [hidden] { display: none; }
 .step-fallback { padding: 24px; text-align: center; }
 .step-card > * { min-width: 0; overflow-wrap: anywhere; }
@@ -1478,6 +1481,26 @@
 .step-editor input, .step-editor textarea { max-width: 100%; box-sizing: border-box; }
 .step-editor .step-image { max-width: 480px; margin: 16px 0; }
 .step-editor button { margin: 8px 8px 8px 0; }
+
+/* Enquadramento editorial: nenhuma foto pública é cortada ou ultrapassa o seu quadro. */
+.method-media, .step-image, .bonus-image, .creator-visual, .proof-card { contain: paint; }
+.method-media, .step-image, .bonus-image { background-color: #eef3ff; background-image: none; }
+.step-card > *, .bonus-card > * { min-width: 0; }
+.bonus-title, .bonus-desc, .bonus-value { max-width: 100%; overflow-wrap: anywhere; }
+.method-media img, .step-image img, .bonus-image img, .creator-image, .proof-card > img {
+  box-sizing: border-box;
+  max-width: 100% !important;
+  max-height: 100% !important;
+  object-fit: contain !important;
+  object-position: center !important;
+}
+.proof-card > img { display: block; background: #0b1020; }
+@media (max-width: 640px) {
+  .step-image { width: 100%; aspect-ratio: 4 / 3; }
+  .method-media { width: 100%; }
+  .bonus-image { width: 100%; height: auto; aspect-ratio: 2 / 1; }
+  .creator-visual, .creator-image { min-height: 0; aspect-ratio: 3 / 4; }
+}
 </style>
 </head>
 <body>
@@ -2355,7 +2378,7 @@ function renderPage() {
     document.getElementById('after-video-text').innerHTML = state.afterVideoText;
   }
   if (document.getElementById('proof-cards')) {
-    document.getElementById('proof-cards').innerHTML = state.proof.map((p, i) => `<div class="proof-card">${p.image ? `<img src="${p.image}" style="width: 100%; height: 150px; object-fit: cover; border-radius: 12px; margin-bottom: 1rem;" alt="${p.title}">` : ''}<div class="proof-card-title">${p.title}</div><div class="proof-card-desc">${p.desc}</div><div class="proof-card-footer"><div class="proof-avatar"></div><span style="font-size: 0.75rem;">Cliente satisfeita</span></div></div>`).join('');
+    document.getElementById('proof-cards').innerHTML = state.proof.map((p, i) => `<div class="proof-card">${p.image ? `<img src="${p.image}" style="width: 100%; height: 150px; object-fit: contain; object-position: center; background: #0b1020; border-radius: 12px; margin-bottom: 1rem;" alt="${p.title}">` : ''}<div class="proof-card-title">${p.title}</div><div class="proof-card-desc">${p.desc}</div><div class="proof-card-footer"><div class="proof-avatar"></div><span style="font-size: 0.75rem;">Cliente satisfeita</span></div></div>`).join('');
   }
   if (document.getElementById('proof-intro')) {
     document.getElementById('proof-intro').innerHTML = state.proofIntro;
@@ -2525,7 +2548,7 @@ function syncAdminInputs(tab) {
       <input id="method-title-${i}" value="${escapePhotoText(methodPhotoTitle(img, i))}" onchange="saveMethodPhoto(${i}, {title: this.value})">
       <label for="metodo-image-upload-${i}">Selecionar ou substituir foto</label>
       <input type="file" id="metodo-image-upload-${i}" accept="image/jpeg,image/png,image/webp" aria-describedby="method-help-${i}" onchange="uploadMethodPhoto(${i}, this.files[0])">
-      <p id="method-help-${i}">JPG, PNG ou WebP, até 8 MB. A foto será otimizada. Proporção recomendada: 16:9; o recorte é centralizado.</p>
+      <p id="method-help-${i}">JPG, PNG ou WebP, até 8 MB. A foto será otimizada e exibida inteira, sem recorte.</p>
       <label for="method-url-${i}">Ou usar um link de imagem</label>
       <input type="url" id="method-url-${i}" placeholder="https://…" value="${escapePhotoText(img.url?.startsWith('data:') ? '' : img.url || '')}">
       <button type="button" class="btn-admin" onclick="useMethodPhotoUrl(${i})">Aplicar link</button>
