@@ -1962,10 +1962,10 @@ const DEFAULT_DATA = {
   ],
   
   steps: [
-    { num: 1, title: 'Aulas Gravadas', desc: 'Acesso a todas as aulas em vídeo pra você aprender no seu tempo' },
+    { num: 1, title: 'Avaliação e Progresso', desc: 'Acompanhamos suas evoluções com check-ins regulares' },
     { num: 2, title: 'Acompanhamento Personalizado', desc: 'Eu acompanho seu progresso e faço ajustes conforme necessário' },
     { num: 3, title: 'Correção de Exercícios', desc: 'Envie vídeos dos seus treinos e receba correção detalhada' },
-    { num: 4, title: 'Avaliação e Progresso', desc: 'Acompanhamos suas evoluções com check-ins regulares' },
+    { num: 4, title: 'Aulas Gravadas', desc: 'Acesso a todas as aulas em vídeo pra você aprender no seu tempo' },
     { num: 5, title: 'Desafios e Parcerias', desc: 'Participe de desafios e conheça outras mulheres da consultoria' },
     { num: 6, title: 'Treinos Bônus', desc: 'Treinos extras e dicas de bem-estar constantemente' }
   ],
@@ -2093,6 +2093,11 @@ async function saveCurrentSection(section) {
 
 
 const LEGACY_STEP_ITEMS = ['Estruturado e planejado', 'Com total acompanhamento'];
+const STEP_ORDER = ['Avaliação e Progresso', 'Acompanhamento Personalizado', 'Correção de Exercícios', 'Aulas Gravadas'];
+function normalizeStepOrder(steps) {
+  const positions = new Map(STEP_ORDER.map((title, index) => [title, index]));
+  return [...steps].sort((a, b) => (positions.get(a.title) ?? STEP_ORDER.length) - (positions.get(b.title) ?? STEP_ORDER.length));
+}
 const stepText = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const stepItems = s => Array.isArray(s.items) ? s.items : [...LEGACY_STEP_ITEMS];
 const stepImageUrl = value => /^(https:\/\/|data:image\/(png|jpeg|webp);base64,)/i.test(value || '') ? value : '';
@@ -2140,7 +2145,7 @@ async function useStepImage(i) {
 async function loadPublishedSteps() {
   try {
     const response=await fetch('/api/content/steps',{cache:'no-store'});if(!response.ok) throw new Error();const data=await response.json();
-    if(Array.isArray(data.steps)&&!stepsDirty) state.steps=data.steps;
+    if(Array.isArray(data.steps)&&!stepsDirty) state.steps=normalizeStepOrder(data.steps);
     stepsRevision=data.revision;stepsLoaded=true;document.getElementById('publish-steps').disabled=false;renderPage();syncAdminInputs('steps');
   } catch {document.getElementById('steps-status').textContent='Não foi possível carregar o conteúdo publicado. Recarregue a página antes de publicar.';}
 }
