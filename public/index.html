@@ -1503,6 +1503,13 @@
   .step-image { width: 100%; aspect-ratio: 4 / 3; }
   .method-media { width: 100%; }
   .bonus-image { width: 100%; height: auto; aspect-ratio: 2 / 1; }
+  .bonus-card:first-child .bonus-image {
+    overflow: hidden;
+    background: #fff;
+  }
+  .bonus-card:first-child .bonus-image img {
+    transform: translateY(10px);
+  }
   .creator-visual, .creator-image { min-height: 0; aspect-ratio: 3 / 4; }
 }
 </style>
