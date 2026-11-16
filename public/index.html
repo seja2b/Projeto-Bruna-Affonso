@@ -2545,6 +2545,7 @@ function syncAdminInputs(tab) {
           <input type="file" class="proof-file-input" data-index="${i}" accept="image/*" onchange="uploadProofImage(this.getAttribute('data-index'), this.files[0])">
         </div>
         <img class="image-preview ${p.image ? 'show' : ''}" src="${p.image || ''}" alt="Foto do depoimento">
+        <button type="button" class="btn-admin btn-danger" onclick="removeProofImage(${i})" ${p.image ? '' : 'disabled'}>Remover imagem</button>
         <p id="proof-image-status-${i}" role="status" aria-live="polite"></p>
         <input type="text" placeholder="Nome da pessoa" value="${p.title}" onchange="state.proof[${i}].title = this.value; saveState(); renderPage();">
         <textarea placeholder="Depoimento / Resultado" onchange="state.proof[${i}].desc = this.value; saveState(); renderPage();">${p.desc}</textarea>
@@ -2624,6 +2625,16 @@ async function uploadProofImage(index, file) {
     if (status) status.textContent = error.message;
     else syncStatus(error.message, true);
   }
+}
+
+function removeProofImage(index) {
+  if (!state.proof[index] || !state.proof[index].image) return;
+  state.proof[index] = {...state.proof[index], image: ''};
+  saveState();
+  syncAdminInputs('proof');
+  renderPage();
+  const status = document.getElementById(`proof-image-status-${index}`);
+  if (status) status.textContent = 'Imagem removida. Aguarde a confirmação de sincronização no topo do painel.';
 }
 
 function openAddAdminModal() {

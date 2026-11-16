@@ -19,3 +19,10 @@ test('image fields expose preparation and synchronization feedback', () => {
   assert.match(html, /proof-image-status-/);
   assert.match(html, /Aguarde a confirmação de sincronização no topo do painel/);
 });
+
+test('testimonial images can be removed without deleting their text', () => {
+  assert.match(html, /onclick="removeProofImage\(\$\{i\}\)"/);
+  assert.match(html, /function removeProofImage\(index\)/);
+  assert.match(html, /state\.proof\[index\] = \{\.\.\.state\.proof\[index\], image: ''\}/);
+  assert.match(html, /Imagem removida\. Aguarde a confirmação de sincronização/);
+});
