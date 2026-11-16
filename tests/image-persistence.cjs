@@ -26,3 +26,8 @@ test('testimonial images can be removed without deleting their text', () => {
   assert.match(html, /state\.proof\[index\] = \{\.\.\.state\.proof\[index\], image: ''\}/);
   assert.match(html, /Imagem removida\. Aguarde a confirmação de sincronização/);
 });
+
+test('public testimonials omit the generic satisfied-client footer', () => {
+  assert.doesNotMatch(html, /Cliente satisfeita/);
+  assert.doesNotMatch(html, /<div class="proof-card-footer"><div class="proof-avatar">/);
+});
