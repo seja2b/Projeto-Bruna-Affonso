@@ -20,6 +20,12 @@ const PAYMENT_SECTION = `
             </span>
             <span><strong>Mensal recorrente</strong><small>R$ 250 por mês</small></span>
           </button>
+          <button class="payment-tab" type="button" role="tab" aria-selected="false" aria-controls="payment-card" data-payment-tab="card" onclick="switchPaymentTab('card')">
+            <span class="payment-tab-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="14" rx="2.5" stroke="currentColor" stroke-width="1.8"/><path d="M3 9.5h18M7 15h3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+            </span>
+            <span><strong>Cartão de crédito</strong><small>3 ou 6 meses</small></span>
+          </button>
           <button class="payment-tab" type="button" role="tab" aria-selected="false" aria-controls="payment-pix" data-payment-tab="pix" onclick="switchPaymentTab('pix')">
             <span class="payment-tab-icon" aria-hidden="true">
               <svg viewBox="0 0 24 24" fill="none"><path d="m8.1 4.6 2.2-2.2a2.4 2.4 0 0 1 3.4 0l2.2 2.2M4.6 8.1 2.4 10.3a2.4 2.4 0 0 0 0 3.4l2.2 2.2M15.9 19.4l-2.2 2.2a2.4 2.4 0 0 1-3.4 0l-2.2-2.2M19.4 15.9l2.2-2.2a2.4 2.4 0 0 0 0-3.4l-2.2-2.2M8.3 8.3l7.4 7.4M15.7 8.3l-7.4 7.4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
@@ -47,6 +53,44 @@ const PAYMENT_SECTION = `
               <a class="payment-primary-btn" href="https://pages.mfitpersonal.com.br/p/lsk?checkout=true" target="_blank" rel="noopener noreferrer">Assinar plano mensal</a>
               <p class="payment-note">Checkout seguro pela MFit Personal</p>
             </div>
+          </div>
+        </div>
+
+        <div id="payment-card" class="payment-panel" data-payment-panel="card" role="tabpanel" hidden>
+          <div class="pix-heading">
+            <span class="payment-badge payment-badge-soft">PAGAMENTO NO CARTÃO</span>
+            <h3>Escolha o período de acompanhamento</h3>
+            <p>Selecione seu plano e conclua o pagamento com segurança pelo Mercado Pago.</p>
+          </div>
+
+          <div class="card-plans">
+            <article class="pix-plan-card card-plan-card">
+              <div>
+                <span class="pix-plan-period">3 MESES</span>
+                <h4>Acompanhamento trimestral</h4>
+                <p>Três meses de acompanhamento personalizado.</p>
+              </div>
+              <div class="pix-plan-price">R$ 700</div>
+              <a class="card-checkout-btn" href="https://mpago.la/2aMZLAA" target="_blank" rel="noopener noreferrer">
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2.5" stroke="currentColor" stroke-width="1.8"/><path d="M3 9.5h18M7 15h3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+                <span>Pagar com cartão</span>
+              </a>
+              <p class="checkout-provider">Checkout seguro pelo Mercado Pago</p>
+            </article>
+
+            <article class="pix-plan-card card-plan-card">
+              <div>
+                <span class="pix-plan-period">6 MESES</span>
+                <h4>Acompanhamento semestral</h4>
+                <p>Seis meses de acompanhamento personalizado.</p>
+              </div>
+              <div class="pix-plan-price">R$ 1.200</div>
+              <a class="card-checkout-btn" href="https://mpago.la/1hs7QDT" target="_blank" rel="noopener noreferrer">
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2.5" stroke="currentColor" stroke-width="1.8"/><path d="M3 9.5h18M7 15h3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+                <span>Pagar com cartão</span>
+              </a>
+              <p class="checkout-provider">Checkout seguro pelo Mercado Pago</p>
+            </article>
           </div>
         </div>
 
@@ -118,7 +162,7 @@ const PAYMENT_STYLES = `
   #preco .investment-eyebrow { margin: 0 0 10px; text-align: center; color: #b7c0d3; font-size: 12px; font-weight: 800; letter-spacing: .16em; }
   #preco .investment-lead { max-width: 650px; margin: 0 auto; text-align: center; color: #9ca7bb; font-size: 15px; line-height: 1.7; }
   .payment-shell { max-width: 1000px; margin: 42px auto 0; overflow: hidden; border: 1px solid rgba(255,255,255,.08); border-radius: 30px; background: #fff; box-shadow: 0 36px 90px rgba(0,0,0,.3); }
-  .payment-tabs { display: grid; grid-template-columns: 1fr 1fr; padding: 8px; gap: 8px; border-bottom: 1px solid #e8eaf0; background: #f5f6fa; }
+  .payment-tabs { display: grid; grid-template-columns: repeat(3, 1fr); padding: 8px; gap: 8px; border-bottom: 1px solid #e8eaf0; background: #f5f6fa; }
   .payment-tab { min-width: 0; padding: 16px 18px; display: flex; align-items: center; justify-content: center; gap: 12px; border: 0; border-radius: 18px; color: #667085; background: transparent; cursor: pointer; font: inherit; text-align: left; transition: .22s ease; }
   .payment-tab:hover { color: #07369E; background: rgba(20,92,255,.06); }
   .payment-tab.active { color: white; background: linear-gradient(100deg, #06174F 0%, #0B3FD3 56%, #075EFF 100%); box-shadow: 0 12px 28px rgba(20,92,255,.22); }
@@ -150,7 +194,7 @@ const PAYMENT_STYLES = `
   .payment-badge-soft { color: #0A3DB8; border-color: rgba(20,92,255,.18); background: #EAF1FF; }
   .pix-heading h3 { margin: 14px 0 7px; color: #151d31; font-size: 1.8rem; letter-spacing: -.035em; }
   .pix-heading p { margin: 0; color: #727d90; font-size: 13px; }
-  .pix-plans { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  .pix-plans, .card-plans { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
   .pix-plan-card { padding: 26px; display: flex; flex-direction: column; border: 1px solid #e6e7ed; border-radius: 20px; background: linear-gradient(180deg, #fff, #fbfbfd); box-shadow: 0 12px 32px rgba(15,23,42,.06); }
   .pix-plan-period { color: #0A3DB8; font-size: 10px; font-weight: 850; letter-spacing: .15em; }
   .pix-plan-card h4 { margin: 8px 0 5px; color: #172033; font-size: 18px; letter-spacing: -.025em; }
@@ -160,6 +204,10 @@ const PAYMENT_STYLES = `
   .copy-pix-btn:hover { background: #E4EDFF; transform: translateY(-1px); }
   .copy-pix-btn.copied { color: #087a45; border-color: rgba(16,185,129,.22); background: #ecfdf5; }
   .copy-pix-btn svg { width: 18px; height: 18px; }
+  .card-checkout-btn { width: 100%; min-height: 48px; margin-top: auto; padding: 12px 15px; display: flex; align-items: center; justify-content: center; gap: 9px; border-radius: 13px; color: white; background: linear-gradient(100deg, #06174F 0%, #0B3FD3 56%, #075EFF 100%); box-shadow: 0 12px 26px rgba(20,92,255,.2); text-decoration: none; font-size: 13px; font-weight: 800; transition: .2s ease; }
+  .card-checkout-btn:hover { transform: translateY(-2px); box-shadow: 0 16px 30px rgba(20,92,255,.28); }
+  .card-checkout-btn svg { width: 18px; height: 18px; }
+  .card-plan-card .checkout-provider { min-height: 0; margin: 10px 0 0; text-align: center; color: #98a2b3; font-size: 10px; }
   .signup-after-pix { margin-top: 20px; padding: 22px 24px; display: grid; grid-template-columns: auto 1fr auto; gap: 16px; align-items: center; border: 1px solid #e8e8ef; border-radius: 18px; background: #f8f9fc; }
   .signup-icon { width: 45px; height: 45px; display: grid; place-items: center; border-radius: 14px; color: #0A3DB8; background: #E4EDFF; }
   .signup-icon svg { width: 22px; height: 22px; }
@@ -180,7 +228,7 @@ const PAYMENT_STYLES = `
     .payment-tabs { grid-template-columns: 1fr; }
     .payment-tab { justify-content: flex-start; }
     .payment-panel { padding: 20px; }
-    .payment-card, .pix-plans { grid-template-columns: 1fr; }
+    .payment-card, .pix-plans, .card-plans { grid-template-columns: 1fr; }
     .payment-card-copy, .payment-card-action { padding: 28px 24px; }
     .pix-plan-card p { min-height: 0; }
     .signup-after-pix, .payment-support { grid-template-columns: auto 1fr; }
@@ -393,7 +441,7 @@ export default {
       if (url.pathname === '/api/admin/session' && request.method === 'GET') return await validateSession(request, env);
       if (url.pathname === '/api/admin/logout' && request.method === 'POST') return await logout(request, env);
 
-      const page = await fetch('https://raw.githubusercontent.com/seja2b/Projeto-Bruna-Affonso/main/public/index.html?v=20261116-proof-footer-remove');
+      const page = await fetch('https://raw.githubusercontent.com/seja2b/Projeto-Bruna-Affonso/main/public/index.html?v=20261125-card-checkout');
       const html = enhancePaymentSection(await page.text());
       return new Response(html, { headers: { 'Content-Type': 'text/html; charset=utf-8', ...corsHeaders(request) } });
     } catch (error) {
