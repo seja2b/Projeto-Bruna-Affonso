@@ -158,11 +158,11 @@ const PAYMENT_SECTION = `
           <svg viewBox="0 0 24 24" fill="none"><path d="M20.5 11.6a8.4 8.4 0 0 1-12.4 7.4L4 20l1.1-4a8.4 8.4 0 1 1 15.4-4.4Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M8.2 8.1c.2-.5.4-.5.7-.5h.5c.2 0 .4 0 .6.5l.7 1.7c.1.3 0 .5-.1.7l-.5.6c-.2.2-.3.4-.1.7.4.8 1 1.5 1.7 2 .8.6 1.5.8 1.8.9.3.1.5 0 .7-.2l.8-1c.2-.2.4-.3.7-.2l1.8.8c.3.1.5.2.5.4 0 .2 0 1-.5 1.8-.5.8-1.5 1.5-2.8 1.5-1.3 0-3-.5-5.2-2.4-2.3-2-3.7-4.4-3.8-6-.1-1.5.6-2.4 1-2.8.4-.4.9-.6 1.5-.6Z" fill="currentColor" opacity=".75"/></svg>
         </div>
         <div>
-          <span>PRECISA DE AJUDA?</span>
-          <strong>Ficou com alguma dúvida sobre o pagamento?</strong>
-          <p>Fale diretamente com a Bruna pelo WhatsApp.</p>
+          <span>PAGAMENTO E ACESSO</span>
+          <strong>Já realizou o pagamento? Fale com a Bruna para confirmar e liberar seu acesso.</strong>
+          <p>Se tiver alguma dúvida sobre pagamento ou cadastro, ela também poderá ajudar.</p>
         </div>
-        <a class="whatsapp-btn" href="https://wa.me/557199311112?text=Ol%C3%A1%2C%20Bruna!%20Tenho%20uma%20d%C3%BAvida%20sobre%20a%20consultoria%20e%20as%20formas%20de%20pagamento." target="_blank" rel="noopener noreferrer">Falar no WhatsApp</a>
+        <a class="whatsapp-btn" href="https://wa.me/557199311112?text=Ol%C3%A1%2C%20Bruna%21%20Gostaria%20de%20atendimento%20sobre%20meu%20pagamento%20e%20acesso%20%C3%A0%20plataforma.%20Se%20j%C3%A1%20realizei%20o%20pagamento%2C%20preciso%20confirmar%20para%20liberar%20meu%20acesso.%20Caso%20contr%C3%A1rio%2C%20tenho%20uma%20d%C3%BAvida%20sobre%20pagamento%20ou%20cadastro." target="_blank" rel="noopener noreferrer">Falar com a Bruna</a>
       </div>
     </div>
   </section>`;
@@ -452,7 +452,7 @@ export default {
       if (url.pathname === '/api/admin/session' && request.method === 'GET') return await validateSession(request, env);
       if (url.pathname === '/api/admin/logout' && request.method === 'POST') return await logout(request, env);
 
-      const page = await fetch('https://raw.githubusercontent.com/seja2b/Projeto-Bruna-Affonso/main/public/index.html?v=20261126-card-student-access');
+      const page = await fetch('https://raw.githubusercontent.com/seja2b/Projeto-Bruna-Affonso/main/public/index.html?v=20261126-payment-access-whatsapp');
       const html = enhancePaymentSection(await page.text());
       return new Response(html, { headers: { 'Content-Type': 'text/html; charset=utf-8', ...corsHeaders(request) } });
     } catch (error) {

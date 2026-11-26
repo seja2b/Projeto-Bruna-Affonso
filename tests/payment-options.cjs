@@ -17,5 +17,8 @@ test('payment section offers the correct card checkouts', () => {
   assert.ok(source.includes('href="https://bruna-affonso-frontend.pages.dev/login"'));
   assert.ok(source.includes('A liberação será feita após a confirmação e aprovação da Bruna.'));
   assert.ok(source.includes('Acessar plataforma'));
+  assert.ok(source.includes('Já realizou o pagamento? Fale com a Bruna para confirmar e liberar seu acesso.'));
+  assert.ok(source.includes('Se tiver alguma dúvida sobre pagamento ou cadastro, ela também poderá ajudar.'));
+  assert.ok(source.includes('Falar com a Bruna'));
   assert.ok(source.includes('.payment-card, .pix-plans, .card-plans { grid-template-columns: 1fr; }'));
 });
