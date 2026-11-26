@@ -14,5 +14,8 @@ test('payment section offers the correct card checkouts', () => {
   assert.ok(source.includes('<div class="pix-plan-price">R$ 700</div>'));
   assert.ok(source.includes('<div class="pix-plan-price">R$ 1.200</div>'));
   assert.equal((source.match(/Checkout seguro pelo Mercado Pago/g) || []).length, 2);
+  assert.ok(source.includes('href="https://bruna-affonso-frontend.pages.dev/login"'));
+  assert.ok(source.includes('A liberação será feita após a confirmação e aprovação da Bruna.'));
+  assert.ok(source.includes('Acessar plataforma'));
   assert.ok(source.includes('.payment-card, .pix-plans, .card-plans { grid-template-columns: 1fr; }'));
 });

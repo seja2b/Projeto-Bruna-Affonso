@@ -92,6 +92,17 @@ const PAYMENT_SECTION = `
               <p class="checkout-provider">Checkout seguro pelo Mercado Pago</p>
             </article>
           </div>
+
+          <div class="signup-after-pix signup-after-card">
+            <div class="signup-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none"><path d="M15 19v-1.5A3.5 3.5 0 0 0 11.5 14h-5A3.5 3.5 0 0 0 3 17.5V19M9 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM17 8v6M14 11h6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+            </div>
+            <div>
+              <strong>Pagamento realizado?</strong>
+              <p>Acesse a plataforma com o mesmo e-mail usado no pagamento. A liberação será feita após a confirmação e aprovação da Bruna.</p>
+            </div>
+            <a href="https://bruna-affonso-frontend.pages.dev/login" target="_blank" rel="noopener noreferrer">Acessar plataforma</a>
+          </div>
         </div>
 
         <div id="payment-pix" class="payment-panel" data-payment-panel="pix" role="tabpanel" hidden>
@@ -441,7 +452,7 @@ export default {
       if (url.pathname === '/api/admin/session' && request.method === 'GET') return await validateSession(request, env);
       if (url.pathname === '/api/admin/logout' && request.method === 'POST') return await logout(request, env);
 
-      const page = await fetch('https://raw.githubusercontent.com/seja2b/Projeto-Bruna-Affonso/main/public/index.html?v=20261125-clean-youtube-player');
+      const page = await fetch('https://raw.githubusercontent.com/seja2b/Projeto-Bruna-Affonso/main/public/index.html?v=20261126-card-student-access');
       const html = enhancePaymentSection(await page.text());
       return new Response(html, { headers: { 'Content-Type': 'text/html; charset=utf-8', ...corsHeaders(request) } });
     } catch (error) {
