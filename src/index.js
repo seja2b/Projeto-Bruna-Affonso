@@ -119,11 +119,11 @@ const PAYMENT_SECTION = `
                 <h4>Acompanhamento trimestral</h4>
                 <p>Três meses de acompanhamento personalizado.</p>
               </div>
-              <div class="pix-plan-price">R$ 600</div>
-              <button class="copy-pix-btn" type="button" data-pix="00020126590014BR.GOV.BCB.PIX0111083141835470222consultoria trimestral5204000053039865406600.005802BR5924Bruna Ribeiro Affonso de6009SAO PAULO62140510Ok1WygFVZZ6304C4D2" onclick="copyPixCode(this)">
-                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="8" y="8" width="11" height="11" rx="2" stroke="currentColor" stroke-width="1.8"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
-                <span>Copiar código PIX</span>
-              </button>
+              <div class="pix-plan-price">R$ 700</div>
+              <a class="copy-pix-btn pix-checkout-btn" href="https://nubank.com.br/cobrar/m7i4x/6b08bee0-5166-4436-8e56-9b3da437671f" target="_blank" rel="noopener noreferrer">
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M19 13v5a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+                <span>Pagar via PIX</span>
+              </a>
             </article>
 
             <article class="pix-plan-card">
@@ -212,6 +212,7 @@ const PAYMENT_STYLES = `
   .pix-plan-card p { min-height: 42px; margin: 0; color: #798396; font-size: 12px; line-height: 1.6; }
   .pix-plan-price { margin: 22px 0 18px; color: #151d31; font-size: 2.35rem; font-weight: 850; letter-spacing: -.055em; }
   .copy-pix-btn { width: 100%; min-height: 48px; margin-top: auto; padding: 12px 15px; display: flex; align-items: center; justify-content: center; gap: 9px; border: 1px solid rgba(20,92,255,.18); border-radius: 13px; color: #07369E; background: #F0F5FF; cursor: pointer; font: inherit; font-size: 13px; font-weight: 800; transition: .2s ease; }
+  .pix-checkout-btn { text-decoration: none; }
   .copy-pix-btn:hover { background: #E4EDFF; transform: translateY(-1px); }
   .copy-pix-btn.copied { color: #087a45; border-color: rgba(16,185,129,.22); background: #ecfdf5; }
   .copy-pix-btn svg { width: 18px; height: 18px; }
@@ -452,7 +453,7 @@ export default {
       if (url.pathname === '/api/admin/session' && request.method === 'GET') return await validateSession(request, env);
       if (url.pathname === '/api/admin/logout' && request.method === 'POST') return await logout(request, env);
 
-      const page = await fetch('https://raw.githubusercontent.com/seja2b/Projeto-Bruna-Affonso/main/public/index.html?v=20261126-payment-access-whatsapp');
+      const page = await fetch('https://raw.githubusercontent.com/seja2b/Projeto-Bruna-Affonso/main/public/index.html?v=20261126-quarterly-pix-nubank');
       const html = enhancePaymentSection(await page.text());
       return new Response(html, { headers: { 'Content-Type': 'text/html; charset=utf-8', ...corsHeaders(request) } });
     } catch (error) {

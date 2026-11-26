@@ -13,6 +13,9 @@ test('payment section offers the correct card checkouts', () => {
   assert.ok(source.includes('href="https://mpago.la/1hs7QDT"'));
   assert.ok(source.includes('<div class="pix-plan-price">R$ 700</div>'));
   assert.ok(source.includes('<div class="pix-plan-price">R$ 1.200</div>'));
+  assert.ok(source.includes('href="https://nubank.com.br/cobrar/m7i4x/6b08bee0-5166-4436-8e56-9b3da437671f"'));
+  assert.ok(source.includes('<span>Pagar via PIX</span>'));
+  assert.ok(!source.includes('consultoria trimestral5204000053039865406600.00'));
   assert.equal((source.match(/Checkout seguro pelo Mercado Pago/g) || []).length, 2);
   assert.ok(source.includes('href="https://bruna-affonso-frontend.pages.dev/login"'));
   assert.ok(source.includes('A liberação será feita após a confirmação e aprovação da Bruna.'));
