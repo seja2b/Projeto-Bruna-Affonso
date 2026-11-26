@@ -2336,7 +2336,14 @@ function renderHeroVideo() {
   url.searchParams.set('enablejsapi', '1');
   url.searchParams.set('origin', window.location.origin);
   url.searchParams.set('playsinline', '1');
-  url.searchParams.set('controls', '1');
+  // Keep the embedded YouTube experience as visually clean as the platform allows.
+  url.searchParams.set('controls', '0');
+  url.searchParams.set('modestbranding', '1');
+  url.searchParams.set('rel', '0');
+  url.searchParams.set('iv_load_policy', '3');
+  url.searchParams.set('cc_load_policy', '0');
+  url.searchParams.set('disablekb', '1');
+  url.searchParams.set('fs', '0');
   // Start through onReady so the blocked event always has its handler attached.
   url.searchParams.set('autoplay', '0');
   url.searchParams.set('mute', '0');

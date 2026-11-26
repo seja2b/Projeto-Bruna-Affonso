@@ -17,3 +17,17 @@ test('the vertical frame keeps the existing autoplay and fullscreen player behav
   assert.match(html, /url\.searchParams\.set\('playsinline',\s*'1'\)/);
   assert.match(html, /onAutoplayBlocked/);
 });
+
+test('the YouTube player uses the cleanest supported presentation', () => {
+  for (const [parameter, value] of Object.entries({
+    controls: '0',
+    modestbranding: '1',
+    rel: '0',
+    iv_load_policy: '3',
+    cc_load_policy: '0',
+    disablekb: '1',
+    fs: '0'
+  })) {
+    assert.ok(html.includes(`url.searchParams.set('${parameter}', '${value}')`), `missing ${parameter}=${value}`);
+  }
+});

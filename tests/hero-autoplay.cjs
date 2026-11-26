@@ -39,6 +39,8 @@ test('hero autoplay policies, sound activation, scrolling, persistence and origi
    await page.waitForFunction(()=>window.testPlayer);
    assert.deepEqual(errors,[]);
    assert.equal(await page.locator('#hero-video-player').count(),1);
+   const playerUrl=new URL(await page.locator('#hero-video-player').getAttribute('src'));
+   for(const [key,value] of Object.entries({controls:'0',modestbranding:'1',rel:'0',iv_load_policy:'3',cc_load_policy:'0',disablekb:'1',fs:'0'})) assert.equal(playerUrl.searchParams.get(key),value);
    assert.equal(await page.evaluate(()=>testPlayer.muted),policy!=='allowed');
    assert.equal(await page.locator('#hero-sound-button').isVisible(),policy!=='allowed');
    if(policy==='all-blocked') assert.equal(await page.locator('#hero-sound-button').innerText(),'Reproduzir vídeo com som');
