@@ -1998,9 +1998,9 @@ const DEFAULT_DATA = {
   creatorYears: '10+',
   creatorFollowers: '5K+',
   creatorStats: [
-    { number: '10+', label: 'Experiência' },
-    { number: '5000+', label: 'Clientes' },
-    { number: '100%', label: 'Dedicação' }
+    { number: '100%', label: 'Dedicação' },
+    { number: '100%', label: 'Entrega' },
+    { number: '100%', label: 'Individualidade' }
   ],
   
   faq: [
@@ -2051,6 +2051,8 @@ if (state.personas?.some(item => /[⏱🆕📊🔄✈🏆]/u.test(item.text) || 
   state.personas = JSON.parse(JSON.stringify(DEFAULT_DATA.personas));
   persistLocalState();
 }
+state.creatorStats = JSON.parse(JSON.stringify(DEFAULT_DATA.creatorStats));
+persistLocalState();
 
 function saveState() {
   persistLocalState();
@@ -2068,7 +2070,8 @@ async function loadPublishedPage() {
   try {
     const response=await fetch('/api/content/page',{cache:'no-store'});if(!response.ok)throw new Error();const data=await response.json();
     pageRevision=data.revision;
-    if(data.page){state={...state,...data.page};persistLocalState();}
+    if(data.page){state={...state,...data.page};}
+    state.creatorStats=JSON.parse(JSON.stringify(DEFAULT_DATA.creatorStats));persistLocalState();
     pageLoaded=true;renderPage();syncStatus(data.page?'Conteúdo sincronizado entre desktop e celular.':'Pronto para sincronizar o conteúdo deste navegador.');
     return data;
   } catch {pageLoaded=true;syncStatus('Não foi possível sincronizar o conteúdo. Recarregue a página.',true);return {page:null,revision:null};}
