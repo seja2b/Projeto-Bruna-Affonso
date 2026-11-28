@@ -54,6 +54,16 @@ const PAYMENT_SECTION = `
               <p class="payment-note">Checkout seguro pela MFit Personal</p>
             </div>
           </div>
+          <div class="signup-after-pix">
+            <div class="signup-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none"><path d="M15 19v-1.5A3.5 3.5 0 0 0 11.5 14h-5A3.5 3.5 0 0 0 3 17.5V19M9 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM17 8v6M14 11h6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+            </div>
+            <div>
+              <strong>Concluiu o pagamento?</strong>
+              <p>Cadastre-se no MFit para enviar seus dados e WhatsApp à Bruna. Ela entrará em contato com as orientações e o acesso à plataforma de treinos.</p>
+            </div>
+            <a href="https://client.mfitpersonal.com.br/out/signup-link/Njk2NjE=" target="_blank" rel="noopener noreferrer">Cadastrar no MFit</a>
+          </div>
         </div>
 
         <div id="payment-card" class="payment-panel" data-payment-panel="card" role="tabpanel" hidden>
@@ -98,10 +108,10 @@ const PAYMENT_SECTION = `
               <svg viewBox="0 0 24 24" fill="none"><path d="M15 19v-1.5A3.5 3.5 0 0 0 11.5 14h-5A3.5 3.5 0 0 0 3 17.5V19M9 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM17 8v6M14 11h6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
             </div>
             <div>
-              <strong>Pagamento realizado?</strong>
-              <p>Acesse a plataforma com o mesmo e-mail usado no pagamento. A liberação será feita após a confirmação e aprovação da Bruna.</p>
+              <strong>Concluiu o pagamento?</strong>
+              <p>Cadastre-se no MFit para enviar seus dados e WhatsApp à Bruna. Ela entrará em contato com as orientações e o acesso à plataforma de treinos.</p>
             </div>
-            <a href="https://bruna-affonso-frontend.pages.dev/login" target="_blank" rel="noopener noreferrer">Acessar plataforma</a>
+            <a href="https://client.mfitpersonal.com.br/out/signup-link/Njk2NjE=" target="_blank" rel="noopener noreferrer">Cadastrar no MFit</a>
           </div>
         </div>
 
@@ -145,10 +155,10 @@ const PAYMENT_SECTION = `
               <svg viewBox="0 0 24 24" fill="none"><path d="M15 19v-1.5A3.5 3.5 0 0 0 11.5 14h-5A3.5 3.5 0 0 0 3 17.5V19M9 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM17 8v6M14 11h6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
             </div>
             <div>
-              <strong>Já realizou o pagamento?</strong>
-              <p>Crie seu cadastro para iniciar o acesso à plataforma e dar sequência ao acompanhamento.</p>
+              <strong>Concluiu o pagamento?</strong>
+              <p>Cadastre-se no MFit para enviar seus dados e WhatsApp à Bruna. Ela entrará em contato com as orientações e o acesso à plataforma de treinos.</p>
             </div>
-            <a href="https://client.mfitpersonal.com.br/out/signup-link/Njk2NjE=" target="_blank" rel="noopener noreferrer">Criar meu cadastro</a>
+            <a href="https://client.mfitpersonal.com.br/out/signup-link/Njk2NjE=" target="_blank" rel="noopener noreferrer">Cadastrar no MFit</a>
           </div>
         </div>
       </div>
@@ -158,9 +168,9 @@ const PAYMENT_SECTION = `
           <svg viewBox="0 0 24 24" fill="none"><path d="M20.5 11.6a8.4 8.4 0 0 1-12.4 7.4L4 20l1.1-4a8.4 8.4 0 1 1 15.4-4.4Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M8.2 8.1c.2-.5.4-.5.7-.5h.5c.2 0 .4 0 .6.5l.7 1.7c.1.3 0 .5-.1.7l-.5.6c-.2.2-.3.4-.1.7.4.8 1 1.5 1.7 2 .8.6 1.5.8 1.8.9.3.1.5 0 .7-.2l.8-1c.2-.2.4-.3.7-.2l1.8.8c.3.1.5.2.5.4 0 .2 0 1-.5 1.8-.5.8-1.5 1.5-2.8 1.5-1.3 0-3-.5-5.2-2.4-2.3-2-3.7-4.4-3.8-6-.1-1.5.6-2.4 1-2.8.4-.4.9-.6 1.5-.6Z" fill="currentColor" opacity=".75"/></svg>
         </div>
         <div>
-          <span>PAGAMENTO E ACESSO</span>
-          <strong>Já realizou o pagamento? Fale com a Bruna para confirmar e liberar seu acesso.</strong>
-          <p>Se tiver alguma dúvida sobre pagamento ou cadastro, ela também poderá ajudar.</p>
+          <span>PRECISA DE AJUDA?</span>
+          <strong>Ficou com alguma dúvida sobre pagamento ou cadastro no MFit?</strong>
+          <p>Fale com a Bruna pelo WhatsApp para receber ajuda.</p>
         </div>
         <a class="whatsapp-btn" href="https://wa.me/557199311112?text=Ol%C3%A1%2C%20Bruna%21%20Gostaria%20de%20atendimento%20sobre%20meu%20pagamento%20e%20acesso%20%C3%A0%20plataforma.%20Se%20j%C3%A1%20realizei%20o%20pagamento%2C%20preciso%20confirmar%20para%20liberar%20meu%20acesso.%20Caso%20contr%C3%A1rio%2C%20tenho%20uma%20d%C3%BAvida%20sobre%20pagamento%20ou%20cadastro." target="_blank" rel="noopener noreferrer">Falar com a Bruna</a>
       </div>
